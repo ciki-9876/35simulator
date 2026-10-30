@@ -1,0 +1,328 @@
+{
+  "_note": "收入表。实际年收入 = 行业年平均工资（按年份）× 职级或工龄系数 × 学历系数 × 城市系数 × 个人系数 × 事件带来的收入倍率；生活成本 = 城市档基准 × 城镇居民人均消费支出指数（2014 = 1）× 住处系数。series 是有出处的统计（label: data / report），2026、2027 年按 2022–2025 年平均名义增速外推，标为 projection。factors 里的系数都是【设计】值，写明了依据。tools/simulate.py 和 app/src/engine/income.ts 都读这个文件，两边的算法要保持一致。",
+  "series": {
+    "nonprivate_all": {
+      "name": "城镇非私营单位就业人员年平均工资（元）",
+      "values": {
+        "2014": 56360,
+        "2015": 62029,
+        "2016": 67569,
+        "2017": 74318,
+        "2018": 82413,
+        "2019": 90501,
+        "2020": 97379,
+        "2021": 106837,
+        "2022": 114029,
+        "2023": 120698,
+        "2024": 124110,
+        "2025": 129441,
+        "2026": 135028,
+        "2027": 140856
+      },
+      "label": {
+        "default": "data",
+        "2026": "projection",
+        "2027": "projection"
+      },
+      "growth_after_2025": 0.0432,
+      "sources": {
+        "2014-2015": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899114.html",
+        "2014-2015 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899115.html",
+        "2016-2017": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899943.html",
+        "2016-2017 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899944.html",
+        "2018-2019": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202005/t20200515_1767714.html",
+        "2018-2019 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1900726.html",
+        "2019-2020": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1901108.html",
+        "2020-2021 私营": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202205/t20220520_1857636.html",
+        "2021-2022": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939290.html",
+        "2021-2022 私营": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939286.html",
+        "2022-2023": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202405/t20240520_1950434.html",
+        "2023-2024": "https://www.stats.gov.cn/zwfwck/sjfb/202505/t20250516_1959826.html",
+        "2024-2025": "https://www.stats.gov.cn/sj/zxfbhjd/202605/t20260515_1963707.html"
+      },
+      "note": "每个数取下一年公报里的上年数（已修订口径），例如 2014 年非私营合计用 56360 而不是首发的 56339，私营合计用 36390 而不是首发的 32706。"
+    },
+    "private_all": {
+      "name": "城镇私营单位就业人员年平均工资（元）",
+      "values": {
+        "2014": 36390,
+        "2015": 39589,
+        "2016": 42833,
+        "2017": 45761,
+        "2018": 49575,
+        "2019": 53604,
+        "2020": 57727,
+        "2021": 62884,
+        "2022": 65237,
+        "2023": 68340,
+        "2024": 69476,
+        "2025": 71590,
+        "2026": 73842,
+        "2027": 76165
+      },
+      "label": {
+        "default": "data",
+        "2026": "projection",
+        "2027": "projection"
+      },
+      "growth_after_2025": 0.0315,
+      "sources": {
+        "2014-2015": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899114.html",
+        "2014-2015 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899115.html",
+        "2016-2017": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899943.html",
+        "2016-2017 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899944.html",
+        "2018-2019": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202005/t20200515_1767714.html",
+        "2018-2019 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1900726.html",
+        "2019-2020": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1901108.html",
+        "2020-2021 私营": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202205/t20220520_1857636.html",
+        "2021-2022": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939290.html",
+        "2021-2022 私营": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939286.html",
+        "2022-2023": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202405/t20240520_1950434.html",
+        "2023-2024": "https://www.stats.gov.cn/zwfwck/sjfb/202505/t20250516_1959826.html",
+        "2024-2025": "https://www.stats.gov.cn/sj/zxfbhjd/202605/t20260515_1963707.html"
+      },
+      "note": "每个数取下一年公报里的上年数（已修订口径），例如 2014 年非私营合计用 56360 而不是首发的 56339，私营合计用 36390 而不是首发的 32706。"
+    },
+    "it_nonprivate": {
+      "name": "城镇非私营单位 信息传输、软件和信息技术服务业 年平均工资（元）",
+      "values": {
+        "2014": 100845,
+        "2015": 112042,
+        "2016": 122478,
+        "2017": 133150,
+        "2018": 147678,
+        "2019": 161352,
+        "2020": 177544,
+        "2021": 201506,
+        "2022": 220418,
+        "2023": 231810,
+        "2024": 238966,
+        "2025": 248752,
+        "2026": 258984,
+        "2027": 269637
+      },
+      "label": {
+        "default": "data",
+        "2026": "projection",
+        "2027": "projection"
+      },
+      "growth_after_2025": 0.0411,
+      "sources": {
+        "2014-2015": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899114.html",
+        "2014-2015 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899115.html",
+        "2016-2017": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899943.html",
+        "2016-2017 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899944.html",
+        "2018-2019": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202005/t20200515_1767714.html",
+        "2018-2019 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1900726.html",
+        "2019-2020": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1901108.html",
+        "2020-2021 私营": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202205/t20220520_1857636.html",
+        "2021-2022": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939290.html",
+        "2021-2022 私营": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939286.html",
+        "2022-2023": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202405/t20240520_1950434.html",
+        "2023-2024": "https://www.stats.gov.cn/zwfwck/sjfb/202505/t20250516_1959826.html",
+        "2024-2025": "https://www.stats.gov.cn/sj/zxfbhjd/202605/t20260515_1963707.html"
+      },
+      "note": "每个数取下一年公报里的上年数（已修订口径），例如 2014 年非私营合计用 56360 而不是首发的 56339，私营合计用 36390 而不是首发的 32706。"
+    },
+    "it_private": {
+      "name": "城镇私营单位 信息传输、软件和信息技术服务业 年平均工资（元）",
+      "values": {
+        "2014": 51044,
+        "2015": 57719,
+        "2016": 63578,
+        "2017": 70415,
+        "2018": 76326,
+        "2019": 85301,
+        "2020": 101281,
+        "2021": 114618,
+        "2022": 123894,
+        "2023": 129215,
+        "2024": 123193,
+        "2025": 128166,
+        "2026": 129622,
+        "2027": 131096
+      },
+      "label": {
+        "default": "data",
+        "2026": "projection",
+        "2027": "projection"
+      },
+      "growth_after_2025": 0.0114,
+      "sources": {
+        "2014-2015": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899114.html",
+        "2014-2015 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899115.html",
+        "2016-2017": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899943.html",
+        "2016-2017 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899944.html",
+        "2018-2019": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202005/t20200515_1767714.html",
+        "2018-2019 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1900726.html",
+        "2019-2020": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1901108.html",
+        "2020-2021 私营": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202205/t20220520_1857636.html",
+        "2021-2022": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939290.html",
+        "2021-2022 私营": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939286.html",
+        "2022-2023": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202405/t20240520_1950434.html",
+        "2023-2024": "https://www.stats.gov.cn/zwfwck/sjfb/202505/t20250516_1959826.html",
+        "2024-2025": "https://www.stats.gov.cn/sj/zxfbhjd/202605/t20260515_1963707.html"
+      },
+      "note": "每个数取下一年公报里的上年数（已修订口径），例如 2014 年非私营合计用 56360 而不是首发的 56339，私营合计用 36390 而不是首发的 32706。"
+    },
+    "public_admin": {
+      "name": "城镇非私营单位 公共管理、社会保障和社会组织 年平均工资（元）",
+      "values": {
+        "2014": 53110,
+        "2015": 62323,
+        "2016": 70959,
+        "2017": 80372,
+        "2018": 87932,
+        "2019": 94369,
+        "2020": 104487,
+        "2021": 111361,
+        "2022": 117440,
+        "2023": 117108,
+        "2024": 114840,
+        "2025": 119465,
+        "2026": 120148,
+        "2027": 120834
+      },
+      "label": {
+        "default": "data",
+        "2026": "projection",
+        "2027": "projection"
+      },
+      "growth_after_2025": 0.0057,
+      "sources": {
+        "2014-2015": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899114.html",
+        "2014-2015 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899115.html",
+        "2016-2017": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899943.html",
+        "2016-2017 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899944.html",
+        "2018-2019": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202005/t20200515_1767714.html",
+        "2018-2019 私营": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1900726.html",
+        "2019-2020": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1901108.html",
+        "2020-2021 私营": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202205/t20220520_1857636.html",
+        "2021-2022": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939290.html",
+        "2021-2022 私营": "https://www.stats.gov.cn/sj/zxfb/202305/t20230509_1939286.html",
+        "2022-2023": "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/202405/t20240520_1950434.html",
+        "2023-2024": "https://www.stats.gov.cn/zwfwck/sjfb/202505/t20250516_1959826.html",
+        "2024-2025": "https://www.stats.gov.cn/sj/zxfbhjd/202605/t20260515_1963707.html"
+      },
+      "note": "每个数取下一年公报里的上年数（已修订口径），例如 2014 年非私营合计用 56360 而不是首发的 56339，私营合计用 36390 而不是首发的 32706。"
+    },
+    "urban_consumption": {
+      "name": "城镇居民人均消费支出（元）",
+      "values": {
+        "2014": 19968,
+        "2015": 21392,
+        "2016": 23079,
+        "2017": 24445,
+        "2018": 26112,
+        "2019": 28063,
+        "2020": 27007,
+        "2021": 30307,
+        "2022": 30391,
+        "2023": 32994,
+        "2024": 34557,
+        "2025": 35869,
+        "2026": 37906,
+        "2027": 40059
+      },
+      "label": {
+        "default": "report",
+        "2026": "projection",
+        "2027": "projection"
+      },
+      "growth_after_2025": 0.0568,
+      "sources": {
+        "汇总": "https://www.gotohui.com/life/ldata-0",
+        "2023 核对": "https://www.stats.gov.cn/sj/zxfb/202401/t20240116_1946622.html",
+        "2024 核对": "https://www.stats.gov.cn/zwfwck/sjfb/202501/t20250117_1958325.html"
+      },
+      "note": "逐年数取自第三方汇总页，其中 2023、2024 年已和国家统计局原文核对一致；其余年份上线前对照统计年鉴。"
+    }
+  },
+  "paths": {
+    "_note": "每条路径用哪条工资序列。大厂正式员工按职级，其他路径按工龄。没有列出的路径（待业、备考、违法、躺平）没有工资收入。",
+    "bigtech": {
+      "series": "it_nonprivate",
+      "by": "level"
+    },
+    "bigtech_outsource": {
+      "series": "it_private",
+      "by": "experience"
+    },
+    "whitecollar": {
+      "series": "nonprivate_all",
+      "by": "experience"
+    },
+    "public": {
+      "series": "public_admin",
+      "by": "experience"
+    },
+    "service": {
+      "series": "private_all",
+      "by": "experience",
+      "sub": {
+        "rider": 1.1,
+        "courier": 1.05,
+        "store": 0.9,
+        "driver": 1.1,
+        "owner": 1.3
+      },
+      "sub_note": "【设计】按工作的收入系数。骑手、司机、快递员靠时长换收入，高于私营单位平均；店员有底薪但低；开店的平均收入高，波动由事件决定（research/paths/service.md 第 4 节，待校准）。"
+    }
+  },
+  "factors": {
+    "experience": {
+      "start": 0.74,
+      "per_year": 0.07,
+      "cap": 1.25,
+      "note": "【设计】工龄系数 = min(1.25, 0.74 + 0.07 × 毕业年数)。起点 0.74 有锚点：麦可思报告 2014 届大学毕业生半年后平均月收入 3487 元，全年约 41844 元，是 2014 年城镇非私营单位平均工资 56360 元的 0.74 倍【报道】。毕业约 4 年追上行业平均，35 岁时为平均的 1.25 倍。",
+      "source": "https://www.jiemian.com/article/691258.html"
+    },
+    "bigtech_levels": {
+      "values": [
+        1.2,
+        1.5,
+        1.8,
+        2.2,
+        2.7,
+        3.2
+      ],
+      "note": "【设计】大厂 L1–L6 相对 IT 行业非私营平均工资的倍数。L1 在 2014 年约 12 万元、2025 年约 30 万元，接近公开报道的大厂校招总包区间；L6 约为行业平均的 3.2 倍。"
+    },
+    "degree": {
+      "values": {
+        "1": 0.85,
+        "2": 1.0,
+        "3": 1.2,
+        "4": 1.35
+      },
+      "note": "【设计】学历系数：1 专科、2 本科、3 硕士、4 博士。麦可思历年报告里高职高专起薪低于本科、硕士高于本科，具体倍数待校准。"
+    },
+    "city": {
+      "values": {
+        "1": 1.35,
+        "2": 1.1,
+        "3": 1.0,
+        "4": 0.88,
+        "5": 0.78
+      },
+      "note": "【设计】城市系数：1 一线、2 新一线、3 二线、4 三四线、5 县城。全国平均工资是各地混合的结果，一线城市明显高于全国、县城低于全国；按城市取数待做。"
+    },
+    "personal": {
+      "min": 0.85,
+      "max": 1.15,
+      "note": "【设计】个人系数，开局抽一次，代表同岗位之间的差异。"
+    }
+  },
+  "living": {
+    "base_2014": {
+      "1": 3800,
+      "2": 3000,
+      "3": 2500,
+      "4": 2100,
+      "5": 1800
+    },
+    "note": "【设计】合租时每月生活成本（含房租）在 2014 年的基准，之后按城镇居民人均消费支出的增长同比例上涨；住父母家、整租、自有住房、和伴侣分担、养孩子的倍数见 data/household.json。收入不够生活费时，生活费压缩到收入为止，最低压到 frugal（七成）；收入高出固定开支（生活费和房贷）的部分，再花掉 spend_share——收入越高花得越多。婚礼、彩礼、首付、装修、医药费、人情这些大额支出由事件扣，所以 spend_share 比只有收入表时（0.5）低，为 0.45。2014 年刚毕业的本科生在一线城市月入约 4700 元、开销 3800 元，基本是\"月光\"。",
+    "spend_share": 0.45,
+    "frugal": 0.7
+  }
+}

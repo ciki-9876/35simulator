@@ -1,0 +1,644 @@
+[
+  {
+    "id": "love.wed.bride_price",
+    "domain": "love",
+    "seed": "彩礼",
+    "type": "choice",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "relationship": "dating",
+      "flags": [
+        "met_parents"
+      ],
+      "not_flags": [
+        "wed_agreed"
+      ]
+    },
+    "chance": 0.5,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "两家人第一次坐下来谈彩礼和嫁妆，母亲在桌子底下踢了你一脚。"
+      },
+      {
+        "t": "对方家里提了一个数字，说\"这边都是这个规矩\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "照对方说的办",
+        "hint": "家里要拿出一大笔钱",
+        "effects": {
+          "money": "-max(30000, 0.4*income)",
+          "mood": -2,
+          "flags_add": [
+            "wed_agreed"
+          ]
+        }
+      },
+      {
+        "label": "两家商量",
+        "hint": "各退一步",
+        "p": 0.6,
+        "success": {
+          "money": "-max(15000, 0.2*income)",
+          "flags_add": [
+            "wed_agreed"
+          ],
+          "text": "两家各退了一步，数字定下来了。"
+        },
+        "fail": {
+          "mood": -6,
+          "text": "谈了三轮，谁也没让步。"
+        },
+        "auto": 2
+      },
+      {
+        "label": "坚持不让步",
+        "hint": "可能就此谈崩",
+        "p": 0.5,
+        "success": {
+          "mood": -2,
+          "flags_add": [
+            "wed_agreed"
+          ],
+          "text": "僵了一个月，对方家里最后让了步。"
+        },
+        "fail": {
+          "relationship": "single",
+          "mood": -15,
+          "flags_remove": [
+            "met_parents",
+            "cohabiting",
+            "wants_home"
+          ],
+          "text": "谁也没让步，这婚没结成。"
+        },
+        "auto": 0.5
+      }
+    ]
+  },
+  {
+    "id": "love.wed.marital_home",
+    "domain": "love",
+    "seed": "婚房",
+    "type": "chain",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "relationship": "dating",
+      "flags": [
+        "met_parents"
+      ],
+      "not_flags": [
+        "owns_home",
+        "wants_home"
+      ]
+    },
+    "chance": 0.4,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "结婚要不要先买房，两家人吵了一个月。"
+      },
+      {
+        "t": "对方的母亲说\"没有房子，结什么婚\"，你没接话。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "wants_home"
+      ],
+      "mood": -3
+    }
+  },
+  {
+    "id": "love.wed.proposal",
+    "domain": "love",
+    "seed": "求婚",
+    "type": "milestone",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "relationship": "dating",
+      "flags": [
+        "met_parents"
+      ]
+    },
+    "chance": "0.06 + 0.08*city_tier + 0.3*flag(\"wed_agreed\")",
+    "text": [
+      {
+        "t": "你在一家小餐馆求了婚，对方笑着哭了。"
+      },
+      {
+        "t": "没有戒指也没有单膝下跪，你们在回家的路上说\"那就结吧\"。"
+      }
+    ],
+    "effects": {
+      "mood": 6
+    },
+    "followups": [
+      {
+        "id": "love.wed.registry",
+        "delay": 0
+      },
+      {
+        "id": "love.wed.wedding",
+        "delay": 0
+      }
+    ]
+  },
+  {
+    "id": "love.wed.registry",
+    "domain": "love",
+    "seed": "领证",
+    "type": "milestone",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "relationship": "dating"
+    },
+    "text": [
+      {
+        "t": "你们挑了一个好记的日子去领证，在民政局门口拍了张照。"
+      },
+      {
+        "t": "领证那天排了两个小时队，前面一对在吵架，后面一对在接吻。"
+      }
+    ],
+    "fact": {
+      "text": "2025 年全国结婚登记 676.5 万对，比上年增长 10.8%",
+      "source": "mca_marriage_2025",
+      "year": 2026
+    },
+    "effects": {
+      "relationship": "married",
+      "mood": 10,
+      "flags_add": [
+        "married"
+      ],
+      "flags_remove": [
+        "met_parents",
+        "wed_agreed",
+        "renter_by_choice"
+      ]
+    }
+  },
+  {
+    "id": "love.wed.wedding",
+    "domain": "love",
+    "seed": "婚礼",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "婚礼办了二十桌，你记不住一半来宾的名字。"
+      },
+      {
+        "t": "婚礼当天，宿舍的三个人都来了，{name}抢着当了伴郎伴娘。",
+        "when": {
+          "roommate": {
+            "close": ">=50"
+          }
+        }
+      },
+      {
+        "t": "你们没办婚礼，拿那笔钱去海边住了一周。"
+      }
+    ],
+    "effects": {
+      "money": "-max(20000, 0.25*income)",
+      "mood": 4
+    }
+  },
+  {
+    "id": "love.daily.gift_money",
+    "domain": "love",
+    "seed": "份子钱",
+    "type": "daily",
+    "age": [
+      25,
+      34
+    ],
+    "weight": 1,
+    "text": [
+      {
+        "t": "这一年你随了 11 份份子钱，有两份是给只见过一面的人。"
+      },
+      {
+        "t": "五一假期三场婚礼，你的红包从 500 涨到了 800。"
+      }
+    ],
+    "effects": {
+      "money": "-0.6*living"
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "love.kids.decide",
+    "domain": "love",
+    "seed": "生不生",
+    "type": "choice",
+    "age": [
+      25,
+      34
+    ],
+    "when": {
+      "relationship": "married",
+      "kids": "==0",
+      "not_flags": [
+        "childfree",
+        "expecting"
+      ]
+    },
+    "chance": 0.6,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "过年回家，饭桌上的话题又转到了\"什么时候要孩子\"。"
+      },
+      {
+        "t": "你们在网上搜了\"养一个孩子要花多少钱\"，看完谁也没说话。"
+      }
+    ],
+    "fact": {
+      "text": "2025 年全国出生人口 792 万，出生率 5.63‰",
+      "source": "nbs_births_2025",
+      "year": 2026
+    },
+    "options": [
+      {
+        "label": "要一个",
+        "hint": "人生会彻底不一样",
+        "effects": {
+          "mood": 2
+        },
+        "followups": [
+          {
+            "id": "love.kids.pregnant",
+            "delay": 0,
+            "chance": 0.8
+          }
+        ],
+        "auto": 2.5
+      },
+      {
+        "label": "再等等",
+        "hint": "等工作稳一点",
+        "effects": {}
+      },
+      {
+        "label": "不要了",
+        "hint": "两个人也很好",
+        "effects": {
+          "flags_add": [
+            "childfree"
+          ],
+          "mood": 2
+        },
+        "auto": 0.35
+      }
+    ]
+  },
+  {
+    "id": "love.kids.pregnant",
+    "domain": "love",
+    "seed": "怀孕",
+    "type": "milestone",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "relationship": "married"
+    },
+    "text": [
+      {
+        "t": "验孕棒上出现了两条线，你们在卫生间门口站了很久。"
+      },
+      {
+        "t": "第一次产检，你在 B 超屏幕上看见了一颗跳动的小点。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "expecting"
+      ],
+      "mood": 5
+    },
+    "followups": [
+      {
+        "id": "love.kids.newborn",
+        "delay": 1
+      }
+    ]
+  },
+  {
+    "id": "love.kids.newborn",
+    "domain": "love",
+    "seed": "新生儿",
+    "type": "milestone",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "flags": [
+        "expecting"
+      ]
+    },
+    "text": [
+      {
+        "t": "孩子出生后的第一个月，你们每天只睡四个小时。"
+      },
+      {
+        "t": "你第一次抱孩子，姿势僵硬得像在端一碗汤。"
+      }
+    ],
+    "effects": {
+      "kids": 1,
+      "flags_remove": [
+        "expecting"
+      ],
+      "mood": 4,
+      "health": -4
+    },
+    "followups": [
+      {
+        "id": "love.kids.childcare",
+        "delay": 0
+      }
+    ]
+  },
+  {
+    "id": "love.kids.childcare",
+    "domain": "love",
+    "seed": "带娃",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "产假快结束了，谁来带孩子？"
+      },
+      {
+        "t": "托育机构的报价单摆在桌上，你们俩谁都不想先开口。"
+      }
+    ],
+    "options": [
+      {
+        "label": "请老人来",
+        "hint": "省钱，但家里多了两个人",
+        "effects": {
+          "mood": -2,
+          "flags_add": [
+            "grandparents_help"
+          ]
+        }
+      },
+      {
+        "label": "请保姆",
+        "hint": "一个人的工资给了阿姨",
+        "effects": {
+          "money": "-6*living"
+        }
+      },
+      {
+        "label": "自己带",
+        "hint": "工作要让一让",
+        "effects": {
+          "income_mult": 0.9,
+          "mood": -3,
+          "health": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "love.kids.second",
+    "domain": "love",
+    "seed": "二胎",
+    "type": "choice",
+    "age": [
+      29,
+      34
+    ],
+    "when": {
+      "relationship": "married",
+      "kids": "==1",
+      "not_flags": [
+        "expecting",
+        "one_is_enough"
+      ]
+    },
+    "chance": 0.3,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "孩子上幼儿园了，双方父母开始问\"要不要再生一个\"。"
+      },
+      {
+        "t": "孩子说想要一个弟弟或妹妹，你们对视了一眼。"
+      }
+    ],
+    "options": [
+      {
+        "label": "再要一个",
+        "hint": "家里会更热闹，也更累",
+        "auto": 0.6,
+        "effects": {
+          "mood": 1
+        },
+        "followups": [
+          {
+            "id": "love.kids.pregnant",
+            "delay": 0,
+            "chance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "一个就够了",
+        "hint": "把精力留给这一个",
+        "effects": {
+          "flags_add": [
+            "one_is_enough"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "love.kids.first_word",
+    "domain": "love",
+    "seed": "孩子开口",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "kids": ">=1"
+    },
+    "weight": 3,
+    "once": true,
+    "text": [
+      {
+        "t": "孩子第一次叫了\"爸爸\"，也可能是\"啪啪\"，你决定算它是。"
+      },
+      {
+        "t": "孩子会走路了，摇摇晃晃扑进你怀里，你把这段视频看了二十遍。"
+      }
+    ],
+    "effects": {
+      "mood": 5
+    }
+  },
+  {
+    "id": "love.crisis.fight",
+    "domain": "love",
+    "seed": "婚姻危机",
+    "type": "chain",
+    "age": [
+      25,
+      34
+    ],
+    "when": {
+      "relationship": "married"
+    },
+    "chance": "0.04 + 0.12*max(0, 50 - mood)/50",
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "你们因为一件小事吵到了凌晨，谁也没有道歉。"
+      },
+      {
+        "t": "你们已经一个月没有好好说过话了，家里只剩电视的声音。"
+      }
+    ],
+    "effects": {
+      "mood": -5
+    },
+    "followups": [
+      {
+        "id": "love.crisis.cooling",
+        "delay": 1,
+        "chance": 0.5
+      }
+    ]
+  },
+  {
+    "id": "love.crisis.cooling",
+    "domain": "love",
+    "seed": "离婚冷静期",
+    "type": "choice",
+    "age": [
+      25,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "relationship": "married"
+    },
+    "text": [
+      {
+        "t": "你们申请了离婚，进入了 30 天冷静期。这 30 天里你们分房睡。"
+      },
+      {
+        "t": "冷静期的第 29 天，你们坐在客厅里，谁都在等对方先开口。"
+      }
+    ],
+    "options": [
+      {
+        "label": "撤回申请",
+        "hint": "再试一次",
+        "effects": {
+          "mood": 2
+        },
+        "auto": 1.5
+      },
+      {
+        "label": "离",
+        "hint": "30 天后各走各的",
+        "effects": {
+          "relationship": "single",
+          "mood": -15,
+          "flags_add": [
+            "divorced"
+          ],
+          "flags_remove": [
+            "married"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "love.echo.alone",
+    "domain": "love",
+    "seed": "一个人",
+    "type": "echo",
+    "age": [
+      35,
+      35
+    ],
+    "when": {
+      "relationship": "single"
+    },
+    "chance": 0.6,
+    "text": [
+      {
+        "t": "35 岁生日，你一个人吃了一顿很好的晚饭，觉得也不错。"
+      },
+      {
+        "t": "35 岁生日，你给自己买了一束花，花店老板说\"送人的吗\"，你说\"送我自己\"。"
+      }
+    ],
+    "effects": {
+      "mood": 3
+    }
+  },
+  {
+    "id": "love.public.wed_year",
+    "domain": "love",
+    "seed": "上岸那年",
+    "type": "echo",
+    "age": [
+      27,
+      35
+    ],
+    "when": {
+      "path": "public",
+      "relationship": "married"
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "你们是在上岸那年相亲认识的，介绍人现在还在说这件事。"
+      },
+      {
+        "t": "结婚照挂在客厅，背景是单位的大院。"
+      }
+    ]
+  }
+]

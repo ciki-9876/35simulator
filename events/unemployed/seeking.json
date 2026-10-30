@@ -1,0 +1,703 @@
+[
+  {
+    "id": "unemployed.seek.mass_apply",
+    "path": "unemployed",
+    "seed": "海投",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "一周投了 60 份简历，回复了 2 个。"
+      },
+      {
+        "t": "你把简历改到第 12 版，投出去的数字突破了 200。"
+      }
+    ],
+    "fact": {
+      "text": "2026 届高校毕业生预计 1,270 万人，创历史新高",
+      "source": "moe_grads_2026",
+      "year": 2026
+    },
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.seek.read_no_reply",
+    "path": "unemployed",
+    "seed": "已读不回",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "招聘 App 上，HR 已读不回。"
+      },
+      {
+        "t": "你给同一个 HR 发了三次\"您好\"，三次都显示已读。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    },
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.seek.greeting_limit",
+    "path": "unemployed",
+    "seed": "打招呼上限",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "今天的主动沟通次数用完了，才上午十点。"
+      },
+      {
+        "t": "App 提示\"今日沟通次数已达上限，开通会员可继续\"。"
+      }
+    ],
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.seek.group_interview",
+    "path": "unemployed",
+    "seed": "群面",
+    "type": "daily",
+    "age": [
+      22,
+      30
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "weight": 1,
+    "text": [
+      {
+        "t": "群面里有人一直抢话，最后他进了下一轮。"
+      },
+      {
+        "t": "群面你当了计时员，全程只说了一句\"还剩五分钟\"。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    }
+  },
+  {
+    "id": "unemployed.seek.gap_question",
+    "path": "unemployed",
+    "seed": "空窗期",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "gap_months": ">=6",
+      "flags": [
+        "interviewing"
+      ]
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "面试官问\"这半年你在做什么\"，你说\"在提升自己\"。"
+      },
+      {
+        "t": "面试官盯着简历上空着的那一段，没有说话。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "unemployed.seek.unpaid_trial",
+    "path": "unemployed",
+    "seed": "无薪试岗",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "chance": 0.1,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "一家公司要你先免费\"试岗\"三天，看看合不合适。"
+      },
+      {
+        "t": "HR 说：\"先来干一周，没问题就签合同。\""
+      }
+    ],
+    "options": [
+      {
+        "label": "去",
+        "hint": "可能是机会 · 可能白干",
+        "p": 0.4,
+        "success": {
+          "path": "whitecollar",
+          "text": "试岗结束，你签了合同。"
+        },
+        "fail": {
+          "mood": -5,
+          "text": "第三天下午，对方说\"不太合适\"，一分钱没给。"
+        }
+      },
+      {
+        "label": "不去",
+        "hint": "试用期本来就该有工资"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.seek.training_loan",
+    "path": "unemployed",
+    "seed": "培训贷陷阱",
+    "type": "choice",
+    "age": [
+      22,
+      30
+    ],
+    "when": {
+      "path": "unemployed",
+      "gap_months": ">=3"
+    },
+    "chance": 0.08,
+    "once": true,
+    "text": [
+      {
+        "t": "一家\"包就业\"的培训班要先交 2 万学费，可以贷款分期。"
+      },
+      {
+        "t": "面试的公司说岗位没了，但可以推荐你去一个\"带薪培训\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "交钱上课",
+        "hint": "包就业 · 合同条款很长",
+        "p": 0.2,
+        "success": {
+          "ability": 3,
+          "money": -20000,
+          "text": "课是真的，推荐的工作也是真的，只是薪水比说好的低。"
+        },
+        "fail": {
+          "money": -20000,
+          "module_start": "debt",
+          "mood": -10,
+          "text": "上了两周课，机构关门了，贷款还在。"
+        }
+      },
+      {
+        "label": "不交",
+        "hint": "先交钱的工作，多半有问题"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.seek.overseas_offer",
+    "path": "unemployed",
+    "seed": "境外高薪",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "stat": {
+        "savings_months": "<2"
+      }
+    },
+    "chance": 0.02,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "有人介绍\"东南亚客服，月薪三万，包机票\"。"
+      },
+      {
+        "t": "一个陌生账号说海外有份高薪工作，不要学历，下周就能走。"
+      }
+    ],
+    "fact": {
+      "text": "公安部提示：\"高薪、包吃住、报销机票\"是常见诱饵",
+      "source": "mps_overseas_2025"
+    },
+    "help": [
+      "antifraud_96110"
+    ],
+    "options": [
+      {
+        "label": "去",
+        "hint": "对方信息无法核实",
+        "followups": [
+          {
+            "id": "crime.overseas.passport",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "拒绝",
+        "hint": "听起来太好了",
+        "effects": {
+          "flags_add": [
+            "temptation_refused"
+          ]
+        }
+      },
+      {
+        "label": "打电话核实",
+        "hint": "问问反诈专线",
+        "effects": {
+          "flags_add": [
+            "antifraud_aware"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "temptation_seen"
+      ]
+    }
+  },
+  {
+    "id": "unemployed.seek.lower_bar",
+    "path": "unemployed",
+    "seed": "降低期望",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "gap_months": ">=3"
+    },
+    "chance": 0.5,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "找了三个月，你开始重新想：到底要找什么样的工作？"
+      },
+      {
+        "t": "招聘 App 推荐给你的岗位，越来越不像你想要的了。"
+      }
+    ],
+    "options": [
+      {
+        "label": "降薪",
+        "hint": "成功率提高",
+        "effects": {
+          "modifier": {
+            "job_success": 1.4,
+            "months": 6
+          },
+          "mood": -2
+        }
+      },
+      {
+        "label": "换城市",
+        "hint": "去生活成本低的地方",
+        "effects": {
+          "modifier": {
+            "job_success": 1.4,
+            "months": 6
+          },
+          "flags_add": [
+            "moved_city"
+          ]
+        }
+      },
+      {
+        "label": "换行业",
+        "hint": "从头开始",
+        "effects": {
+          "modifier": {
+            "job_success": 1.4,
+            "months": 6
+          },
+          "ability": -3
+        }
+      },
+      {
+        "label": "继续等",
+        "hint": "空窗会变长"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.seek.spring_hire",
+    "path": "unemployed",
+    "seed": "春招补录",
+    "type": "chain",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "fresh_grad"
+      ]
+    },
+    "chance": 0.25,
+    "once": true,
+    "text": [
+      {
+        "t": "春招补录收到了一个 offer，你在宿舍楼下站了很久。"
+      },
+      {
+        "t": "三月，一个之前没回音的公司突然打来电话。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "has_offer"
+      ],
+      "mood": 8
+    }
+  },
+  {
+    "id": "unemployed.seek.connections",
+    "path": "unemployed",
+    "seed": "托关系",
+    "type": "choice",
+    "age": [
+      22,
+      30
+    ],
+    "when": {
+      "path": "unemployed",
+      "family_tier": ">=3"
+    },
+    "chance": 0.2,
+    "once": true,
+    "text": [
+      {
+        "t": "父母说可以托人进单位，对方是你爸的老同学。"
+      },
+      {
+        "t": "舅舅说他认识一个领导，可以\"打个招呼\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "接受",
+        "hint": "稳定 · 欠一个人情",
+        "effects": {
+          "path": "whitecollar",
+          "mood": 2
+        }
+      },
+      {
+        "label": "拒绝",
+        "hint": "想靠自己"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.seek.got_offer",
+    "path": "unemployed",
+    "seed": "offer 到手",
+    "type": "milestone",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "path_change",
+    "transition": {
+      "from": "unemployed"
+    },
+    "text": [
+      {
+        "t": "终于拿到 offer，你把邮件读了三遍。"
+      },
+      {
+        "t": "接到录用电话时你在超市排队，挂掉后多买了一瓶饮料。"
+      }
+    ],
+    "effects": {
+      "mood": 10
+    },
+    "when": {
+      "not_path": [
+        "crime",
+        "exam",
+        "flat"
+      ],
+      "not_flags": [
+        "transitional"
+      ]
+    }
+  },
+  {
+    "id": "unemployed.seek.probation_fail",
+    "path": "unemployed",
+    "seed": "试用期没过",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "flags": [
+        "on_probation"
+      ]
+    },
+    "chance": 0.08,
+    "text": [
+      {
+        "t": "试用期最后一周，你被通知不转正。"
+      },
+      {
+        "t": "主管说\"你很努力，但不太适合\"，然后递给你一张表。"
+      }
+    ],
+    "effects": {
+      "path": "unemployed",
+      "exit_reason": "probation_fail",
+      "mood": -10,
+      "flags_remove": [
+        "on_probation"
+      ]
+    }
+  },
+  {
+    "id": "unemployed.policy.grace_period",
+    "path": "unemployed",
+    "seed": "择业期",
+    "type": "daily",
+    "age": [
+      22,
+      24
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "fresh_grad"
+      ]
+    },
+    "chance": 0.5,
+    "once": true,
+    "text": [
+      {
+        "t": "你查了一下：毕业两年内没落实工作，考公还算应届生。"
+      },
+      {
+        "t": "你把档案留在了学校，听说这样还能按应届生报考。"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.policy.file_transfer",
+    "path": "unemployed",
+    "seed": "档案去哪",
+    "type": "daily",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "fresh_grad"
+      ]
+    },
+    "chance": 0.4,
+    "once": true,
+    "text": [
+      {
+        "t": "学校问你的档案转去哪里，你也不知道。"
+      },
+      {
+        "t": "辅导员在群里说，没落实工作的同学，档案可以先留在学校。"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.policy.register",
+    "path": "unemployed",
+    "seed": "失业登记",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "not_flags": [
+        "ui_registered"
+      ]
+    },
+    "chance": 0.4,
+    "once": true,
+    "text": [
+      {
+        "t": "朋友说可以去做失业登记，领失业金要先登记。"
+      },
+      {
+        "t": "社区的公告栏上贴着\"失业登记，就近办理\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去登记",
+        "hint": "领失业金的前提",
+        "effects": {
+          "flags_add": [
+            "ui_registered"
+          ]
+        },
+        "followups": [
+          {
+            "id": "unemployed.policy.benefit",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "嫌麻烦",
+        "hint": "反正也不一定能领"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.policy.benefit",
+    "path": "unemployed",
+    "seed": "失业保险",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "你领到了第一笔失业保险金，钱不多，但按月到账。",
+        "when": {
+          "exit_reason": "laid_off"
+        }
+      },
+      {
+        "t": "窗口的人说，你是主动辞职的，领不了失业金。",
+        "when": {
+          "exit_reason": "quit"
+        }
+      },
+      {
+        "t": "你缴费还不满一年，窗口的人说领不了。",
+        "when": {
+          "flags": [
+            "ui_under_one_year"
+          ]
+        }
+      }
+    ],
+    "fact": {
+      "text": "失业金需缴费满 1 年、非本人意愿离职、已办失业登记",
+      "source": "reg_ui_14"
+    }
+  },
+  {
+    "id": "unemployed.policy.internship",
+    "path": "unemployed",
+    "seed": "就业见习",
+    "type": "choice",
+    "age": [
+      22,
+      24
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "fresh_grad",
+        "ui_registered"
+      ]
+    },
+    "chance": 0.15,
+    "once": true,
+    "text": [
+      {
+        "t": "社区推荐了一个政府补贴的见习岗，三个月。"
+      },
+      {
+        "t": "人社局的短信说，有一批就业见习岗位可以报名。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去",
+        "hint": "有补贴 · 简历不再空白",
+        "effects": {
+          "ability": 2,
+          "modifier": {
+            "job_success": 1.3,
+            "months": 6
+          }
+        }
+      },
+      {
+        "label": "不去",
+        "hint": "钱太少"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.policy.follow_up",
+    "path": "unemployed",
+    "seed": "一对一帮扶",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "ui_registered"
+      ]
+    },
+    "chance": 0.3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "社区工作人员打电话问你求职进展，还发来三个岗位。"
+      },
+      {
+        "t": "人社的工作人员记下了你的专业，说有合适的再联系你。"
+      }
+    ],
+    "effects": {
+      "mood": 1
+    }
+  }
+]

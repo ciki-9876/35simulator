@@ -1,0 +1,186 @@
+[
+  {
+    "id": "whitecollar.crisis.pay_cut",
+    "path": "whitecollar",
+    "seed": "降薪",
+    "type": "macro",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "scenario": "contraction",
+      "not_flags": [
+        "wc_soe"
+      ],
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.2,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "公司宣布全员降薪 10%，邮件标题是\"共渡难关\"。"
+      },
+      {
+        "t": "绩效奖金今年不发了，HR 说\"大环境大家都知道\"。"
+      }
+    ],
+    "effects": {
+      "income_mult": 0.9,
+      "mood": -4
+    }
+  },
+  {
+    "id": "whitecollar.crisis.foreign_exit",
+    "path": "whitecollar",
+    "seed": "外企中国区",
+    "type": "macro",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_foreign",
+        "wc_badge"
+      ],
+      "scenario": "contraction"
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "总部宣布收缩中国区业务，同事们开始更新领英。"
+      },
+      {
+        "t": "全员大会是英文开的，你只听懂了\"restructuring\"这个词。"
+      }
+    ],
+    "effects": {
+      "mood": -3,
+      "modifier": {
+        "layoff": 2,
+        "months": 12
+      }
+    }
+  },
+  {
+    "id": "whitecollar.crisis.wage_arrears",
+    "path": "whitecollar",
+    "seed": "拖欠工资",
+    "type": "chain",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_private",
+        "wc_badge"
+      ]
+    },
+    "chance": 0.05,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "工资晚发了两个月，老板在群里说下个月一起补。"
+      },
+      {
+        "t": "发薪日过了十天，财务说\"回款还没到\"，老板不在公司。"
+      }
+    ],
+    "effects": {
+      "money": "-2*monthly",
+      "mood": -5
+    },
+    "followups": [
+      {
+        "id": "whitecollar.crisis.arbitration",
+        "delay": 0
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.crisis.arbitration",
+    "path": "whitecollar",
+    "seed": "劳动仲裁",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "欠的工资还没到账。劳动仲裁不收费，劳动合同、工资条和聊天记录都能当证据。"
+      },
+      {
+        "t": "同事拉了个群，商量要不要一起去劳动仲裁委员会。"
+      }
+    ],
+    "help": [
+      "legal_aid_12348"
+    ],
+    "options": [
+      {
+        "label": "申请仲裁",
+        "hint": "要准备材料，拖几个月",
+        "p": 0.7,
+        "success": {
+          "money": "2*monthly",
+          "mood": 3,
+          "text": "仲裁庭调解成功，欠的工资补回来了。"
+        },
+        "fail": {
+          "mood": -3,
+          "text": "裁决书拿到了，公司账上没钱，你申请了强制执行。"
+        }
+      },
+      {
+        "label": "算了",
+        "hint": "这笔钱就当没了",
+        "effects": {
+          "mood": -4
+        }
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.crisis.laid_off",
+    "path": "whitecollar",
+    "seed": "被裁",
+    "type": "chain",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": "(0.005 + 0.025*flag(\"wc_private\") + 0.015*flag(\"wc_foreign\")) * mod(\"layoff\") * (1 + flag(\"low_perf\"))",
+    "text": [
+      {
+        "t": "{company}被收购了，你的岗位被\"优化\"了。"
+      },
+      {
+        "t": "HR 约你下午三点谈话，会议室里已经放好了一份协议。"
+      },
+      {
+        "t": "公司业务收缩，整个部门一起被裁，大家在楼下抽了最后一根烟。"
+      }
+    ],
+    "effects": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "mood": -10
+    }
+  }
+]

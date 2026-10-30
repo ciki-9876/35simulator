@@ -1,0 +1,719 @@
+[
+  {
+    "id": "bigtech.crisis.layoff_rumor",
+    "path": "bigtech",
+    "seed": "裁员风声",
+    "type": "macro",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "scenario": "contraction"
+    },
+    "chance": 0.6,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "全员信里第一次出现了\"降本增效\"四个字。"
+      },
+      {
+        "t": "下午茶取消了，打印机旁贴了一张\"双面打印\"的提示。"
+      }
+    ],
+    "fact": {
+      "text": "阿里巴巴 2022 年员工减少约 1.9 万人",
+      "source": "bloomberg_ali_2022",
+      "year": 2022
+    },
+    "effects": {
+      "mood": -3,
+      "modifier": {
+        "layoff": 2,
+        "months": 12
+      }
+    }
+  },
+  {
+    "id": "bigtech.crisis.laid_off",
+    "path": "bigtech",
+    "seed": "被优化",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "chance": "(0.025 + 0.007 * max(0, age - 25)) * mod(\"layoff\")",
+    "text": [
+      {
+        "t": "HR 约你下午三点去小会议室，桌上已经放好了一份协议。"
+      },
+      {
+        "t": "早上工牌刷不开门，HR 在门口等你。"
+      }
+    ],
+    "options": [
+      {
+        "label": "签字走人",
+        "hint": "N+1 · 体面离开",
+        "effects": {
+          "path": "unemployed",
+          "exit_reason": "laid_off",
+          "money": "(tenure+1)*monthly",
+          "mood": -10
+        }
+      },
+      {
+        "label": "申请劳动仲裁",
+        "hint": "可能拿到更多 · 要拖几个月",
+        "effects": {
+          "path": "unemployed",
+          "exit_reason": "laid_off",
+          "flags_add": [
+            "arbitration"
+          ],
+          "mood": -12
+        },
+        "followups": [
+          {
+            "id": "bigtech.crisis.arbitration",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bigtech.crisis.arbitration",
+    "path": "bigtech",
+    "seed": "仲裁结果",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "仲裁拖了半年，最后拿到了 2N，你请律师朋友吃了顿饭。"
+      },
+      {
+        "t": "仲裁调解，公司多给了两个月，你签了字，什么也不想再说。"
+      }
+    ],
+    "effects": {
+      "money": "2*(tenure+1)*monthly",
+      "flags_remove": [
+        "arbitration"
+      ]
+    }
+  },
+  {
+    "id": "bigtech.crisis.deliver_news",
+    "path": "bigtech",
+    "seed": "谈下属",
+    "type": "choice",
+    "age": [
+      28,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "level": ">=4",
+      "scenario": "contraction"
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "HR 给了你一个名单，你要去通知组里的一个人。"
+      },
+      {
+        "t": "名单上是你亲手招进来的那个人。"
+      }
+    ],
+    "options": [
+      {
+        "label": "亲自去谈",
+        "hint": "难受 · 但至少当面说清楚",
+        "effects": {
+          "mood": -8,
+          "social": 2
+        }
+      },
+      {
+        "label": "交给 HR",
+        "hint": "不用面对 · 组里会怎么看你",
+        "effects": {
+          "mood": -4,
+          "social": -5
+        }
+      }
+    ]
+  },
+  {
+    "id": "bigtech.crisis.tech_or_mgmt",
+    "path": "bigtech",
+    "seed": "技术还是管理",
+    "type": "choice",
+    "age": [
+      28,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "level": "==4"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "老板问你：要不要开始带人？"
+      },
+      {
+        "t": "组长调走了，空出来的位置，老板第一个问的是你。"
+      }
+    ],
+    "options": [
+      {
+        "label": "带团队",
+        "hint": "开会变多 · 代码变少",
+        "effects": {
+          "flags_add": [
+            "manager"
+          ],
+          "social": 3
+        }
+      },
+      {
+        "label": "继续写代码",
+        "hint": "专家路线 · 晋升更慢",
+        "effects": {
+          "flags_add": [
+            "expert_track"
+          ],
+          "ability": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "bigtech.crisis.ai_wave",
+    "path": "bigtech",
+    "seed": "AI 冲击",
+    "type": "macro",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "scenario": "ai_wave"
+    },
+    "chance": 0.5,
+    "once": true,
+    "text": [
+      {
+        "t": "公司要求全员用 AI 写代码，组里今年不再招新人。"
+      },
+      {
+        "t": "新来的实习生用 AI 两天做完了你一周的活。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "bigtech.crisis.join_ai",
+    "path": "bigtech",
+    "seed": "转 AI",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "scenario": "ai_wave",
+      "stat": {
+        "ability": ">=50"
+      }
+    },
+    "chance": 0.4,
+    "once": true,
+    "text": [
+      {
+        "t": "内部 AI 项目在招人，报名表开放三天。"
+      },
+      {
+        "t": "隔壁组转去做大模型的同事，涨薪的消息传遍了楼层。"
+      }
+    ],
+    "options": [
+      {
+        "label": "报名",
+        "hint": "成功率{p} · 要从头学",
+        "p": "0.3 + ability/200",
+        "success": {
+          "income_mult": 1.3,
+          "ability": 5,
+          "text": "你进了 AI 项目组，第一个月几乎没睡。"
+        },
+        "fail": {
+          "mood": -3,
+          "text": "名单出来了，没有你。"
+        }
+      },
+      {
+        "label": "不转",
+        "hint": "守住现在的活"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.crisis.age_resume",
+    "path": "bigtech",
+    "seed": "35 岁简历",
+    "type": "daily",
+    "age": [
+      33,
+      35
+    ],
+    "when": {
+      "flags": [
+        "job_seeking"
+      ],
+      "history_any": [
+        "bigtech"
+      ]
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "投了 20 份简历，HR 第一句话问的是你的年龄。"
+      },
+      {
+        "t": "招聘要求写着\"5–8 年经验\"，你有 11 年。"
+      }
+    ],
+    "fact": {
+      "text": "2026 年 6 月，30–59 岁劳动力失业率为 4.0%",
+      "source": "nbs_youth_2026_06",
+      "year": 2026
+    },
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "bigtech.crisis.downshift",
+    "path": "bigtech",
+    "seed": "降薪跳槽",
+    "type": "choice",
+    "age": [
+      32,
+      35
+    ],
+    "when": {
+      "history_any": [
+        "bigtech"
+      ]
+    },
+    "chance": 0.25,
+    "once": true,
+    "text": [
+      {
+        "t": "一家国企科技岗愿意要你，薪水打七折，准时下班。"
+      },
+      {
+        "t": "银行科技部的 HR 说\"我们不加班\"，然后报了一个数。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去",
+        "hint": "钱少 · 稳定",
+        "effects": {
+          "path": "whitecollar",
+          "income_mult": 0.7,
+          "mood": 3
+        }
+      },
+      {
+        "label": "不去",
+        "hint": "再拼几年"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.crisis.outsource_convert",
+    "path": "bigtech",
+    "seed": "外包转正",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "outsource",
+      "stat": {
+        "ability": ">=55"
+      }
+    },
+    "chance": 0.04,
+    "once": true,
+    "text": [
+      {
+        "t": "你终于换上了正式员工颜色的工牌。"
+      },
+      {
+        "t": "HR 发来转正邮件，你截图发到了宿舍群。"
+      }
+    ],
+    "effects": {
+      "sub": "fulltime",
+      "mood": 10
+    }
+  },
+  {
+    "id": "bigtech.crisis.outsource_party",
+    "path": "bigtech",
+    "seed": "外包不能去年会",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "outsource",
+      "season": "spring_festival"
+    },
+    "chance": 0.8,
+    "text": [
+      {
+        "t": "年会那天，外包同事照常加班，楼下的欢呼声传了上来。"
+      },
+      {
+        "t": "群里在发年会照片，你们这一排工位都没在照片里。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "bigtech.crisis.mortgage_layoff",
+    "path": "bigtech",
+    "seed": "房贷 + 裁员",
+    "type": "chain",
+    "age": [
+      26,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "module": "mortgage",
+      "history_any": [
+        "bigtech"
+      ]
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "被优化的第二个月，房贷扣款提醒照常发来。"
+      },
+      {
+        "t": "你把房贷、赔偿和存款写在纸上，算出一个月份数。"
+      }
+    ],
+    "effects": {
+      "mood": -8
+    }
+  },
+  {
+    "id": "bigtech.crisis.side_hustle",
+    "path": "bigtech",
+    "seed": "副业",
+    "type": "choice",
+    "age": [
+      25,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "not_module": "side_job"
+    },
+    "chance": 0.15,
+    "once": true,
+    "text": [
+      {
+        "t": "朋友说现在都有副业，问你打算怎么办。"
+      },
+      {
+        "t": "你看着工资条想了一会儿：只有这一份收入，够不够？"
+      }
+    ],
+    "options": [
+      {
+        "label": "接私活",
+        "hint": "多一份钱 · 注意公司规定",
+        "effects": {
+          "module_start": "side_job"
+        }
+      },
+      {
+        "label": "做技术博主",
+        "hint": "慢 · 可能有意外",
+        "effects": {
+          "module_start": "side_job",
+          "flags_add": [
+            "creator_side"
+          ]
+        }
+      },
+      {
+        "label": "不折腾",
+        "hint": "下班就是下班"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.crisis.graft_notice",
+    "path": "bigtech",
+    "seed": "内部反腐通报",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "chance": 0.05,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "内网发了一份反腐通报，名单里有你认识的人。"
+      },
+      {
+        "t": "通报写着\"永不录用\"，你想起上周还和他一起吃饭。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    }
+  },
+  {
+    "id": "bigtech.crisis.overwork_news",
+    "path": "bigtech",
+    "seed": "猝死新闻",
+    "type": "macro",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "chance": 0.1,
+    "cooldown": 4,
+    "text": [
+      {
+        "t": "行业里又有程序员过劳的新闻，那天你准时下了班。"
+      },
+      {
+        "t": "群里转发了一条新闻，大家都没说话，过了一会儿有人发了个\"保重\"。"
+      }
+    ],
+    "effects": {
+      "mood": -3,
+      "health": 1
+    }
+  },
+  {
+    "id": "bigtech.crisis.go_home",
+    "path": "bigtech",
+    "seed": "回老家",
+    "type": "choice",
+    "age": [
+      30,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "city_tier": "<=2"
+    },
+    "chance": 0.2,
+    "once": true,
+    "text": [
+      {
+        "t": "父母说老家的事业单位在招人，问你回不回去考。"
+      },
+      {
+        "t": "母亲在电话里说，表姐回老家考上了编制，现在挺好。"
+      }
+    ],
+    "fact": {
+      "text": "2026 年度起国考报考年龄上限放宽到 38 周岁",
+      "source": "civil_exam_2026",
+      "year": 2026
+    },
+    "options": [
+      {
+        "label": "回去考",
+        "hint": "稳定 · 收入减半",
+        "effects": {
+          "path": "exam",
+          "exit_reason": "quit"
+        }
+      },
+      {
+        "label": "留下",
+        "hint": "再看看"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.crisis.options_void",
+    "path": "bigtech",
+    "seed": "期权",
+    "type": "chain",
+    "age": [
+      26,
+      35
+    ],
+    "when": {
+      "flags": [
+        "startup_options"
+      ]
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "创业公司上市失败，你的期权成了一张纸。"
+      },
+      {
+        "t": "你把期权协议放进抽屉最底层，和毕业证放在一起。"
+      }
+    ],
+    "effects": {
+      "mood": -5,
+      "flags_remove": [
+        "startup_options"
+      ]
+    }
+  },
+  {
+    "id": "bigtech.echo.old_badge",
+    "path": "bigtech",
+    "seed": "旧工牌",
+    "type": "echo",
+    "age": [
+      26,
+      35
+    ],
+    "when": {
+      "history_months": {
+        "bigtech": ">=24"
+      }
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "搬家时翻出第一张工牌，照片里的你还有点胖。"
+      },
+      {
+        "t": "抽屉里有一张过期的工牌，挂绳已经褪色了。"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.echo.mentor_now",
+    "path": "bigtech",
+    "seed": "导师去向",
+    "type": "echo",
+    "age": [
+      27,
+      35
+    ],
+    "when": {
+      "history_months": {
+        "bigtech": ">=36"
+      }
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "当年带你的导师去创业了，朋友圈在招人。"
+      },
+      {
+        "t": "你在一个技术大会上又见到了当年的导师，他记得你的名字。"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.echo.ten_years",
+    "path": "bigtech",
+    "seed": "十年司龄",
+    "type": "milestone",
+    "age": [
+      32,
+      35
+    ],
+    "when": {
+      "history_months": {
+        "bigtech": ">=120"
+      },
+      "path": "bigtech"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "公司发了十年纪念品，你把它放在工位上最显眼的位置。"
+      },
+      {
+        "t": "十年司龄那天，组里给你订了一个蛋糕，大部分人你只认识两年。"
+      }
+    ],
+    "effects": {
+      "mood": 3
+    }
+  },
+  {
+    "id": "bigtech.echo.birthday_desk",
+    "path": "bigtech",
+    "seed": "35 岁生日在工位",
+    "type": "milestone",
+    "age": [
+      35,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "35 岁生日那天，你在会议室开复盘会。"
+      },
+      {
+        "t": "35 岁生日，你在工位上吃了一块同事带来的蛋糕，然后接着开会。"
+      }
+    ]
+  }
+]

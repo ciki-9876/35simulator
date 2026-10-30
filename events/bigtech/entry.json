@@ -1,0 +1,315 @@
+[
+  {
+    "id": "bigtech.entry.mass_apply",
+    "path": "bigtech",
+    "seed": "海投",
+    "type": "daily",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "flags": [
+        "seeking_bigtech"
+      ]
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "秋招投了 80 份简历，收到 5 个笔试邀请。"
+      },
+      {
+        "t": "你把投递记录做成了表格，第 47 行终于变成了绿色。"
+      },
+      {
+        "t": "一周投了 30 家，邮箱里只有两封\"感谢您的关注\"。",
+        "when": {
+          "school_tier": "<=2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "bigtech.entry.algo_test",
+    "path": "bigtech",
+    "seed": "算法题",
+    "type": "daily",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "flags": [
+        "seeking_bigtech"
+      ],
+      "role": "dev"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "笔试最后一道动态规划没写出来，交卷时还剩 40 分钟。",
+        "when": {
+          "stat": {
+            "ability": "<60"
+          }
+        }
+      },
+      {
+        "t": "笔试四道题全过，你走出考场才发现饭还没吃。",
+        "when": {
+          "stat": {
+            "ability": ">=60"
+          }
+        }
+      }
+    ],
+    "effects": {
+      "ability": 1
+    }
+  },
+  {
+    "id": "bigtech.entry.rote_answers",
+    "path": "bigtech",
+    "seed": "八股文",
+    "type": "daily",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "flags": [
+        "seeking_bigtech"
+      ]
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "面试官问的问题，你前一晚刚背过，答得比他问得还快。"
+      },
+      {
+        "t": "你背了 300 道面试题，面试官问了第 301 道。"
+      }
+    ],
+    "effects": {
+      "mood": 1
+    }
+  },
+  {
+    "id": "bigtech.entry.offer_flex",
+    "path": "bigtech",
+    "seed": "群里晒 offer",
+    "type": "daily",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "roommate": {
+        "path": "bigtech"
+      }
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "宿舍群里，{name}晒了一个 SSP offer，群里安静了五分钟。"
+      },
+      {
+        "t": "{name}在群里发了 offer 截图，配了一个\"低调\"的表情。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "bigtech.entry.pick_offer",
+    "path": "bigtech",
+    "seed": "选 offer",
+    "type": "choice",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "flags": [
+        "multiple_offers"
+      ]
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "手上有三个 offer，签约截止日是周五。"
+      },
+      {
+        "t": "大厂、小厂、外包，三份 offer 摊在桌上，你算到凌晨两点。"
+      }
+    ],
+    "options": [
+      {
+        "label": "大厂白菜价",
+        "hint": "牌子硬 · 加班重",
+        "effects": {
+          "path": "bigtech",
+          "sub": "fulltime",
+          "level": 1
+        }
+      },
+      {
+        "label": "小厂高薪",
+        "hint": "钱多 · 前景难说",
+        "effects": {
+          "path": "whitecollar",
+          "income_mult": 1.2
+        }
+      },
+      {
+        "label": "外包先进门",
+        "hint": "能进那栋楼 · 工牌颜色不一样",
+        "effects": {
+          "path": "bigtech",
+          "sub": "outsource"
+        }
+      }
+    ]
+  },
+  {
+    "id": "bigtech.entry.offer_revoked",
+    "path": "bigtech",
+    "seed": "意向书被毁",
+    "type": "chain",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "flags": [
+        "signed_intent"
+      ],
+      "scenario": "contraction"
+    },
+    "chance": 0.05,
+    "once": true,
+    "text": [
+      {
+        "t": "签了意向书，开奖前一周，HR 打电话说岗位取消了。"
+      },
+      {
+        "t": "你等来的不是薪资邮件，而是一封\"非常抱歉\"。"
+      }
+    ],
+    "effects": {
+      "mood": -15,
+      "flags_remove": [
+        "signed_intent"
+      ],
+      "path": "unemployed",
+      "exit_reason": "offer_revoked"
+    }
+  },
+  {
+    "id": "bigtech.entry.first_day",
+    "path": "bigtech",
+    "seed": "第一天",
+    "type": "milestone",
+    "age": [
+      22,
+      25
+    ],
+    "trigger": "path_change",
+    "transition": {
+      "to": "bigtech"
+    },
+    "once": true,
+    "text": [
+      {
+        "t": "领到工牌、工号和电脑，你在工位上拍了张照发给家里。"
+      },
+      {
+        "t": "入职第一天，你刷工牌进门时手有点抖，门开了。"
+      }
+    ],
+    "effects": {
+      "mood": 5
+    }
+  },
+  {
+    "id": "bigtech.entry.nickname",
+    "path": "bigtech",
+    "seed": "花名",
+    "type": "daily",
+    "age": [
+      22,
+      25
+    ],
+    "when": {
+      "flags": [
+        "entity_cat_factory"
+      ]
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "入职要起花名，你想了一晚上，最后用了小时候的外号。"
+      },
+      {
+        "t": "你想要的三个花名都被人用了，第四个才通过。"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.entry.outsource_badge",
+    "path": "bigtech",
+    "seed": "外包工牌",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "outsource"
+    },
+    "weight": 2,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "你的工牌颜色和旁边同事不一样，食堂阿姨也看得出来。"
+      },
+      {
+        "t": "内网有些页面你打不开，上面写着\"仅限正式员工\"。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "bigtech.entry.mentor",
+    "path": "bigtech",
+    "seed": "新人导师",
+    "type": "daily",
+    "age": [
+      22,
+      25
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "weight": 2,
+    "once": true,
+    "text": [
+      {
+        "t": "导师给你讲了三小时代码，最后说\"不懂再问\"。"
+      },
+      {
+        "t": "导师每周和你吃一次午饭，你问的问题都被他记在了本子上。"
+      }
+    ],
+    "effects": {
+      "ability": 3
+    }
+  }
+]

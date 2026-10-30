@@ -1,0 +1,123 @@
+[
+  {
+    "id": "whitecollar.cross.jargon",
+    "path": "whitecollar",
+    "seed": "黑话不通",
+    "type": "chain",
+    "age": [22, 34],
+    "trigger": "path_change",
+    "transition": { "from": "whitecollar", "to": "bigtech" },
+    "text": [
+      { "t": "进{entity}第一周开会，你一半的词听不懂：\"对齐\"\"颗粒度\"\"抓手\"。" },
+      { "t": "群里说\"这个需求先拉齐一下\"，你偷偷搜了\"拉齐是什么意思\"。" }
+    ],
+    "effects": { "mood": -1 },
+    "followups": [{ "id": "whitecollar.cross.pace", "delay": 0 }]
+  },
+  {
+    "id": "whitecollar.cross.pace",
+    "path": "whitecollar",
+    "seed": "节奏",
+    "type": "chain",
+    "age": [22, 35],
+    "trigger": "follow",
+    "when": { "path": "bigtech" },
+    "text": [
+      { "t": "以前一周的活，在这里要两天做完。" },
+      { "t": "你以前觉得加班到八点算晚，现在八点是晚饭时间。" }
+    ],
+    "effects": { "health": -2, "ability": 2 }
+  },
+  {
+    "id": "whitecollar.cross.downshift",
+    "path": "whitecollar",
+    "seed": "降级求稳",
+    "type": "choice",
+    "age": [30, 34],
+    "when": { "path": "unemployed", "history_any": ["bigtech"], "gap_months": ">=2" },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      { "t": "一家国企的科技岗要你，薪水打七折，准时下班。" },
+      { "t": "银行科技子公司给你发了 offer，HR 说\"我们这边不加班\"。" }
+    ],
+    "options": [
+      { "label": "去", "hint": "钱少了，日子稳了", "auto": 1.5, "effects": { "path": "whitecollar", "company": "soe", "mood": 3 } },
+      { "label": "不去", "hint": "再等等大厂的机会", "effects": { "mood": -1 } }
+    ]
+  },
+  {
+    "id": "whitecollar.cross.six_pm",
+    "path": "whitecollar",
+    "seed": "下午六点",
+    "type": "chain",
+    "age": [22, 34],
+    "trigger": "path_change",
+    "transition": { "from": "unemployed", "to": "whitecollar" },
+    "when": { "history_any": ["bigtech"] },
+    "once": true,
+    "text": [
+      { "t": "第一天六点准时下班，你在地铁上有点不知所措。" },
+      { "t": "新公司没有人在晚上十点回消息，你反而睡不着了。" }
+    ],
+    "effects": { "mood": 3, "health": 2 }
+  },
+  {
+    "id": "whitecollar.cross.from_bigtech",
+    "path": "whitecollar",
+    "seed": "被叫\"大厂来的\"",
+    "type": "daily",
+    "age": [23, 34],
+    "when": { "path": "whitecollar", "history_any": ["bigtech"] },
+    "weight": 2,
+    "once": true,
+    "text": [
+      { "t": "新同事都叫你\"{last_job.entity}来的\"，有事先问你。" },
+      { "t": "开会时领导说\"听听大厂的同事怎么看\"，所有人都转向你。" }
+    ],
+    "effects": { "social": 2 }
+  },
+  {
+    "id": "whitecollar.cross.no_use",
+    "path": "whitecollar",
+    "seed": "用不上",
+    "type": "daily",
+    "age": [23, 34],
+    "when": { "path": "whitecollar", "history_any": ["bigtech"] },
+    "weight": 1,
+    "once": true,
+    "text": [
+      { "t": "你提议做个数据看板，领导说\"Excel 就够了\"。" },
+      { "t": "你写了一份详细的复盘文档，没有人点开。" }
+    ],
+    "effects": { "mood": -1 }
+  },
+  {
+    "id": "whitecollar.cross.ex_colleague",
+    "path": "whitecollar",
+    "seed": "前同事的朋友圈",
+    "type": "echo",
+    "age": [25, 35],
+    "when": { "path": "whitecollar", "history_any": ["bigtech"] },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      { "t": "以前在{last_job.entity}的同事升了职，你点了个赞。" },
+      { "t": "前同事发了团建的照片，你在里面认出了一半的人。" }
+    ]
+  },
+  {
+    "id": "whitecollar.cross.no_return",
+    "path": "whitecollar",
+    "seed": "回不去",
+    "type": "echo",
+    "age": [26, 35],
+    "when": { "path": "whitecollar", "history_any": ["bigtech"], "history_months": { "whitecollar": ">=24" } },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      { "t": "猎头问你还想不想回大厂，你想了想，说\"再看看\"。" },
+      { "t": "你打开招聘软件看了一眼大厂的岗位，要求里写着\"35 岁以下\"。" }
+    ]
+  }
+]

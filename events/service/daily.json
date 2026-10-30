@@ -1,0 +1,726 @@
+[
+  {
+    "id": "service.entry.start",
+    "path": "service",
+    "seed": "注册",
+    "type": "milestone",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "你领到了头盔和保温箱，箱子上还有上一个人贴的贴纸。",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "网点主管递给你一把巴枪，说\"扫错一件扣五块\"。",
+        "when": {
+          "sub": "courier"
+        }
+      },
+      {
+        "t": "第一天，{company}的店长给了你一件工服，袖口有点短。",
+        "when": {
+          "sub": "store"
+        }
+      },
+      {
+        "t": "你办下了网约车驾驶员证，在后座放了一盒纸巾。",
+        "when": {
+          "sub": "driver"
+        }
+      }
+    ],
+    "effects": {
+      "mood": 1,
+      "flags_add": [
+        "sv_badge"
+      ]
+    }
+  },
+  {
+    "id": "service.rider.first_order",
+    "path": "service",
+    "seed": "第一单",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "rider",
+      "tenure": "<1",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 3,
+    "once": true,
+    "text": [
+      {
+        "t": "第一单就超时了，顾客说\"没事\"，你还是道了好几次歉。"
+      },
+      {
+        "t": "导航把你带进一个没有侧门的小区，你绕了三圈才找到楼。"
+      }
+    ],
+    "effects": {
+      "mood": -1,
+      "ability": 1
+    }
+  },
+  {
+    "id": "service.daily.bad_review",
+    "path": "service",
+    "seed": "差评",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "driver",
+        "store"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "汤洒了，你收到一个差评，扣了 50。",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "乘客嫌你绕路，给了一星。你看了看导航记录，没去申诉。",
+        "when": {
+          "sub": "driver"
+        }
+      },
+      {
+        "t": "顾客说奶茶太甜，在点评上写了三百字，店长让你看了一遍。",
+        "when": {
+          "sub": "store"
+        }
+      }
+    ],
+    "effects": {
+      "money": -50,
+      "mood": -2
+    }
+  },
+  {
+    "id": "service.rider.storm",
+    "path": "service",
+    "seed": "暴雨单",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "rider",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "暴雨天，单价涨了，你一个晚上跑了平时两天的钱。"
+      },
+      {
+        "t": "雨大得看不清路，你把手机套了三层塑料袋，跑到了半夜。"
+      }
+    ],
+    "effects": {
+      "money": "0.2*living",
+      "health": -1,
+      "mood": 1
+    }
+  },
+  {
+    "id": "service.rider.elevator",
+    "path": "service",
+    "seed": "电梯",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "rider",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "写字楼不让骑手坐客梯，你爬了 18 楼。"
+      },
+      {
+        "t": "门禁刷不开，你在楼下等了十分钟，顾客下来时说\"怎么这么慢\"。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "service.platform.dispatch",
+    "path": "service",
+    "seed": "系统派单",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "driver"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "系统给的时间比导航还短，你闯过一个黄灯，心跳了很久。",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "系统连派了三单去机场，回来的路上空驶了四十公里。",
+        "when": {
+          "sub": "driver"
+        }
+      }
+    ],
+    "effects": {
+      "mood": -1,
+      "health": -1
+    }
+  },
+  {
+    "id": "service.driver.night",
+    "path": "service",
+    "seed": "夜班司机",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "driver",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "凌晨两点接了一个喝醉的乘客，他一路在讲他的前女友。"
+      },
+      {
+        "t": "夜班跑到四点，你在加油站的便利店吃了一碗关东煮。"
+      }
+    ],
+    "effects": {
+      "health": -2,
+      "money": "0.15*living"
+    }
+  },
+  {
+    "id": "service.driver.passenger",
+    "path": "service",
+    "seed": "乘客的故事",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "driver",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "一个乘客上车就哭，下车时说\"谢谢你没问\"。"
+      },
+      {
+        "t": "一位老人去医院复查，下车前硬塞给你一个橘子。"
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "service.courier.peak",
+    "path": "service",
+    "seed": "快递旺季",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "courier",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "双十一后一周，你每天派件 400 件。"
+      },
+      {
+        "t": "年货节的件堆到了网点门口，晚上十点你还在打电话：\"放驿站可以吗？\""
+      }
+    ],
+    "effects": {
+      "health": -2,
+      "money": "0.25*living",
+      "mood": -1
+    }
+  },
+  {
+    "id": "service.store.kitchen",
+    "path": "service",
+    "seed": "后厨",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "store",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "午高峰后厨 50 度，你一口气喝完一瓶冰水。"
+      },
+      {
+        "t": "下班时手背上又多了一道油烫的印子。"
+      }
+    ],
+    "effects": {
+      "health": -1,
+      "ability": 1
+    }
+  },
+  {
+    "id": "service.platform.freedom",
+    "path": "service",
+    "seed": "掌控感",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "driver"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "今天你想几点收工就几点收工。"
+      },
+      {
+        "t": "跑完早高峰，你把车停在江边吃了个煎饼，没人催你。"
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "service.daily.family_look",
+    "path": "service",
+    "seed": "家人的眼神",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "store",
+        "driver"
+      ],
+      "degree": ">=2",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "母亲问你：\"读了四年大学就为了送外卖？\"",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "亲戚在饭桌上问你在哪高就，你说\"开车\"，桌上安静了一下。",
+        "when": {
+          "sub": "driver"
+        }
+      },
+      {
+        "t": "爸妈跟邻居说，你\"在一家公司做管理\"。"
+      }
+    ],
+    "effects": {
+      "mood": -3,
+      "social": -1
+    }
+  },
+  {
+    "id": "service.daily.classmate",
+    "path": "service",
+    "seed": "遇到同学",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "store",
+        "driver"
+      ],
+      "degree": ">=2",
+      "roommate": {
+        "path": "whitecollar"
+      },
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "{name}在群里发了公司年会的照片，背景里的那栋楼，你今天送了三次。"
+      },
+      {
+        "t": "你送餐的那栋写字楼里坐着{name}，你把餐放在前台，没上去。",
+        "when": {
+          "sub": "rider"
+        }
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "service.store.regular",
+    "path": "service",
+    "seed": "老顾客",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "store",
+        "owner"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "常来的阿姨给你带了一饭盒自己包的饺子。"
+      },
+      {
+        "t": "一个初中生每天放学来买同一种面包，今天他说\"我考上高中了\"。"
+      }
+    ],
+    "effects": {
+      "mood": 3
+    }
+  },
+  {
+    "id": "service.rider.water",
+    "path": "service",
+    "seed": "一瓶水",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "开门的顾客递给你一瓶冰水，说\"天太热了\"。"
+      },
+      {
+        "t": "门上贴着一张便签：\"辛苦了，桌上的饮料请拿走。\""
+      }
+    ],
+    "effects": {
+      "mood": 3
+    }
+  },
+  {
+    "id": "service.daily.crew",
+    "path": "service",
+    "seed": "站点兄弟",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "store"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "下雨天，站点的兄弟们挤在便利店门口一起吃泡面。",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "网点清完最后一车件，大家蹲在门口分了一个西瓜。",
+        "when": {
+          "sub": "courier"
+        }
+      },
+      {
+        "t": "打烊后，大家坐在店门口的台阶上，分完了没卖掉的炸鸡。",
+        "when": {
+          "sub": "store"
+        }
+      }
+    ],
+    "effects": {
+      "social": 2,
+      "mood": 1
+    }
+  },
+  {
+    "id": "service.driver.lost_item",
+    "path": "service",
+    "seed": "失物",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "driver",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "乘客把钱包落在后座，你开回去送还，对方要塞给你两百，你没要。"
+      },
+      {
+        "t": "一个乘客下车时说\"师傅你开得真稳\"，你一下午心情都很好。"
+      }
+    ],
+    "effects": {
+      "mood": 3,
+      "social": 1
+    }
+  },
+  {
+    "id": "service.store.cat",
+    "path": "service",
+    "seed": "店门口的猫",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "store",
+        "owner"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "店门口来了一只流浪猫，大家轮流喂它，给它起名叫\"打烊\"。"
+      },
+      {
+        "t": "一只流浪猫每天傍晚来店门口坐着，后来它干脆睡在了收银台上。"
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "service.daily.video_call",
+    "path": "service",
+    "seed": "孩子的视频",
+    "type": "daily",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "kids": ">=1",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 1,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "等单的间隙，孩子打来视频，问你\"今天送了几个\"。",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "收工前孩子打来视频，举着一张画：\"这是你。\""
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "service.daily.former_office",
+    "path": "service",
+    "seed": "前白领",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "driver",
+        "courier"
+      ],
+      "history_any": [
+        "whitecollar",
+        "bigtech"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "once": true,
+    "text": [
+      {
+        "t": "站点里有前程序员，有前银行柜员，大家都不问对方为什么来。"
+      },
+      {
+        "t": "一个乘客聊起他公司的 OKR，你差点接了一句\"颗粒度\"。",
+        "when": {
+          "sub": "driver"
+        }
+      }
+    ],
+    "effects": {
+      "social": 2
+    }
+  }
+]

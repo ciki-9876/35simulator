@@ -1,0 +1,16 @@
+{
+  "_note": "服务业一线路径的工作和地点【设计】。进入服务业时，引擎按权重抽一种工作（子状态 sub），并生成工作地点的名字；事件也可以指定工作（effects.sub）。网约车要有车且没有犯罪记录（《网络预约出租汽车经营服务管理暂行办法》第十四条），只有满足时才会抽到；开店（owner）只由事件进入。各工作的收入系数在 data/income.json 的 paths.service.sub。地点名是生成的，不对应真实企业或平台。离开这条路径靠事件：过渡的人一边跑一边投简历，门店和小店会关门（research/paths/service.md 第 6 节、8.1）。",
+  "jobs": {
+    "rider": { "weight": 4, "label": "骑手", "boss": "站长", "platform": true },
+    "courier": { "weight": 2, "label": "快递员", "boss": "网点主管", "platform": false },
+    "store": { "weight": 4, "label": "店员", "boss": "店长", "platform": false },
+    "driver": { "weight": 2, "label": "网约车司机", "boss": "网约车司机", "platform": true, "needs_car": true },
+    "owner": { "weight": 0, "label": "老板", "boss": "老板", "platform": false }
+  },
+  "names": {
+    "area": ["城东", "城南", "城西", "城北", "高新区", "老城区", "开发区", "大学城"],
+    "courier": ["迅达", "捷运", "飞驰", "快通", "顺捷", "通达"],
+    "shop_prefix": ["老街", "阿香", "小林", "鲜丰", "好再来", "邻里", "巷口", "老王"],
+    "shop_suffix": ["面馆", "便利店", "奶茶店", "火锅店", "理发店", "小超市", "烧烤", "早餐铺"]
+  }
+}

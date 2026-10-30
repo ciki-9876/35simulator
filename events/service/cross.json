@@ -1,0 +1,240 @@
+[
+  {
+    "id": "service.cross.resume",
+    "path": "service",
+    "seed": "一边跑一边投",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "flags": [
+        "sv_badge",
+        "transitional"
+      ]
+    },
+    "chance": 0.5,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "等单的时候，你在手机上又投了五份简历。"
+      },
+      {
+        "t": "收工回到出租屋，你打开电脑改简历，改到眼睛睁不开。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    },
+    "followups": [
+      {
+        "id": "service.cross.resume_choice",
+        "delay": 0
+      }
+    ]
+  },
+  {
+    "id": "service.cross.resume_choice",
+    "path": "service",
+    "seed": "简历上写什么",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service"
+    },
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "一家公司约你面试。你在改简历：这段时间在跑单，要不要写上？"
+      }
+    ],
+    "options": [
+      {
+        "label": "写",
+        "hint": "实话实说",
+        "p": "0.5*(1 - 0.3*min(1, max(0, (tenure - 1.5)*12)))",
+        "success": {
+          "path": "whitecollar",
+          "mood": 5,
+          "flags_add": [
+            "wrote_rider"
+          ],
+          "text": "你说了实话，对方点点头，问你什么时候能入职。"
+        },
+        "fail": {
+          "mood": -3,
+          "text": "对方客气地说\"我们再考虑一下\"。"
+        }
+      },
+      {
+        "label": "不写",
+        "hint": "写成\"自由职业\"",
+        "p": "0.45*(1 - 0.3*min(1, max(0, (tenure - 1.5)*12)))",
+        "success": {
+          "path": "whitecollar",
+          "mood": 4,
+          "text": "你把那段写成了\"自由职业\"，没人追问。"
+        },
+        "fail": {
+          "mood": -3,
+          "text": "面试官问\"这段空白期在做什么\"，你卡了一下。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "service.cross.interviewer",
+    "path": "service",
+    "seed": "面试官的反应",
+    "type": "echo",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wrote_rider"
+      ]
+    },
+    "chance": 0.6,
+    "once": true,
+    "text": [
+      {
+        "t": "入职后 HR 告诉你，面试官看到\"骑手\"两个字，说了句\"挺能吃苦的\"。"
+      },
+      {
+        "t": "新同事听说你送过外卖，问你附近哪家店最好吃，你报了一串名字。"
+      }
+    ],
+    "effects": {
+      "mood": 2,
+      "social": 1
+    }
+  },
+  {
+    "id": "service.cross.drifting",
+    "path": "service",
+    "seed": "跑着跑着",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "tenure": ">=1",
+      "flags": [
+        "sv_badge",
+        "transitional"
+      ]
+    },
+    "chance": 0.5,
+    "once": true,
+    "text": [
+      {
+        "t": "你发现自己已经一年没投简历了。"
+      },
+      {
+        "t": "站长说下个月给你涨提成，你才想起自己当初说\"先跑着\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "重新开始投",
+        "hint": "每天晚上改简历",
+        "effects": {
+          "mood": -1
+        }
+      },
+      {
+        "label": "就这样吧",
+        "hint": "这份活也养得活自己",
+        "auto": 1.2,
+        "effects": {
+          "flags_remove": [
+            "transitional"
+          ],
+          "mood": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "service.cross.back_to_office",
+    "path": "service",
+    "seed": "回到写字楼",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": [
+        "whitecollar",
+        "bigtech",
+        "public"
+      ],
+      "flags": [
+        "transitional"
+      ]
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "你重新坐进了写字楼，楼下的骑手在等电梯。"
+      },
+      {
+        "t": "第一天上班，你在工位上点了份外卖，送餐的小哥跑得满头汗。"
+      }
+    ],
+    "effects": {
+      "flags_remove": [
+        "transitional"
+      ],
+      "flags_add": [
+        "ex_service"
+      ],
+      "mood": 3
+    }
+  },
+  {
+    "id": "service.cross.that_year",
+    "path": "service",
+    "seed": "那一年",
+    "type": "echo",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": [
+        "whitecollar",
+        "bigtech",
+        "public"
+      ],
+      "flags": [
+        "ex_service"
+      ]
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "下雨天点外卖，你给骑手打了五星，还备注了\"慢点骑\"。"
+      },
+      {
+        "t": "等电梯时有个骑手在看表，你让他先上。"
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  }
+]

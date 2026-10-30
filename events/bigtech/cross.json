@@ -1,0 +1,694 @@
+[
+  {
+    "id": "bigtech.cross.last_day",
+    "path": "bigtech",
+    "seed": "最后一天",
+    "type": "milestone",
+    "age": [
+      23,
+      35
+    ],
+    "trigger": "path_change",
+    "transition": {
+      "from": "bigtech",
+      "to": "unemployed"
+    },
+    "text": [
+      {
+        "t": "交还工牌和电脑，你回头刷了一下门禁，门没开。"
+      },
+      {
+        "t": "最后一天，你把工位上的绿萝送给了邻座。"
+      }
+    ],
+    "effects": {
+      "mood": -5
+    }
+  },
+  {
+    "id": "bigtech.cross.severance",
+    "path": "bigtech",
+    "seed": "赔偿到账",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "history_any": [
+        "bigtech"
+      ],
+      "gap_months": "<=1"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "赔偿到账，{severance}，像放了一个很长的假。"
+      },
+      {
+        "t": "赔偿到账那天，你睡到中午，醒来不知道该干什么。"
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "bigtech.cross.fired_no_pay",
+    "path": "bigtech",
+    "seed": "违纪没有赔偿",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "trigger": "path_change",
+    "transition": {
+      "from": "bigtech",
+      "to": "unemployed"
+    },
+    "when": {
+      "exit_reason": "fired"
+    },
+    "text": [
+      {
+        "t": "同样是离开，因为违纪被解除的人拿不到赔偿。"
+      },
+      {
+        "t": "离职证明上写着\"严重违纪\"，下一份工作的背调会看到。"
+      }
+    ],
+    "effects": {
+      "mood": -8
+    }
+  },
+  {
+    "id": "bigtech.cross.noncompete",
+    "path": "bigtech",
+    "seed": "竞业限制",
+    "type": "chain",
+    "age": [
+      26,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "history_any": [
+        "bigtech"
+      ],
+      "level": ">=3"
+    },
+    "chance": 0.2,
+    "once": true,
+    "text": [
+      {
+        "t": "公司通知启动竞业限制，你有一段时间不能去同行。"
+      },
+      {
+        "t": "竞业期间每月有一笔补偿，同类大厂的岗位你都不能投。"
+      }
+    ],
+    "effects": {
+      "modifier": {
+        "ban_same_type": 1,
+        "months": 12
+      }
+    }
+  },
+  {
+    "id": "bigtech.cross.quit",
+    "path": "bigtech",
+    "seed": "裸辞",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "stat": {
+        "mood": "<30"
+      }
+    },
+    "chance": 0.5,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "你已经连续三个月失眠了。"
+      },
+      {
+        "t": "周日晚上，你打开电脑想写周报，手停在键盘上不动。"
+      }
+    ],
+    "help": [
+      "hotline_12356"
+    ],
+    "options": [
+      {
+        "label": "裸辞",
+        "hint": "先停下来 · 没有失业金",
+        "effects": {
+          "path": "unemployed",
+          "exit_reason": "quit",
+          "mood": 8
+        }
+      },
+      {
+        "label": "请病假",
+        "hint": "休息一个月再说",
+        "effects": {
+          "mood": 5,
+          "health": 3
+        }
+      },
+      {
+        "label": "再熬熬",
+        "hint": "年终奖还没发",
+        "effects": {
+          "mood": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "bigtech.cross.alumni_group",
+    "path": "bigtech",
+    "seed": "毕业生联谊群",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "history_any": [
+        "bigtech"
+      ]
+    },
+    "weight": 2,
+    "once": true,
+    "text": [
+      {
+        "t": "同一批被优化的同事拉了个群，每天有人发面经。"
+      },
+      {
+        "t": "\"毕业生联谊群\"里，有人第一周就找到了工作，群里刷了一排恭喜。"
+      }
+    ],
+    "effects": {
+      "social": 2
+    }
+  },
+  {
+    "id": "bigtech.cross.parents_unaware",
+    "path": "bigtech",
+    "seed": "父母还不知道",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "history_any": [
+        "bigtech"
+      ],
+      "gap_months": "<=2"
+    },
+    "chance": 0.6,
+    "once": true,
+    "text": [
+      {
+        "t": "父母还在跟亲戚说你在{last_job.entity}上班。"
+      },
+      {
+        "t": "母亲打电话问你最近忙不忙，你说\"还行\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "告诉他们",
+        "hint": "说出来轻松一点",
+        "effects": {
+          "mood": 2
+        }
+      },
+      {
+        "label": "先瞒着",
+        "hint": "找到工作再说",
+        "effects": {
+          "flags_add": [
+            "hiding_unemployment"
+          ],
+          "mood": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "bigtech.cross.fake_commute",
+    "path": "bigtech",
+    "seed": "背着电脑包出门",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "hiding_unemployment"
+      ],
+      "living": "with_parents"
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "每天早上照常背着电脑包出门，在咖啡馆坐到下午六点。"
+      },
+      {
+        "t": "你在图书馆投了一天简历，六点准时\"下班\"回家。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "bigtech.cross.halo",
+    "path": "bigtech",
+    "seed": "光环",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "history_any": [
+        "bigtech"
+      ],
+      "gap_months": "<=12"
+    },
+    "weight": 2,
+    "once": true,
+    "text": [
+      {
+        "t": "简历上写着{last_job.entity}，回复你的 HR 明显多了。"
+      },
+      {
+        "t": "面试官看了一眼简历，说\"{last_job.entity}出来的，我们很欢迎\"。"
+      }
+    ],
+    "effects": {
+      "mood": 2,
+      "modifier": {
+        "job_success": 1.5,
+        "months": 12
+      }
+    }
+  },
+  {
+    "id": "bigtech.cross.lower_offer",
+    "path": "bigtech",
+    "seed": "开价六成",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "history_any": [
+        "bigtech"
+      ],
+      "gap_months": ">=2"
+    },
+    "chance": 0.4,
+    "once": true,
+    "text": [
+      {
+        "t": "一家小公司愿意要你，开价只有原来的六成。"
+      },
+      {
+        "t": "对方 HR 说\"我们给不了大厂的钱，但不加班\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "接受",
+        "hint": "先有份工作",
+        "effects": {
+          "path": "whitecollar",
+          "income_mult": 0.6,
+          "mood": -4
+        }
+      },
+      {
+        "label": "等大厂",
+        "hint": "再等等，空窗会变长"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.cross.referral",
+    "path": "bigtech",
+    "seed": "前同事内推",
+    "type": "chain",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "history_any": [
+        "bigtech"
+      ],
+      "stat": {
+        "social": ">=50"
+      }
+    },
+    "chance": 0.2,
+    "once": true,
+    "text": [
+      {
+        "t": "以前的同事跳去了别家，问你要不要内推。"
+      },
+      {
+        "t": "前同事把你的简历直接转给了他们组长。"
+      }
+    ],
+    "effects": {
+      "modifier": {
+        "job_success": 1.5,
+        "months": 3
+      }
+    }
+  },
+  {
+    "id": "bigtech.cross.insurance_gap",
+    "path": "bigtech",
+    "seed": "社保断缴",
+    "type": "daily",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "history_any": [
+        "bigtech"
+      ],
+      "city_tier": "==1",
+      "gap_months": ">=2",
+      "not_flags": [
+        "owns_home"
+      ]
+    },
+    "chance": 0.5,
+    "once": true,
+    "text": [
+      {
+        "t": "你查了一下：社保断了几个月，购房资格要从头算一年。"
+      },
+      {
+        "t": "社保 App 上的缴费记录停在了离职那个月。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "bigtech.cross.severance_gone",
+    "path": "bigtech",
+    "seed": "N+1 花完了",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "history_any": [
+        "bigtech"
+      ],
+      "gap_months": ">=8"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "赔偿花得比想象中快，存款回到了入职那年的数。"
+      },
+      {
+        "t": "你把订阅的会员一个一个取消了。"
+      }
+    ],
+    "effects": {
+      "mood": -5
+    }
+  },
+  {
+    "id": "bigtech.cross.explain_gap",
+    "path": "bigtech",
+    "seed": "空窗期怎么说",
+    "type": "echo",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "history_any": [
+        "bigtech"
+      ],
+      "gap_months": ">=4",
+      "flags": [
+        "interviewing"
+      ]
+    },
+    "weight": 3,
+    "once": true,
+    "text": [
+      {
+        "t": "面试官问空窗期，你说：\"在{last_job.entity}被优化后，休整了{gap_months}个月。\"",
+        "when": {
+          "exit_reason": "laid_off"
+        }
+      },
+      {
+        "t": "面试官问空窗期，你说：\"从{last_job.entity}离职后，想清楚了再出发。\"",
+        "when": {
+          "exit_reason": "quit"
+        }
+      }
+    ]
+  },
+  {
+    "id": "bigtech.cross.stack_changed",
+    "path": "bigtech",
+    "seed": "技术栈变了",
+    "type": "chain",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "history_any": [
+        "bigtech"
+      ],
+      "role": "dev",
+      "gap_months": ">=12"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "休息了一年，回来发现大家都在用新框架。"
+      },
+      {
+        "t": "面试题里有一半的名词，你一年前还没听说过。"
+      }
+    ],
+    "effects": {
+      "ability": -5,
+      "modifier": {
+        "bigtech_interview": 0.6,
+        "months": 12
+      }
+    }
+  },
+  {
+    "id": "bigtech.cross.boomerang",
+    "path": "bigtech",
+    "seed": "老东家回流",
+    "type": "choice",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "history_any": [
+        "bigtech"
+      ],
+      "gap_months": ">=6",
+      "not_flags": [
+        "low_perf"
+      ]
+    },
+    "chance": 0.1,
+    "once": true,
+    "text": [
+      {
+        "t": "老东家 HR 问你要不要回去，职级降一档。"
+      },
+      {
+        "t": "以前的老板打来电话：\"组里缺人，你回来吧。\""
+      }
+    ],
+    "options": [
+      {
+        "label": "回去",
+        "hint": "熟悉的地方 · 降一级",
+        "effects": {
+          "path": "bigtech",
+          "sub": "fulltime",
+          "level": -1,
+          "mood": 3
+        }
+      },
+      {
+        "label": "不回",
+        "hint": "好马不吃回头草"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.cross.back_as_contractor",
+    "path": "bigtech",
+    "seed": "以外包身份回来",
+    "type": "chain",
+    "age": [
+      24,
+      35
+    ],
+    "trigger": "path_change",
+    "transition": {
+      "from": "unemployed",
+      "to": "bigtech"
+    },
+    "when": {
+      "sub": "outsource",
+      "history_months": {
+        "bigtech": ">=12"
+      }
+    },
+    "text": [
+      {
+        "t": "你以外包身份回到原来那栋楼，以前的下属成了你的对接人。"
+      },
+      {
+        "t": "保安还认得你，看了一眼你的工牌，没说话。"
+      }
+    ],
+    "effects": {
+      "mood": -4
+    }
+  },
+  {
+    "id": "bigtech.cross.late_entry",
+    "path": "bigtech",
+    "seed": "落榜一年后",
+    "type": "milestone",
+    "age": [
+      23,
+      25
+    ],
+    "trigger": "path_change",
+    "transition": {
+      "from": "unemployed",
+      "to": "bigtech"
+    },
+    "when": {
+      "sub": "outsource",
+      "history_months": {
+        "unemployed": ">=12"
+      }
+    },
+    "text": [
+      {
+        "t": "毕业那年没进大厂，失业一年后，你从外包开始进了那栋楼。"
+      },
+      {
+        "t": "绕了一年，你终于每天早上刷卡进那栋楼了。"
+      }
+    ],
+    "effects": {
+      "mood": 5
+    }
+  },
+  {
+    "id": "bigtech.cross.passenger_talk",
+    "path": "bigtech",
+    "seed": "乘客聊裁员",
+    "type": "echo",
+    "age": [
+      25,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "driver",
+      "history_any": [
+        "bigtech"
+      ]
+    },
+    "weight": 2,
+    "once": true,
+    "text": [
+      {
+        "t": "跑网约车时，乘客聊起{last_job.entity}又在裁员，你没接话。"
+      },
+      {
+        "t": "乘客下车前说\"师傅你车里挺干净\"，你想起了以前的工位。"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.cross.dorm_group",
+    "path": "bigtech",
+    "seed": "宿舍群",
+    "type": "echo",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "history_any": [
+        "bigtech"
+      ]
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "宿舍群里有人问你还在不在{last_job.entity}，你回了个表情。"
+      },
+      {
+        "t": "{name}在群里@你：\"大厂的饭还好吃吗？\"你没回。"
+      }
+    ]
+  }
+]

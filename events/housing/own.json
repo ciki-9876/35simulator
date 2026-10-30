@@ -1,0 +1,535 @@
+[
+  {
+    "id": "housing.buy.viewing",
+    "domain": "housing",
+    "seed": "看房",
+    "type": "daily",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "not_flags": [
+        "owns_home"
+      ],
+      "stat": {
+        "home_afford": ">=0.6"
+      }
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "周末你跟着中介看了五个楼盘，样板间都很好看。"
+      },
+      {
+        "t": "售楼处的沙盘前，销售说这里\"三年后通地铁\"。"
+      },
+      {
+        "t": "中介说现在是买方市场，你可以慢慢挑。",
+        "when": {
+          "scenario": "property_slump"
+        }
+      },
+      {
+        "t": "开盘那天售楼处排起了长队，有人在门口打地铺。",
+        "when": {
+          "scenario": "property_boom"
+        }
+      }
+    ],
+    "cooldown": 2
+  },
+  {
+    "id": "housing.buy.decide",
+    "domain": "housing",
+    "seed": "买房",
+    "type": "choice",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "not_flags": [
+        "owns_home",
+        "renter_by_choice"
+      ],
+      "stat": {
+        "home_afford": ">=1"
+      }
+    },
+    "chance": "0.22 + 0.3*flag(\"wants_home\") + 0.2*flag(\"married\")",
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "存款加上家里能给的，第一次够上了首付。"
+      },
+      {
+        "t": "你把首付、税费和装修钱列在一张纸上，最后一行刚好是正数。"
+      },
+      {
+        "t": "身边的人都在说\"再不买就上不了车了\"。",
+        "when": {
+          "scenario": "property_boom"
+        }
+      },
+      {
+        "t": "房价跌了两年，中介说现在是\"底部\"，去年他也这么说。",
+        "when": {
+          "scenario": "property_slump"
+        }
+      }
+    ],
+    "fact": {
+      "text": "2024 年 9 月底起，全国首套房最低首付比例统一为 15%",
+      "source": "pboc_downpay_2024",
+      "year": 2024
+    },
+    "options": [
+      {
+        "label": "买",
+        "hint": "首付掏空存款，背上 30 年房贷",
+        "effects": {
+          "buy_home": "city",
+          "mood": 5,
+          "flags_remove": [
+            "wants_home"
+          ]
+        },
+        "followups": [
+          {
+            "id": "housing.buy.sign",
+            "delay": 0
+          },
+          {
+            "id": "family.parents.downpay",
+            "delay": 0
+          },
+          {
+            "id": "housing.big.stock_down",
+            "delay": 0
+          },
+          {
+            "id": "housing.buy.keys",
+            "delay": 1
+          }
+        ]
+      },
+      {
+        "label": "再等等",
+        "hint": "也许明年价格更合适",
+        "effects": {
+          "mood": -1
+        }
+      },
+      {
+        "label": "不买了",
+        "hint": "租房也是一种活法",
+        "effects": {
+          "mood": 2,
+          "flags_add": [
+            "renter_by_choice"
+          ]
+        },
+        "auto": 0.4
+      }
+    ]
+  },
+  {
+    "id": "housing.buy.hometown",
+    "domain": "housing",
+    "seed": "回老家买房",
+    "type": "choice",
+    "age": [
+      25,
+      34
+    ],
+    "when": {
+      "city_tier": "<=2",
+      "not_flags": [
+        "owns_home"
+      ],
+      "stat": {
+        "home_afford": "<1",
+        "hometown_afford": ">=1"
+      }
+    },
+    "chance": 0.15,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "在这里买不起，同样的钱在老家能买一套三居室。"
+      },
+      {
+        "t": "母亲发来老家新楼盘的照片，说\"给你留个窝\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "在老家买一套",
+        "hint": "钱够了，人却不在那儿",
+        "effects": {
+          "buy_home": "hometown",
+          "mood": 2
+        },
+        "followups": [
+          {
+            "id": "housing.buy.sign",
+            "delay": 0
+          },
+          {
+            "id": "family.parents.downpay",
+            "delay": 0
+          }
+        ]
+      },
+      {
+        "label": "不买",
+        "hint": "钱留在手里",
+        "effects": {
+          "mood": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "housing.buy.sign",
+    "domain": "housing",
+    "seed": "签合同",
+    "type": "milestone",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "签了 30 年的贷款合同，你签名的时候手在抖。"
+      },
+      {
+        "t": "银行的人说\"在这里、这里、还有这里签字\"，你一共签了 47 次。"
+      },
+      {
+        "t": "你在老家的房产证上写了自己的名字，然后坐高铁回去上班。",
+        "when": {
+          "flags": [
+            "hometown_home"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "housing.buy.keys",
+    "domain": "housing",
+    "seed": "交房",
+    "type": "milestone",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "flags": [
+        "owns_home"
+      ],
+      "not_flags": [
+        "hometown_home"
+      ]
+    },
+    "text": [
+      {
+        "t": "拿到钥匙那天，你在空房子里坐了很久。"
+      },
+      {
+        "t": "交房验收，你拿着手电筒找了一下午的墙面裂缝。"
+      }
+    ],
+    "effects": {
+      "living": "own",
+      "mood": 5
+    },
+    "followups": [
+      {
+        "id": "housing.buy.renovation",
+        "delay": 0
+      }
+    ]
+  },
+  {
+    "id": "housing.buy.renovation",
+    "domain": "housing",
+    "seed": "装修",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "装修花了预算的 1.5 倍，你学会了分辨各种瓷砖。"
+      },
+      {
+        "t": "工长第三次说\"再加一点钱就能做得更好\"，你答应了。"
+      }
+    ],
+    "effects": {
+      "money": "-0.08*home_value",
+      "mood": -2
+    }
+  },
+  {
+    "id": "housing.own.price_drop",
+    "domain": "housing",
+    "seed": "房价跌了",
+    "type": "macro",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "flags": [
+        "owns_home"
+      ],
+      "scenario": "property_slump"
+    },
+    "chance": 0.35,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "小区同户型的挂牌价比你买时低了 20%，业主群里没人说话。"
+      },
+      {
+        "t": "中介打电话问你卖不卖，报的价让你沉默了很久。"
+      }
+    ],
+    "fact": {
+      "text": "2025 年全国新建商品住宅销售额 7.33 万亿元，比上年下降 13.0%",
+      "source": "nbs_housing_2025",
+      "year": 2026
+    },
+    "effects": {
+      "mood": -4
+    }
+  },
+  {
+    "id": "housing.own.rate_cut",
+    "domain": "housing",
+    "seed": "房贷利率下调",
+    "type": "macro",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "module": "mortgage",
+      "year": ">=2023"
+    },
+    "chance": 0.6,
+    "once": true,
+    "text": [
+      {
+        "t": "银行发来短信：你的房贷利率下调了，月供少了几百块。"
+      },
+      {
+        "t": "存量房贷利率批量调整，你对着新的还款计划表算了一晚上。"
+      }
+    ],
+    "fact": {
+      "text": "2025 年 5 月起，5 年期以上 LPR 为 3.5%",
+      "source": "lpr_2025",
+      "year": 2025
+    },
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "housing.own.prepay",
+    "domain": "housing",
+    "seed": "提前还贷",
+    "type": "choice",
+    "age": [
+      25,
+      34
+    ],
+    "when": {
+      "module": "mortgage",
+      "stat": {
+        "savings_months": ">=18"
+      }
+    },
+    "chance": 0.25,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "手里攒了一笔钱，你在想要不要拿去提前还贷。"
+      },
+      {
+        "t": "银行的提前还贷要排队预约，身边的人都在排。",
+        "when": {
+          "year": ">=2023"
+        }
+      }
+    ],
+    "options": [
+      {
+        "label": "还掉一部分",
+        "hint": "月供少了，存款也少了",
+        "effects": {
+          "prepay": 0.5,
+          "mood": 2
+        }
+      },
+      {
+        "label": "留着",
+        "hint": "手里有钱，心里不慌",
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "housing.own.default_edge",
+    "domain": "housing",
+    "seed": "断供边缘",
+    "type": "chain",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "module": "mortgage",
+      "path": "unemployed",
+      "gap_months": ">=3",
+      "stat": {
+        "savings_months": "<3"
+      }
+    },
+    "chance": 0.6,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "还款日前一天，你把信用卡的额度都算了一遍。银行说可以申请延期，你还没打电话。"
+      },
+      {
+        "t": "你给银行客服打了电话，问能不能先只还利息。对方说要提交材料。"
+      }
+    ],
+    "effects": {
+      "mood": -10
+    },
+    "followups": [
+      {
+        "id": "housing.big.sell",
+        "delay": 0,
+        "chance": 0.6
+      }
+    ]
+  },
+  {
+    "id": "housing.big.sell",
+    "domain": "housing",
+    "seed": "卖房",
+    "type": "choice",
+    "age": [
+      24,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "flags": [
+        "owns_home"
+      ]
+    },
+    "text": [
+      {
+        "t": "撑不下去了。中介说现在挂出去，三个月能卖掉。"
+      },
+      {
+        "t": "你打开房产 App，把自己的房子挂了出去，又撤了回来。"
+      }
+    ],
+    "options": [
+      {
+        "label": "卖房",
+        "hint": "还清贷款，剩多少算多少",
+        "effects": {
+          "sell_home": true,
+          "mood": -5
+        }
+      },
+      {
+        "label": "降价出租",
+        "hint": "搬回父母家，房子租出去",
+        "effects": {
+          "living": "with_parents",
+          "money": "4*living",
+          "mood": -3
+        }
+      },
+      {
+        "label": "继续撑",
+        "hint": "也许下个月就找到工作",
+        "effects": {
+          "mood": -5
+        }
+      }
+    ]
+  },
+  {
+    "id": "housing.big.stock_down",
+    "domain": "housing",
+    "seed": "用股票付首付",
+    "type": "chain",
+    "age": [
+      24,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "path": "bigtech",
+      "sub": "fulltime",
+      "level": ">=3"
+    },
+    "text": [
+      {
+        "t": "你把归属的股票全卖了，凑够了首付。卖的那天股价是一年里最低的。"
+      },
+      {
+        "t": "首付里有一半是{entity}的股票，你说这叫\"把工位换成了客厅\"。"
+      }
+    ]
+  },
+  {
+    "id": "housing.big.top_buy",
+    "domain": "housing",
+    "seed": "高位上车",
+    "type": "echo",
+    "age": [
+      27,
+      35
+    ],
+    "when": {
+      "history_any": [
+        "bigtech"
+      ],
+      "flags": [
+        "owns_home"
+      ],
+      "scenario": "property_slump"
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "你在{last_job.entity}最风光的那年买了房，后来房价和股价一起跌了。"
+      },
+      {
+        "t": "买房那年你觉得自己赶上了，现在你知道那叫\"站岗\"。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  }
+]

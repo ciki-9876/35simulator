@@ -1,0 +1,471 @@
+[
+  {
+    "id": "crime.lure.card_lent",
+    "path": "crime",
+    "seed": "兼职广告",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你把一张银行卡借给了网上认识的人，说好每月给你一笔钱。"
+      },
+      {
+        "t": "对方说只是\"帮忙走个账\"，第一个月的钱准时到了。"
+      }
+    ],
+    "fact": {
+      "text": "帮信等起诉人数从 2018 年 137 人增至 2022 年 13 万人",
+      "source": "spp_report_2023",
+      "year": 2022
+    },
+    "effects": {
+      "flags_add": [
+        "card_lent",
+        "temptation_seen"
+      ],
+      "module_start": "latent_risk",
+      "money": 2000
+    }
+  },
+  {
+    "id": "crime.lure.roommate_warns",
+    "path": "crime",
+    "seed": "室友提醒",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "flags": [
+        "temptation_seen"
+      ],
+      "roommate": {
+        "close": ">=60"
+      }
+    },
+    "chance": 0.5,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你在宿舍群里随口问了一句，{name}回了一句\"千万别碰\"。"
+      },
+      {
+        "t": "{name}私聊你：\"那种兼职是坑，我表弟就是这么进去的。\""
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "temptation_refused"
+      ],
+      "roommate_close": 5
+    }
+  },
+  {
+    "id": "crime.lure.card_frozen",
+    "path": "crime",
+    "seed": "卡被冻了",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "flags": [
+        "card_lent"
+      ]
+    },
+    "chance": 0.4,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "银行通知你的卡被冻结，柜员让你去派出所说明情况。"
+      },
+      {
+        "t": "你的另一张卡也刷不了了，工资卡里有这个月的房租。"
+      }
+    ],
+    "effects": {
+      "mood": -10
+    },
+    "followups": [
+      {
+        "id": "crime.case.summoned",
+        "delay": 0,
+        "chance": 0.7
+      }
+    ]
+  },
+  {
+    "id": "crime.lure.phone_rings",
+    "path": "crime",
+    "seed": "手机一响",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "module": "latent_risk"
+    },
+    "weight": 3,
+    "review": "legal",
+    "text": [
+      {
+        "t": "陌生号码打来，你盯着屏幕没敢接。"
+      },
+      {
+        "t": "楼道里有脚步声停在你家门口，过了一会儿又走了。"
+      }
+    ],
+    "effects": {
+      "mood": -4
+    }
+  },
+  {
+    "id": "crime.lure.designated_driver",
+    "path": "crime",
+    "seed": "代驾",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "flags": [
+        "has_car",
+        "drinking_tonight"
+      ]
+    },
+    "review": "legal",
+    "text": [
+      {
+        "t": "聚会散了，你喝了不少，车就停在门口。"
+      },
+      {
+        "t": "饭局结束已经十一点，你摸了摸口袋里的车钥匙。"
+      }
+    ],
+    "options": [
+      {
+        "label": "叫代驾",
+        "hint": "多花一百块",
+        "effects": {
+          "money": -100,
+          "flags_remove": [
+            "drinking_tonight"
+          ],
+          "text": "代驾师傅比你还年轻，一路都在听网课。"
+        }
+      },
+      {
+        "label": "自己开回去",
+        "hint": "\"只喝了一点\"",
+        "followups": [
+          {
+            "id": "crime.lure.dui_stop",
+            "delay": 0,
+            "chance": 0.25
+          }
+        ],
+        "effects": {
+          "flags_remove": [
+            "drinking_tonight"
+          ]
+        }
+      }
+    ],
+    "trigger": "follow"
+  },
+  {
+    "id": "crime.lure.dui_stop",
+    "path": "crime",
+    "seed": "只喝了一点",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "回家的路上遇到查酒驾，交警让你下车吹气。"
+      },
+      {
+        "t": "路口的灯闪了一下，交警拦住了你的车。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "record_dui_or_violent"
+      ],
+      "mood": -15
+    },
+    "followups": [
+      {
+        "id": "crime.case.summoned",
+        "delay": 0,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "crime.lure.pyramid",
+    "path": "crime",
+    "seed": "外地考察",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "到了外地，手机被收走，每天听课，课上说\"拉三个人就回本\"。"
+      },
+      {
+        "t": "你交了几万块\"入门费\"，住在一套挤了十几个人的房子里。"
+      }
+    ],
+    "effects": {
+      "money": -30000,
+      "mood": -12,
+      "social": -5,
+      "flags_add": [
+        "temptation_seen"
+      ]
+    },
+    "followups": [
+      {
+        "id": "crime.case.admin_penalty_pyramid",
+        "delay": 0,
+        "chance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "crime.overseas.high_pay",
+    "path": "crime",
+    "seed": "高薪 offer",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "not_path": "unemployed",
+      "stat": {
+        "savings_months": "<1"
+      }
+    },
+    "chance": 0.01,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "一个网友说东南亚有份客服工作，月薪三万，机票报销。"
+      },
+      {
+        "t": "招聘帖写着\"无需经验，包吃包住，专人接送\"。"
+      }
+    ],
+    "fact": {
+      "text": "公安部提示：\"高薪、包吃住、报销机票\"是常见诱饵",
+      "source": "mps_overseas_2025"
+    },
+    "help": [
+      "antifraud_96110"
+    ],
+    "options": [
+      {
+        "label": "去",
+        "hint": "对方信息无法核实",
+        "followups": [
+          {
+            "id": "crime.overseas.passport",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "拒绝",
+        "hint": "听起来太好了",
+        "effects": {
+          "flags_add": [
+            "temptation_refused"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "temptation_seen"
+      ]
+    }
+  },
+  {
+    "id": "crime.overseas.passport",
+    "path": "crime",
+    "seed": "证件被收",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "到了那边，护照被收走，你被带进一栋围着铁丝网的楼。"
+      },
+      {
+        "t": "接你的人一下车就拿走了你的手机和证件。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "overseas_trapped"
+      ],
+      "mood": -25,
+      "health": -10
+    },
+    "followups": [
+      {
+        "id": "crime.overseas.missing",
+        "delay": 0,
+        "chance": 1
+      },
+      {
+        "id": "crime.overseas.rescued",
+        "delay": 1,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "crime.overseas.missing",
+    "path": "crime",
+    "seed": "失联",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "家里三个月联系不上你，母亲去派出所报了警。"
+      },
+      {
+        "t": "宿舍群里，{name}一遍一遍地@你，没有回音。"
+      }
+    ]
+  },
+  {
+    "id": "crime.overseas.rescued",
+    "path": "crime",
+    "seed": "被解救",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你被解救回国，下飞机的时候腿是软的。"
+      },
+      {
+        "t": "回国的航班落地，你听见广播里说中文，哭了出来。"
+      }
+    ],
+    "help": [
+      "hotline_12356"
+    ],
+    "effects": {
+      "flags_add": [
+        "rescued_overseas"
+      ],
+      "flags_remove": [
+        "overseas_trapped"
+      ],
+      "path": "unemployed"
+    },
+    "followups": [
+      {
+        "id": "crime.overseas.investigated",
+        "delay": 0,
+        "chance": 0.6
+      }
+    ]
+  },
+  {
+    "id": "crime.overseas.investigated",
+    "path": "crime",
+    "seed": "回国调查",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "回国后你配合调查，交代了自己在里面被迫做过什么。"
+      },
+      {
+        "t": "警察听完你的经历，记了三个小时的笔录。"
+      }
+    ],
+    "effects": {
+      "mood": -5
+    },
+    "followups": [
+      {
+        "id": "crime.case.verdict",
+        "delay": 1,
+        "chance": 0.4
+      }
+    ]
+  },
+  {
+    "id": "crime.overseas.silence",
+    "path": "crime",
+    "seed": "不敢讲",
+    "type": "echo",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "flags": [
+        "rescued_overseas"
+      ],
+      "season": "spring_festival"
+    },
+    "chance": 0.6,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "过年时亲戚问起那两年，你说\"在外面打工\"。"
+      },
+      {
+        "t": "有人在饭桌上聊起东南亚旅游，你放下筷子去了阳台。"
+      }
+    ]
+  }
+]

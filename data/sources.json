@@ -1,0 +1,231 @@
+{
+  "_note": "事件 fact.source 引用的来源。label：data 为可作数据锚点的统计或法条；report 为报道，只能当文案素材，不得作为 fact 的来源。核实记录见 research/VERIFICATION.md。",
+  "sources": {
+    "moe_grads_2026": {
+      "name": "2026 届高校毕业生预计 1,270 万人",
+      "org": "教育部",
+      "year": 2025,
+      "label": "data",
+      "url": "https://m.gmw.cn/2025-11/20/content_1304232603.htm"
+    },
+    "nbs_youth_2025_08": {
+      "name": "2025 年 8 月 16–24 岁（不含在校生）失业率 18.9%",
+      "org": "国家统计局",
+      "year": 2025,
+      "label": "data",
+      "url": "https://www.caixinglobal.com/2025-09-19/analysis-youth-unemployment-surge-exposes-cracks-in-chinas-economic-transition-102363893.html"
+    },
+    "nbs_youth_2026_06": {
+      "name": "2026 年 6 月分年龄组失业率",
+      "org": "国家统计局",
+      "year": 2026,
+      "label": "data",
+      "url": "https://www.thepaper.cn/newsDetail_forward_33621182"
+    },
+    "mycos_2026": {
+      "name": "《2026 年中国大学生就业报告》（2025 届）",
+      "org": "麦可思研究院",
+      "year": 2026,
+      "label": "data",
+      "url": "https://finance.eastmoney.com/a/202606113768352986.html"
+    },
+    "nbs_wage_2025": {
+      "name": "2025 年城镇单位就业人员年平均工资",
+      "org": "国家统计局",
+      "year": 2026,
+      "label": "data",
+      "url": "https://www.ithome.com/0/952/418.htm"
+    },
+    "nbs_hours_2025": {
+      "name": "2025 年企业就业人员周平均工作时间 48.6 小时",
+      "org": "国家统计局",
+      "year": 2026,
+      "label": "data",
+      "url": "https://cj.sina.com.cn/articles/view/2660807713/9e98b42102701nxom"
+    },
+    "bloomberg_ali_2022": {
+      "name": "阿里巴巴 2022 年员工减少约 1.9 万人",
+      "org": "Bloomberg",
+      "year": 2023,
+      "label": "data",
+      "url": "https://www.bloomberg.com/news/articles/2023-02-23/alibaba-reduced-workforce-by-19-000-in-covid-challenged-2022"
+    },
+    "maimai_2025": {
+      "name": "2025 年招聘与 AI 岗位数据",
+      "org": "脉脉（每日经济新闻报道）",
+      "year": 2026,
+      "label": "report",
+      "url": "https://www.nbd.com.cn/articles/2026-01-13/4218942.html"
+    },
+    "boss_35": {
+      "name": "35 岁及以上互联网人生存状态调查",
+      "org": "BOSS 直聘",
+      "year": 2021,
+      "label": "report",
+      "url": "https://www.woshipm.com/it/5264356.html"
+    },
+    "spp_report_2023": {
+      "name": "帮信等起诉人数 2018 年 137 人增至 2022 年 13 万人",
+      "org": "最高人民检察院工作报告",
+      "year": 2023,
+      "label": "data",
+      "url": "https://www.chinanews.com.cn/sh/2023/03-15/9971673.shtml"
+    },
+    "spc_liyong_2024": {
+      "name": "近五年近七成帮信罪人员为 30 岁以下",
+      "org": "最高人民法院（中国司法大数据）",
+      "year": 2024,
+      "label": "data",
+      "url": "https://www.court.gov.cn/zixun/xiangqing/426752.html"
+    },
+    "spp_whitepaper_2025": {
+      "name": "2025 年度\"四大检察\"白皮书",
+      "org": "最高人民检察院",
+      "year": 2026,
+      "label": "data",
+      "url": "https://www.news.cn/politics/20260310/e967bf88fe514af3aa530ef2e78afb16/c.html"
+    },
+    "mps_overseas_2025": {
+      "name": "境外诈骗集团诱骗出境提示",
+      "org": "公安部",
+      "year": 2025,
+      "label": "data",
+      "url": "https://www.news.cn/politics/20250115/26acebbc69d0485c9d06f4e54a759bde/c.html"
+    },
+    "mps_fraud_2023": {
+      "name": "2023 年电信网络诈骗受害者年龄结构与高发类型",
+      "org": "公安部",
+      "year": 2024,
+      "label": "data",
+      "url": "https://www.news.cn/politics/20240625/4499f6a5376f44b4ae43086b44562510/c.html"
+    },
+    "law_cpl_71": {
+      "name": "《刑事诉讼法》第七十一条（取保候审期间义务）",
+      "org": "全国人大",
+      "year": 2018,
+      "label": "data",
+      "url": "https://www.chinalawtranslate.com/bail/"
+    },
+    "law_psa_136": {
+      "name": "《治安管理处罚法》第一百三十六条（违法记录封存），2026-01-01 施行",
+      "org": "全国人大",
+      "year": 2025,
+      "label": "data",
+      "url": "https://www.news.cn/20251224/81dcaab2c1e346098ffcc138d8fe86f4/c.html"
+    },
+    "law_csl_26": {
+      "name": "《公务员法》第二十六条（不得录用情形）",
+      "org": "全国人大",
+      "year": 2018,
+      "label": "data",
+      "url": "https://www.stats.gov.cn/gk/tjfg/xgfxfg/202503/t20250310_1958920.html"
+    },
+    "law_sanction_14": {
+      "name": "《公职人员政务处分法》第十四条",
+      "org": "全国人大",
+      "year": 2020,
+      "label": "data",
+      "url": "https://www.12371.cn/2020/06/21/ARTI1592702664187812.shtml"
+    },
+    "rule_ridehail_14": {
+      "name": "《网络预约出租汽车经营服务管理暂行办法》第十四条",
+      "org": "交通运输部等",
+      "year": 2016,
+      "label": "data",
+      "url": "https://www.chinalawtranslate.com/online-car-hailing-service-management-measures/"
+    },
+    "reg_ui_14": {
+      "name": "《失业保险条例》第十四条",
+      "org": "国务院",
+      "year": 1999,
+      "label": "data",
+      "url": "https://www.waizi.org.cn/law/3914.html"
+    },
+    "civil_exam_2026": {
+      "name": "2026 年度国考招录与报考年龄",
+      "org": "国家公务员局",
+      "year": 2025,
+      "label": "data",
+      "url": "https://www.chinanews.com.cn/gn/2025/11-30/10523697.shtml"
+    },
+    "spc_labor_2": {
+      "name": "最高法劳动争议司法解释（二），2025-09-01 施行",
+      "org": "最高人民法院",
+      "year": 2025,
+      "label": "data",
+      "url": "https://www.court.gov.cn/zixun/xiangqing/472691.html"
+    },
+    "hotline_12356": {
+      "name": "全国统一心理援助热线 12356",
+      "org": "国家卫生健康委",
+      "year": 2025,
+      "label": "data",
+      "url": "https://www.news.cn/politics/20250508/b45e439c15bb4732858ad5c7640e9ba9/c.html"
+    },
+    "anti_fraud_alliance": {
+      "name": "阳光诚信联盟、企业反舞弊联盟",
+      "org": "每日经济新闻等",
+      "year": 2018,
+      "label": "report",
+      "url": "https://www.nbd.com.cn/articles/2018-05-15/1217220.html"
+    },
+    "pboc_downpay_2024": {
+      "name": "2024 年 9 月底起商业性个人住房贷款不再区分首套、二套，最低首付比例统一为不低于 15%",
+      "org": "中国人民银行、国家金融监督管理总局",
+      "year": 2024,
+      "label": "data",
+      "url": "https://m.gmw.cn/2024-09/30/content_1303860061.htm"
+    },
+    "nbs_housing_2025": {
+      "name": "2025 年新建商品住宅销售面积 73,299 万平方米、销售额 73,335 亿元",
+      "org": "国家统计局",
+      "year": 2026,
+      "label": "data",
+      "url": "https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html"
+    },
+    "lpr_2025": {
+      "name": "5 年期以上 LPR 自 2025 年 5 月起为 3.5%",
+      "org": "全国银行间同业拆借中心",
+      "year": 2026,
+      "label": "data",
+      "url": "https://www.thepaper.cn/newsDetail_forward_33023046"
+    },
+    "mca_marriage_2025": {
+      "name": "2025 年全国结婚登记 676.5 万对，同比增长 10.8%",
+      "org": "民政部",
+      "year": 2026,
+      "label": "data",
+      "url": "https://www.yicai.com/news/103118948.html"
+    },
+    "nbs_births_2025": {
+      "name": "2025 年全国出生人口 792 万，出生率 5.63‰",
+      "org": "国家统计局",
+      "year": 2026,
+      "label": "data",
+      "url": "https://www.stats.gov.cn/xxgk/jd/sjjd2020/202601/t20260119_1962338.html"
+    },
+    "nbs_aging_2025": {
+      "name": "2025 年末 60 岁及以上人口 32,338 万，占 23.0%",
+      "org": "国家统计局",
+      "year": 2026,
+      "label": "data",
+      "url": "https://www.stats.gov.cn/xxgk/jd/sjjd2020/202601/t20260119_1962338.html"
+    }
+  },
+  "help": {
+    "hotline_12356": {
+      "name": "全国心理援助热线",
+      "number": "12356"
+    },
+    "antifraud_96110": {
+      "name": "反诈预警劝阻专线",
+      "number": "96110",
+      "note": "上线前核实"
+    },
+    "legal_aid_12348": {
+      "name": "公共法律服务热线",
+      "number": "12348",
+      "note": "上线前核实"
+    }
+  }
+}

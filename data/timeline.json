@@ -1,0 +1,868 @@
+{
+  "_note": "2014–2027 真实时间线：2014 届毕业生从 22 岁走到 35 岁。series 是逐年统计，scenario 是按年份的时代参数（设计值，依据 events 推定），events 是新闻条和宏观事件的素材。label：data = 有出处的统计或法规；report = 公开报道，待补链接或口径未核实；design = 设计值；projection = 2026 年 11 月以后的推演，只用已公布的日程和趋势。research/timeline.md 由 tools/render_timeline.py 从本文件生成。",
+  "cohort": {
+    "graduation": "2014-07",
+    "end": "2027-07",
+    "age_start": 22,
+    "age_end": 35
+  },
+  "series": {
+    "graduates_10k": {
+      "name": "全国普通高校毕业生（万人）",
+      "values": {
+        "2014": 727,
+        "2015": 749,
+        "2016": 765,
+        "2017": 795,
+        "2018": 820,
+        "2019": 834,
+        "2020": 874,
+        "2021": 909,
+        "2022": 1076,
+        "2023": 1158,
+        "2024": 1179,
+        "2025": 1222,
+        "2026": 1270,
+        "2027": null
+      },
+      "label": {
+        "2014": "report",
+        "2015": "report",
+        "2017": "report",
+        "2018": "report",
+        "2019": "report",
+        "default": "data"
+      },
+      "source": "教育部历年发布，经人民日报、光明网、中国日报等报道；2014、2015、2017–2019 年为通行数字，待对照教育部原文",
+      "url": "https://cn.chinadaily.com.cn/a/202411/15/WS673698b7a310b59111da37f9.html"
+    },
+    "kaoyan_10k": {
+      "name": "全国硕士研究生招生考试报名人数（万人，按考试年份）",
+      "values": {
+        "2014": 172,
+        "2015": 164.9,
+        "2016": 177,
+        "2017": 201,
+        "2018": 238,
+        "2019": 290,
+        "2020": 341,
+        "2021": 377,
+        "2022": 457,
+        "2023": 474,
+        "2024": 438,
+        "2025": 388,
+        "2026": 343,
+        "2027": null
+      },
+      "label": {
+        "default": "data"
+      },
+      "source": "教育部，经界面新闻、澎湃新闻、第一财经、中新网报道",
+      "url": "https://www.thepaper.cn/newsDetail_forward_25397773"
+    },
+    "civil_exam_ratio": {
+      "name": "国考通过资格审查人数与录用计划之比（按考试年度）",
+      "values": {
+        "2023": 70,
+        "2024": 77,
+        "2025": 86,
+        "2026": 98
+      },
+      "label": {
+        "default": "data"
+      },
+      "source": "国家公务员局，经中新网报道",
+      "url": "https://www.chinanews.com.cn/gn/2025/11-30/10523697.shtml"
+    },
+    "youth_unemployment": {
+      "name": "城镇 16–24 岁劳动力调查失业率（%）",
+      "values": {
+        "2023-06": 21.3,
+        "2023-12": 14.9,
+        "2025-08": 18.9,
+        "2026-06": 14.9
+      },
+      "label": {
+        "default": "data"
+      },
+      "note": "2018 年开始发布；2023-06 及以前为旧口径（含在校生求职者），2023 年 8 月暂停，2023 年 12 月起改为不含在校生的新口径，新旧不可直接比较",
+      "source": "国家统计局，经澎湃新闻、财新报道",
+      "url": "https://www.thepaper.cn/newsDetail_forward_26737753"
+    },
+    "avg_wage": {
+      "name": "全国城镇非私营单位就业人员年平均工资（元）",
+      "values": {
+        "2014": 56360,
+        "2015": 62029,
+        "2016": 67569,
+        "2017": 74318,
+        "2018": 82413,
+        "2019": 90501,
+        "2020": 97379,
+        "2021": 106837,
+        "2022": 114029,
+        "2023": 120698,
+        "2024": 124110,
+        "2025": 129441,
+        "2026": null,
+        "2027": null
+      },
+      "label": {
+        "default": "data"
+      },
+      "note": "每年 5 月前后公布上一年的数字，游戏里某年 7 月能看到的是上一年的值。2014 年由 2015 年公报\"比上年增加 5669 元\"推得。",
+      "source": "国家统计局历年《城镇单位就业人员年平均工资情况》公报，经中国新闻网、新京报、澎湃新闻、IT 之家转引",
+      "urls": {
+        "2014-2015": "https://cs.com.cn/xwzx/jr/201605/t20160514_4969149.html",
+        "2016-2017": "https://www.stats.gov.cn/sj/zxfb/202302/t20230203_1899943.html",
+        "2018-2019": "https://www.chinanews.com/cj/2020/05-15/9185355.shtml",
+        "2020-2021": "https://www.thepaper.cn/newsDetail_forward_23057355",
+        "2022": "https://www.bjnews.com.cn/detail/168361591314252.html",
+        "2023-2024": "https://www.stats.gov.cn/zwfwck/sjfb/202505/t20250516_1959826.html",
+        "2025": "https://www.ithome.com/0/952/418.htm"
+      }
+    }
+  },
+  "scenario": {
+    "_note": "【设计】按年份的时代参数，取值依据 events。internet / property：1 扩张，0 平稳，-1 收缩；exam_heat：考公热度系数，2014 年为 1.0；ai：AI 浪潮；pandemic：疫情影响。替代原来随机抽取的时代剧本。",
+    "2014": {
+      "internet": 1,
+      "property": 0,
+      "exam_heat": 1.0,
+      "ai": 0,
+      "pandemic": 0
+    },
+    "2015": {
+      "internet": 1,
+      "property": 1,
+      "exam_heat": 1.0,
+      "ai": 0,
+      "pandemic": 0
+    },
+    "2016": {
+      "internet": 1,
+      "property": 1,
+      "exam_heat": 1.0,
+      "ai": 0,
+      "pandemic": 0
+    },
+    "2017": {
+      "internet": 1,
+      "property": 1,
+      "exam_heat": 1.0,
+      "ai": 0,
+      "pandemic": 0
+    },
+    "2018": {
+      "internet": 0,
+      "property": 1,
+      "exam_heat": 1.0,
+      "ai": 0,
+      "pandemic": 0
+    },
+    "2019": {
+      "internet": 0,
+      "property": 0,
+      "exam_heat": 1.1,
+      "ai": 0,
+      "pandemic": 0
+    },
+    "2020": {
+      "internet": 0,
+      "property": 0,
+      "exam_heat": 1.2,
+      "ai": 0,
+      "pandemic": 1
+    },
+    "2021": {
+      "internet": -1,
+      "property": -1,
+      "exam_heat": 1.3,
+      "ai": 0,
+      "pandemic": 1
+    },
+    "2022": {
+      "internet": -1,
+      "property": -1,
+      "exam_heat": 1.4,
+      "ai": 0,
+      "pandemic": 1
+    },
+    "2023": {
+      "internet": -1,
+      "property": -1,
+      "exam_heat": 1.5,
+      "ai": 1,
+      "pandemic": 0
+    },
+    "2024": {
+      "internet": 0,
+      "property": -1,
+      "exam_heat": 1.6,
+      "ai": 1,
+      "pandemic": 0
+    },
+    "2025": {
+      "internet": 0,
+      "property": 0,
+      "exam_heat": 1.7,
+      "ai": 1,
+      "pandemic": 0
+    },
+    "2026": {
+      "internet": 0,
+      "property": 0,
+      "exam_heat": 1.8,
+      "ai": 1,
+      "pandemic": 0
+    },
+    "2027": {
+      "internet": 0,
+      "property": 0,
+      "exam_heat": 1.8,
+      "ai": 1,
+      "pandemic": 0,
+      "label": "projection"
+    }
+  },
+  "events": [
+    {
+      "date": "2014-03",
+      "cat": "国际",
+      "title": "马航 MH370 失联",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2014-09",
+      "cat": "互联网",
+      "title": "阿里巴巴在纽约证券交易所上市",
+      "impact": "新闻条；互联网扩张",
+      "label": "report"
+    },
+    {
+      "date": "2014-09",
+      "cat": "就业",
+      "title": "\"大众创业、万众创新\"在夏季达沃斯提出",
+      "impact": "创业类事件权重上调",
+      "label": "report"
+    },
+    {
+      "date": "2014-11",
+      "cat": "宏观",
+      "title": "沪港通开通",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2014-12",
+      "cat": "互联网",
+      "title": "打车软件补贴大战",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2015-03",
+      "cat": "政策",
+      "title": "\"互联网+\"写入政府工作报告",
+      "impact": "互联网扩张",
+      "label": "report"
+    },
+    {
+      "date": "2015-06",
+      "cat": "宏观",
+      "title": "A 股剧烈波动，千股跌停",
+      "impact": "买了股票的人触发亏损事件",
+      "label": "report"
+    },
+    {
+      "date": "2015-08",
+      "cat": "宏观",
+      "title": "人民币汇率形成机制改革（\"8·11\"汇改）",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2015-08",
+      "cat": "社会",
+      "title": "天津港\"8·12\"爆炸事故",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2015-10",
+      "cat": "政策",
+      "title": "全面二孩政策宣布，2016 年 1 月 1 日起施行",
+      "impact": "已婚者的生育抉择",
+      "label": "report"
+    },
+    {
+      "date": "2015-10",
+      "cat": "互联网",
+      "title": "美团与大众点评合并",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2016-03",
+      "cat": "科技",
+      "title": "AlphaGo 战胜李世石",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2016-06",
+      "cat": "国际",
+      "title": "英国举行脱欧公投",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2016-09",
+      "cat": "房地产",
+      "title": "多个城市集中出台限购限贷（\"930\"新政）",
+      "impact": "房价上涨后收紧",
+      "label": "report"
+    },
+    {
+      "date": "2016-11",
+      "cat": "政策",
+      "title": "《网络预约出租汽车经营服务管理暂行办法》施行",
+      "impact": "网约车驾驶员资格要求生效",
+      "label": "data",
+      "source": "rule_ridehail_14"
+    },
+    {
+      "date": "2016-11",
+      "cat": "国际",
+      "title": "特朗普当选美国总统",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2016-12",
+      "cat": "房地产",
+      "title": "中央经济工作会议提出\"房子是用来住的，不是用来炒的\"",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2017-04",
+      "cat": "政策",
+      "title": "设立雄安新区",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2017-06",
+      "cat": "互联网",
+      "title": "共享单车热潮",
+      "impact": "新闻条；创业类事件",
+      "label": "report"
+    },
+    {
+      "date": "2017-07",
+      "cat": "就业",
+      "title": "多地放宽落户吸引人才（\"抢人大战\"）",
+      "impact": "落户事件出现概率上调",
+      "label": "report"
+    },
+    {
+      "date": "2017-09",
+      "cat": "金融",
+      "title": "代币发行融资（ICO）被叫停",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2018-03",
+      "cat": "国际",
+      "title": "中美贸易摩擦开始",
+      "impact": "外企、制造业事件",
+      "label": "report"
+    },
+    {
+      "date": "2018-06",
+      "cat": "金融",
+      "title": "P2P 网贷平台集中爆雷",
+      "impact": "理财亏损、被骗事件",
+      "label": "report"
+    },
+    {
+      "date": "2018-07",
+      "cat": "互联网",
+      "title": "拼多多上市",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2018-10",
+      "cat": "政策",
+      "title": "个人所得税起征点提高到每月 5,000 元",
+      "impact": "到手工资上调",
+      "label": "report"
+    },
+    {
+      "date": "2018-12",
+      "cat": "互联网",
+      "title": "\"互联网寒冬\"说法流行，多家公司收缩招聘",
+      "impact": "互联网转为平稳",
+      "label": "report"
+    },
+    {
+      "date": "2019-03",
+      "cat": "互联网",
+      "title": "\"996.ICU\"引发全网讨论",
+      "impact": "大厂加班事件",
+      "label": "report"
+    },
+    {
+      "date": "2019-05",
+      "cat": "国际",
+      "title": "华为被列入美国实体清单",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2019-07",
+      "cat": "金融",
+      "title": "科创板开市",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2019-07",
+      "cat": "社会",
+      "title": "上海开始强制垃圾分类",
+      "impact": "生活小事件",
+      "label": "report"
+    },
+    {
+      "date": "2019-11",
+      "cat": "互联网",
+      "title": "直播带货兴起",
+      "impact": "内容创作路径扩张",
+      "label": "report"
+    },
+    {
+      "date": "2020-01",
+      "cat": "疫情",
+      "title": "武汉\"封城\"，春节假期延长",
+      "impact": "疫情模式开启：居家、线上办公、出行受限",
+      "label": "report"
+    },
+    {
+      "date": "2020-03",
+      "cat": "国际",
+      "title": "美股多次熔断",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2020-05",
+      "cat": "就业",
+      "title": "\"地摊经济\"走红",
+      "impact": "摆摊类零工事件",
+      "label": "report"
+    },
+    {
+      "date": "2020-06",
+      "cat": "就业",
+      "title": "874 万毕业生遇上疫情，研究生和专升本扩招",
+      "impact": "考研成功率上调",
+      "label": "report"
+    },
+    {
+      "date": "2020-11",
+      "cat": "互联网",
+      "title": "蚂蚁集团上市暂停",
+      "impact": "互联网监管开始",
+      "label": "report"
+    },
+    {
+      "date": "2020-12",
+      "cat": "社会",
+      "title": "\"内卷\"\"打工人\"成为年度热词",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2021-04",
+      "cat": "互联网",
+      "title": "阿里巴巴被处以 182.28 亿元反垄断罚款",
+      "impact": "互联网转为收缩",
+      "label": "report"
+    },
+    {
+      "date": "2021-05",
+      "cat": "政策",
+      "title": "三孩政策",
+      "impact": "已婚者的生育抉择",
+      "label": "report"
+    },
+    {
+      "date": "2021-06",
+      "cat": "社会",
+      "title": "\"躺平\"成为热词",
+      "impact": "躺平路径的新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2021-07",
+      "cat": "政策",
+      "title": "\"双减\"政策出台",
+      "impact": "教培行业裁员事件",
+      "label": "report"
+    },
+    {
+      "date": "2021-07",
+      "cat": "互联网",
+      "title": "滴滴接受网络安全审查",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2021-07",
+      "cat": "社会",
+      "title": "河南特大暴雨",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2021-08",
+      "cat": "互联网",
+      "title": "快手、字节跳动先后取消\"大小周\"",
+      "impact": "大厂加班强度下调",
+      "label": "report",
+      "url": "https://www.nbd.com.cn/articles/2021-07-10/1834167.html"
+    },
+    {
+      "date": "2021-09",
+      "cat": "房地产",
+      "title": "恒大债务危机暴露",
+      "impact": "房地产转为收缩",
+      "label": "report"
+    },
+    {
+      "date": "2022-02",
+      "cat": "国际",
+      "title": "俄乌冲突爆发",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2022-02",
+      "cat": "社会",
+      "title": "北京冬奥会",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2022-03",
+      "cat": "疫情",
+      "title": "上海全域静态管理（至 6 月）",
+      "impact": "一线城市居家事件",
+      "label": "report"
+    },
+    {
+      "date": "2022-05",
+      "cat": "互联网",
+      "title": "互联网大厂裁员潮，\"毕业\"成为裁员代称",
+      "impact": "被裁概率由\"裁员风声\"修正上调",
+      "label": "report"
+    },
+    {
+      "date": "2022-06",
+      "cat": "就业",
+      "title": "高校毕业生首次超过 1,000 万（1,076 万）",
+      "impact": "求职竞争加剧",
+      "label": "data",
+      "series": "graduates_10k"
+    },
+    {
+      "date": "2022-07",
+      "cat": "房地产",
+      "title": "多地烂尾楼业主\"停贷\"",
+      "impact": "有房贷者的焦虑事件",
+      "label": "report"
+    },
+    {
+      "date": "2022-11",
+      "cat": "科技",
+      "title": "ChatGPT 发布",
+      "impact": "AI 浪潮的开端",
+      "label": "report"
+    },
+    {
+      "date": "2022-12",
+      "cat": "疫情",
+      "title": "防疫措施优化调整",
+      "impact": "疫情模式结束",
+      "label": "report"
+    },
+    {
+      "date": "2023-03",
+      "cat": "社会",
+      "title": "\"孔乙己的长衫\"引发讨论",
+      "impact": "学历与工作落差的新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2023-03",
+      "cat": "国际",
+      "title": "硅谷银行倒闭",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2023-05",
+      "cat": "科技",
+      "title": "国内大模型密集发布（\"百模大战\"）",
+      "impact": "AI 岗位事件",
+      "label": "report"
+    },
+    {
+      "date": "2023-06",
+      "cat": "就业",
+      "title": "16–24 岁失业率达 21.3%（旧口径最高）",
+      "impact": "求职成功率下调",
+      "label": "data",
+      "series": "youth_unemployment"
+    },
+    {
+      "date": "2023-08",
+      "cat": "就业",
+      "title": "分年龄段失业率暂停发布",
+      "impact": "新闻条",
+      "label": "data",
+      "series": "youth_unemployment"
+    },
+    {
+      "date": "2023-08",
+      "cat": "房地产",
+      "title": "碧桂园出现债务风险",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2023-12",
+      "cat": "就业",
+      "title": "失业率按不含在校生的新口径恢复发布，16–24 岁为 14.9%",
+      "impact": "新闻条",
+      "label": "data",
+      "series": "youth_unemployment"
+    },
+    {
+      "date": "2024-03",
+      "cat": "科技",
+      "title": "小米 SU7 发布",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2024-05",
+      "cat": "房地产",
+      "title": "首套房最低首付降至 15%，取消全国房贷利率下限",
+      "impact": "买房门槛下调",
+      "label": "data",
+      "url": "https://www.cs.com.cn/xwzx/hg/202405/t20240517_6410544.html"
+    },
+    {
+      "date": "2024-07",
+      "cat": "科技",
+      "title": "无人驾驶出租车在武汉引发讨论",
+      "impact": "网约车司机的焦虑事件",
+      "label": "report"
+    },
+    {
+      "date": "2024-08",
+      "cat": "文化",
+      "title": "《黑神话：悟空》发售",
+      "impact": "兴趣事件",
+      "label": "report"
+    },
+    {
+      "date": "2024-09",
+      "cat": "政策",
+      "title": "渐进式延迟法定退休年龄决定通过，2025 年 1 月 1 日起施行",
+      "impact": "新闻条；35 岁结局的远景描述",
+      "label": "report"
+    },
+    {
+      "date": "2024-09",
+      "cat": "金融",
+      "title": "一揽子增量政策出台，A 股大涨",
+      "impact": "买了股票的人触发上涨事件",
+      "label": "report"
+    },
+    {
+      "date": "2024-09",
+      "cat": "房地产",
+      "title": "房贷不再区分首套二套，最低首付统一为 15%",
+      "impact": "买房门槛下调",
+      "label": "data",
+      "url": "https://www.yicai.com/news/102114653.html"
+    },
+    {
+      "date": "2024-11",
+      "cat": "国际",
+      "title": "特朗普再次当选美国总统",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2025-01",
+      "cat": "科技",
+      "title": "DeepSeek-R1 发布",
+      "impact": "AI 浪潮加速",
+      "label": "report"
+    },
+    {
+      "date": "2025-02",
+      "cat": "文化",
+      "title": "《哪吒之魔童闹海》创中国影史票房纪录",
+      "impact": "兴趣事件",
+      "label": "report"
+    },
+    {
+      "date": "2025-04",
+      "cat": "国际",
+      "title": "美国宣布\"对等关税\"",
+      "impact": "外贸、制造业事件",
+      "label": "report"
+    },
+    {
+      "date": "2025-05",
+      "cat": "政策",
+      "title": "婚姻登记全国通办",
+      "impact": "领证事件不再限户籍地",
+      "label": "data",
+      "url": "https://www.yicai.com/news/103049472.html"
+    },
+    {
+      "date": "2025-05",
+      "cat": "金融",
+      "title": "LPR 下调，5 年期以上降至 3.5%",
+      "impact": "房贷利率",
+      "label": "data",
+      "url": "https://www.thepaper.cn/newsDetail_forward_33023046"
+    },
+    {
+      "date": "2025-06",
+      "cat": "法律",
+      "title": "新修订《治安管理处罚法》通过，2026 年 1 月 1 日起施行",
+      "impact": "治安违法记录封存",
+      "label": "data",
+      "source": "law_psa_136"
+    },
+    {
+      "date": "2025-07",
+      "cat": "互联网",
+      "title": "外卖平台补贴大战",
+      "impact": "骑手招募事件增加",
+      "label": "report",
+      "url": "https://news.china.com/socialgd/10000169/20260319/49335752.html"
+    },
+    {
+      "date": "2025-08",
+      "cat": "就业",
+      "title": "16–24 岁失业率 18.9%，新口径以来最高",
+      "impact": "求职成功率下调",
+      "label": "data",
+      "series": "youth_unemployment"
+    },
+    {
+      "date": "2025-09",
+      "cat": "法律",
+      "title": "劳动争议司法解释（二）施行，约定不缴社保无效",
+      "impact": "社保相关事件",
+      "label": "data",
+      "source": "spc_labor_2"
+    },
+    {
+      "date": "2025-10",
+      "cat": "法律",
+      "title": "新修订《反不正当竞争法》施行，规制虚假评价",
+      "impact": "刷单相关事件",
+      "label": "data",
+      "url": "https://www.cnipa.gov.cn/art/2026/5/20/art_104_206437.html"
+    },
+    {
+      "date": "2025-10",
+      "cat": "政策",
+      "title": "国考报考年龄放宽到 38 周岁（2026 年度）",
+      "impact": "考公年龄线从 35 岁改为 38 岁",
+      "label": "data",
+      "source": "civil_exam_2026"
+    },
+    {
+      "date": "2025-11",
+      "cat": "就业",
+      "title": "2026 届高校毕业生预计 1,270 万",
+      "impact": "新闻条",
+      "label": "data",
+      "source": "moe_grads_2026"
+    },
+    {
+      "date": "2026-01",
+      "cat": "法律",
+      "title": "治安违法记录封存制度施行",
+      "impact": "治安处罚对求职影响下降",
+      "label": "data",
+      "source": "law_psa_136"
+    },
+    {
+      "date": "2026-01",
+      "cat": "互联网",
+      "title": "市场监管总局对携程涉嫌垄断立案调查",
+      "impact": "新闻条",
+      "label": "report"
+    },
+    {
+      "date": "2026-06",
+      "cat": "就业",
+      "title": "16–24 岁失业率回落至 14.9%",
+      "impact": "求职成功率回升",
+      "label": "data",
+      "series": "youth_unemployment"
+    },
+    {
+      "date": "2026-07",
+      "cat": "政策",
+      "title": "新就业形态职业伤害保障在全国推开",
+      "impact": "骑手、网约车司机的保障事件",
+      "label": "data",
+      "url": "https://m.thepaper.cn/newsDetail_forward_33494345"
+    },
+    {
+      "date": "2026-08",
+      "cat": "房地产",
+      "title": "北京非京籍购房社保年限统一为 1 年",
+      "impact": "买房门槛下调",
+      "label": "data",
+      "url": "https://m.thepaper.cn/newsDetail_forward_33740158"
+    },
+    {
+      "date": "2026-10",
+      "cat": "房地产",
+      "title": "居民购房贷款贴息政策实施，暂定一年",
+      "impact": "房贷事件",
+      "label": "report",
+      "url": "https://www.163.com/dy/article/L9U6FF7F0515AN84.html"
+    },
+    {
+      "date": "2026-12",
+      "cat": "就业",
+      "title": "2027 年考研初试（12 月 19–20 日）",
+      "impact": "备考事件的日程",
+      "label": "projection"
+    },
+    {
+      "date": "2027-07",
+      "cat": "里程碑",
+      "title": "2014 届毕业生满 35 岁",
+      "impact": "游戏结束",
+      "label": "projection"
+    }
+  ]
+}

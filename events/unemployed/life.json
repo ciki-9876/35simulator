@@ -1,0 +1,889 @@
+[
+  {
+    "id": "unemployed.gap.decide",
+    "path": "unemployed",
+    "seed": "决定 gap",
+    "type": "choice",
+    "age": [
+      22,
+      24
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "fresh_grad"
+      ],
+      "family_tier": ">=3"
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "毕业了，你想先停一停，再决定要做什么。"
+      },
+      {
+        "t": "大家都在找工作，你想给自己放一年假。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去旅行",
+        "hint": "看看外面",
+        "effects": {
+          "sub": "gap",
+          "flags_add": [
+            "gap_travel"
+          ],
+          "mood": 8
+        }
+      },
+      {
+        "label": "学技能",
+        "hint": "给简历加点东西",
+        "effects": {
+          "sub": "gap",
+          "flags_add": [
+            "gap_learn"
+          ],
+          "mood": 3
+        }
+      },
+      {
+        "label": "在家调整",
+        "hint": "什么都不做",
+        "effects": {
+          "sub": "gap",
+          "mood": 5
+        }
+      },
+      {
+        "label": "还是先找工作",
+        "hint": "空窗越短越好"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.gap.backpacking",
+    "path": "unemployed",
+    "seed": "穷游",
+    "type": "daily",
+    "age": [
+      22,
+      26
+    ],
+    "when": {
+      "sub": "gap",
+      "flags": [
+        "gap_travel"
+      ]
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "你在大理住了一个月青旅，认识了一个辞职三年的程序员。"
+      },
+      {
+        "t": "坐了 18 个小时的硬座，你到了一个以前只在地图上见过的地方。"
+      }
+    ],
+    "effects": {
+      "mood": 4,
+      "money": "-1*living"
+    }
+  },
+  {
+    "id": "unemployed.gap.skill",
+    "path": "unemployed",
+    "seed": "学技能",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "报了个剪辑课，学会了做转场。"
+      },
+      {
+        "t": "你跟着网课学会了一门新工具，第一次觉得这段时间没白过。"
+      }
+    ],
+    "effects": {
+      "ability": 2
+    },
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.gap.certificate",
+    "path": "unemployed",
+    "seed": "考证",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "weight": 1,
+    "text": [
+      {
+        "t": "考了个证，还不知道有没有用。"
+      },
+      {
+        "t": "证书寄到了家里，母亲把它放进了相框。"
+      }
+    ],
+    "effects": {
+      "ability": 1,
+      "mood": 1
+    }
+  },
+  {
+    "id": "unemployed.gap.fake_work",
+    "path": "unemployed",
+    "seed": "假装上班",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "living": "with_parents",
+      "stat": {
+        "mood": "<40"
+      }
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "每天早上 9 点出门，去图书馆坐一天，没跟家里说。"
+      },
+      {
+        "t": "你在网上搜到一种\"假装上班\"的办公室，一天几十块，有人陪你坐着。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    },
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.gap.parents_look",
+    "path": "unemployed",
+    "seed": "父母的眼神",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "living": "with_parents"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "晚饭时父亲什么也没说，只是叹了口气。"
+      },
+      {
+        "t": "母亲把你最爱吃的菜往你面前推了推，没问工作的事。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    },
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.gap.relatives",
+    "path": "unemployed",
+    "seed": "亲戚饭局",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "season": "spring_festival"
+    },
+    "chance": 0.8,
+    "text": [
+      {
+        "t": "过年饭桌上，二姨问你\"在哪高就\"。"
+      },
+      {
+        "t": "表弟说他实习单位在招人，你笑着说\"好啊\"。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "unemployed.gap.hide_moments",
+    "path": "unemployed",
+    "seed": "屏蔽朋友圈",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "gap_months": ">=3"
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "你把朋友圈设成三天可见。"
+      },
+      {
+        "t": "你刷到同学的入职照，手指停了一下，划了过去。"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.gap.dorm_group",
+    "path": "unemployed",
+    "seed": "宿舍群",
+    "type": "daily",
+    "age": [
+      22,
+      30
+    ],
+    "when": {
+      "path": "unemployed",
+      "roommate": {
+        "path": "bigtech"
+      }
+    },
+    "weight": 1,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "宿舍群里大家在聊加班，你没说话。"
+      },
+      {
+        "t": "{name}在群里问你最近怎么样，你回了一句\"还在找\"。"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.down.delivery",
+    "path": "unemployed",
+    "seed": "先送外卖",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "gap_months": ">=3"
+    },
+    "chance": 0.3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "存款越来越少，你看到骑手招募的广告：日结，不看学历。"
+      },
+      {
+        "t": "楼下站点的站长说，明天就能上岗。"
+      }
+    ],
+    "options": [
+      {
+        "label": "先跑着",
+        "hint": "有收入 · 求职时间变少",
+        "effects": {
+          "path": "service",
+          "sub": "rider",
+          "flags_add": [
+            "transitional"
+          ]
+        }
+      },
+      {
+        "label": "再等等",
+        "hint": "想找本行"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.down.tutoring",
+    "path": "unemployed",
+    "seed": "兼职家教",
+    "type": "daily",
+    "age": [
+      22,
+      30
+    ],
+    "when": {
+      "path": "unemployed",
+      "degree": ">=2"
+    },
+    "weight": 1,
+    "text": [
+      {
+        "t": "周末带两个初中生，一次 200。"
+      },
+      {
+        "t": "你教的学生期中考试进步了 20 分，家长送了你一箱水果。"
+      }
+    ],
+    "effects": {
+      "money": 800,
+      "mood": 1
+    }
+  },
+  {
+    "id": "unemployed.down.flyers",
+    "path": "unemployed",
+    "seed": "发传单",
+    "type": "daily",
+    "age": [
+      22,
+      28
+    ],
+    "when": {
+      "path": "unemployed",
+      "stat": {
+        "savings_months": "<2"
+      }
+    },
+    "weight": 1,
+    "text": [
+      {
+        "t": "在商场门口发了一天传单，日结 150。"
+      },
+      {
+        "t": "发传单时遇到了高中同学，你们都假装没看见对方。"
+      }
+    ],
+    "effects": {
+      "money": 150
+    }
+  },
+  {
+    "id": "unemployed.down.move_city",
+    "path": "unemployed",
+    "seed": "换城市",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "city_tier": "==1",
+      "gap_months": ">=4"
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "房租到期了，你在想要不要离开这座城市。"
+      },
+      {
+        "t": "家乡省会的招聘会，岗位比你想象的多。"
+      }
+    ],
+    "options": [
+      {
+        "label": "回家乡省会",
+        "hint": "生活成本低 · 机会少",
+        "effects": {
+          "flags_add": [
+            "moved_city"
+          ],
+          "modifier": {
+            "job_success": 1.3,
+            "months": 12
+          }
+        }
+      },
+      {
+        "label": "留下",
+        "hint": "再撑一撑"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.down.savings_low",
+    "path": "unemployed",
+    "seed": "存款见底",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "stat": {
+        "savings_months": "<1"
+      }
+    },
+    "chance": 1,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "存款只够再交一个月房租。"
+      },
+      {
+        "t": "你打开银行 App，数了一下余额后面有几位数。"
+      }
+    ],
+    "effects": {
+      "mood": -6
+    },
+    "followups": [
+      {
+        "id": "unemployed.down.borrow",
+        "delay": 0,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "unemployed.down.borrow",
+    "path": "unemployed",
+    "seed": "借钱",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "下个月的房租还没着落。"
+      },
+      {
+        "t": "你在通讯录里翻了很久，不知道该给谁打电话。"
+      }
+    ],
+    "options": [
+      {
+        "label": "跟父母要",
+        "hint": "开口难 · 但他们会给",
+        "effects": {
+          "money": "2*living",
+          "mood": -3
+        }
+      },
+      {
+        "label": "跟室友借",
+        "hint": "看交情",
+        "unlock": {
+          "roommate": {
+            "close": ">=50"
+          }
+        },
+        "effects": {
+          "money": "2*living",
+          "roommate_close": -5
+        }
+      },
+      {
+        "label": "网贷",
+        "hint": "秒到账 · 利息很高",
+        "effects": {
+          "money": "2*living",
+          "module_start": "debt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "unemployed.down.move_home",
+    "path": "unemployed",
+    "seed": "退租回家",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "stat": {
+        "savings_months": "<1"
+      },
+      "not_flags": [
+        "moved_home"
+      ]
+    },
+    "chance": 0.4,
+    "once": true,
+    "text": [
+      {
+        "t": "你退了出租屋，行李寄回了老家。"
+      },
+      {
+        "t": "房东来收房，你把钥匙放在桌上，没有回头看。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "moved_home"
+      ],
+      "mood": -4
+    }
+  },
+  {
+    "id": "unemployed.mind.insomnia",
+    "path": "unemployed",
+    "seed": "失眠",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "stat": {
+        "mood": "<40"
+      }
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "凌晨三点还在刷招聘 App。"
+      },
+      {
+        "t": "你数着天花板上的裂缝，数到天亮。"
+      }
+    ],
+    "effects": {
+      "health": -1
+    },
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.mind.self_doubt",
+    "path": "unemployed",
+    "seed": "自我怀疑",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "gap_months": ">=3"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "你开始想，是不是专业选错了。"
+      },
+      {
+        "t": "你翻出大学时的笔记，想不起当时为什么那么有信心。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    },
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.mind.stay_in",
+    "path": "unemployed",
+    "seed": "不想出门",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "stat": {
+        "mood": "<25"
+      }
+    },
+    "chance": 0.5,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "你一个星期没出门，外卖袋堆在门口。"
+      },
+      {
+        "t": "窗帘拉了一整天，你不知道外面是晴天还是阴天。"
+      }
+    ],
+    "help": [
+      "hotline_12356"
+    ],
+    "followups": [
+      {
+        "id": "unemployed.mind.reach_out",
+        "delay": 0,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "unemployed.mind.reach_out",
+    "path": "unemployed",
+    "seed": "求助",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "你觉得自己快撑不住了。"
+      },
+      {
+        "t": "手机屏幕亮着，你想找个人说说话。"
+      }
+    ],
+    "help": [
+      "hotline_12356"
+    ],
+    "options": [
+      {
+        "label": "找室友聊聊",
+        "hint": "他们会接电话的",
+        "effects": {
+          "mood": 8,
+          "roommate_close": 10
+        }
+      },
+      {
+        "label": "告诉家人",
+        "hint": "说出来",
+        "effects": {
+          "mood": 6
+        }
+      },
+      {
+        "label": "打心理热线",
+        "hint": "12356，有人在听",
+        "effects": {
+          "mood": 8,
+          "module_start": "counseling"
+        }
+      },
+      {
+        "label": "一个人扛",
+        "hint": "再等等看",
+        "effects": {
+          "mood": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "unemployed.mind.small_joy",
+    "path": "unemployed",
+    "seed": "小确幸",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "楼下的猫今天让你摸了。"
+      },
+      {
+        "t": "你做了一顿像样的饭，拍了照，没发朋友圈。"
+      },
+      {
+        "t": "下午的阳光照进来，你在窗边睡了一个很好的午觉。"
+      }
+    ],
+    "effects": {
+      "mood": 3
+    },
+    "cooldown": 1
+  },
+  {
+    "id": "unemployed.late.age_bar",
+    "path": "unemployed",
+    "seed": "年龄门槛",
+    "type": "daily",
+    "age": [
+      33,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "招聘启事上写着\"35 岁以下\"。"
+      },
+      {
+        "t": "你把出生年份那一栏看了很久。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "unemployed.late.mortgage",
+    "path": "unemployed",
+    "seed": "房贷",
+    "type": "chain",
+    "age": [
+      26,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "module": "mortgage",
+      "gap_months": ">=3"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "失业第三个月，房贷照常扣款。"
+      },
+      {
+        "t": "银行短信提醒还款日，你把存款和月供除了一下。"
+      }
+    ],
+    "effects": {
+      "mood": -6
+    }
+  },
+  {
+    "id": "unemployed.late.hide_from_spouse",
+    "path": "unemployed",
+    "seed": "瞒着家里",
+    "type": "choice",
+    "age": [
+      26,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "relationship": "married",
+      "gap_months": "<=1"
+    },
+    "chance": 0.5,
+    "once": true,
+    "text": [
+      {
+        "t": "你还没想好怎么跟伴侣说丢了工作。"
+      },
+      {
+        "t": "晚上伴侣问你今天公司怎么样，你说\"老样子\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "告诉伴侣",
+        "hint": "一起想办法",
+        "effects": {
+          "mood": 3
+        }
+      },
+      {
+        "label": "先瞒着",
+        "hint": "找到工作再说",
+        "effects": {
+          "flags_add": [
+            "hiding_unemployment"
+          ],
+          "mood": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "unemployed.late.ride_hailing",
+    "path": "unemployed",
+    "seed": "跑网约车",
+    "type": "choice",
+    "age": [
+      26,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "has_car"
+      ],
+      "gap_months": ">=3"
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "车停在楼下，你想先用它跑跑网约车。"
+      },
+      {
+        "t": "朋友说跑网约车一个月也有几千块，时间自由。"
+      }
+    ],
+    "fact": {
+      "text": "网约车驾驶员不得有危险驾驶、暴力犯罪、吸毒、酒驾记录",
+      "source": "rule_ridehail_14"
+    },
+    "options": [
+      {
+        "label": "去跑",
+        "hint": "要先办驾驶员证",
+        "unlock": {
+          "record": "none"
+        },
+        "effects": {
+          "path": "service",
+          "sub": "driver",
+          "flags_add": [
+            "transitional"
+          ]
+        }
+      },
+      {
+        "label": "不去",
+        "hint": "还想找本行"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.late.age_echo",
+    "path": "unemployed",
+    "seed": "年龄回响",
+    "type": "echo",
+    "age": [
+      30,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "history_months": {
+        "unemployed": ">=1"
+      }
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "你想起 22 岁那年也是这样投简历，那时你觉得来日方长。"
+      },
+      {
+        "t": "你翻出毕业那年的简历，上面的\"自我评价\"写得很满。"
+      }
+    ]
+  }
+]

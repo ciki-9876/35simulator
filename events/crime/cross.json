@@ -1,0 +1,687 @@
+[
+  {
+    "id": "crime.cross.scammed",
+    "path": "crime",
+    "seed": "被骗钱",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "not_flags": [
+        "antifraud_aware"
+      ]
+    },
+    "chance": 0.03,
+    "cooldown": 3,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你接到\"客服\"电话，被骗走了一个月工资。"
+      },
+      {
+        "t": "一个刷单返利的群，前三单都返了钱，第四单再也没回来。"
+      }
+    ],
+    "fact": {
+      "text": "2023 年电诈受害者中，18–40 岁占 62.1%",
+      "source": "mps_fraud_2023",
+      "year": 2023
+    },
+    "help": [
+      "antifraud_96110"
+    ],
+    "effects": {
+      "money": "-1*monthly",
+      "mood": -8,
+      "flags_add": [
+        "antifraud_aware"
+      ]
+    }
+  },
+  {
+    "id": "crime.cross.roommate_arrested",
+    "path": "crime",
+    "seed": "室友出事",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "roommate": {
+        "path": "crime"
+      }
+    },
+    "chance": 1,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "宿舍群里有人说，{name}因为出借银行卡被抓了。"
+      },
+      {
+        "t": "{name}的头像很久没亮了，后来大家才知道{ta}出了事。"
+      }
+    ],
+    "effects": {
+      "mood": -4
+    }
+  },
+  {
+    "id": "crime.cross.lend_to_released",
+    "path": "crime",
+    "seed": "帮不帮",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "roommate": {
+        "path": "unemployed"
+      },
+      "flags": [
+        "roommate_released"
+      ]
+    },
+    "chance": 0.5,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "出狱的{name}找你借钱，说想租个地方重新开始。"
+      },
+      {
+        "t": "{name}出来了，约你吃饭，吃到一半说想借点钱。"
+      }
+    ],
+    "options": [
+      {
+        "label": "借",
+        "hint": "可能不会还",
+        "effects": {
+          "money": "-1*monthly",
+          "roommate_close": 15
+        }
+      },
+      {
+        "label": "帮{ta}找工作",
+        "hint": "不借钱 · 帮点实际的",
+        "effects": {
+          "roommate_close": 10
+        }
+      },
+      {
+        "label": "不借",
+        "hint": "保持距离",
+        "effects": {
+          "roommate_close": -10
+        }
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.graft_notice_known",
+    "path": "crime",
+    "seed": "内部反腐通报",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "whitecollar"
+    },
+    "chance": 0.04,
+    "cooldown": 3,
+    "review": "legal",
+    "text": [
+      {
+        "t": "公司通报名单里有你认识的人，上周还一起开过会。"
+      },
+      {
+        "t": "通报只有三行字，内网的讨论帖有三百条回复。"
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.vendor_dinner",
+    "path": "crime",
+    "seed": "供应商的饭局",
+    "type": "choice",
+    "age": [
+      25,
+      35
+    ],
+    "when": {
+      "path": [
+        "bigtech",
+        "whitecollar"
+      ],
+      "role": "buyer",
+      "level": ">=3"
+    },
+    "chance": 0.06,
+    "cooldown": 2,
+    "review": "legal",
+    "text": [
+      {
+        "t": "供应商请你吃饭，临走塞给你一个信封。"
+      },
+      {
+        "t": "合作方说\"一点心意\"，把一张购物卡放在你桌上。"
+      }
+    ],
+    "options": [
+      {
+        "label": "退回",
+        "hint": "当面还回去",
+        "effects": {
+          "flags_add": [
+            "refused_bribe"
+          ]
+        }
+      },
+      {
+        "label": "上报",
+        "hint": "交给合规部门",
+        "effects": {
+          "flags_add": [
+            "refused_bribe"
+          ],
+          "social": -2
+        }
+      },
+      {
+        "label": "收下",
+        "hint": "大家都这样 · 可能涉嫌违法",
+        "effects": {
+          "money": 20000,
+          "module_start": "latent_risk",
+          "flags_add": [
+            "took_bribe"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.lookup_user",
+    "path": "crime",
+    "seed": "帮忙查个人",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "role": [
+        "dev",
+        "data",
+        "ops"
+      ]
+    },
+    "chance": 0.01,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "一个外部\"朋友\"请你帮忙查一个用户的信息，说给你报酬。"
+      },
+      {
+        "t": "有人私信你：\"你们内部能看到手机号吧？帮个忙。\""
+      }
+    ],
+    "options": [
+      {
+        "label": "拒绝",
+        "hint": "这是用户的信息",
+        "effects": {
+          "flags_add": [
+            "refused_bribe"
+          ]
+        }
+      },
+      {
+        "label": "答应",
+        "hint": "可能涉嫌违法",
+        "effects": {
+          "money": 5000,
+          "module_start": "latent_risk",
+          "flags_add": [
+            "leaked_data"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.shady_gig",
+    "path": "crime",
+    "seed": "涉罪的私活",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "role": "dev",
+      "module": "side_job"
+    },
+    "chance": 0.02,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "有人找你接私活，说\"只是抓点数据\"，报价很高。"
+      },
+      {
+        "t": "一个私活的需求文档里，有几行你越看越不对。"
+      }
+    ],
+    "options": [
+      {
+        "label": "不接",
+        "hint": "钱多得不正常"
+      },
+      {
+        "label": "接",
+        "hint": "可能涉嫌违法",
+        "effects": {
+          "money": 30000,
+          "module_start": "latent_risk"
+        }
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.after_party",
+    "path": "crime",
+    "seed": "年会之后",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "flags": [
+        "has_car"
+      ],
+      "season": "spring_festival"
+    },
+    "chance": 0.3,
+    "cooldown": 1,
+    "review": "legal",
+    "text": [
+      {
+        "t": "年会散场，你喝了不少，车就停在公司楼下。"
+      },
+      {
+        "t": "团建晚宴结束，同事们在门口叫车，你摸到了车钥匙。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "drinking_tonight"
+      ]
+    },
+    "followups": [
+      {
+        "id": "crime.lure.designated_driver",
+        "delay": 0,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.bonus_bet",
+    "path": "crime",
+    "seed": "年终奖那晚",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "module": "gambling",
+      "season": "spring_festival"
+    },
+    "chance": 0.5,
+    "review": "legal",
+    "text": [
+      {
+        "t": "年终奖到账的那天晚上，你把一大半押在了球赛上。"
+      },
+      {
+        "t": "年终奖在账户里只待了一晚。"
+      }
+    ],
+    "help": [
+      "hotline_12356"
+    ],
+    "effects": {
+      "money": "-2*monthly",
+      "mood": -10
+    }
+  },
+  {
+    "id": "crime.cross.audit_talk",
+    "path": "crime",
+    "seed": "内审约谈",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": [
+        "bigtech",
+        "whitecollar"
+      ],
+      "module": "latent_risk"
+    },
+    "chance": 0.2,
+    "review": "legal",
+    "text": [
+      {
+        "t": "内审部门约你下午三点去会议室，门关上了。"
+      },
+      {
+        "t": "内审的人把一沓打印出来的聊天记录推到你面前。"
+      }
+    ],
+    "effects": {
+      "mood": -15
+    },
+    "followups": [
+      {
+        "id": "crime.cross.on_the_list",
+        "delay": 0,
+        "chance": 1
+      },
+      {
+        "id": "crime.cross.no_severance",
+        "delay": 0,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.on_the_list",
+    "path": "crime",
+    "seed": "通报名单",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "内网通报名单上出现了你的工号，后面写着\"永不录用\"。"
+      },
+      {
+        "t": "前同事转来一张截图，通报上是你的名字。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "industry_blacklist"
+      ],
+      "mood": -10
+    },
+    "followups": [
+      {
+        "id": "crime.case.summoned",
+        "delay": 0,
+        "chance": 0.5
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.no_severance",
+    "path": "crime",
+    "seed": "没有赔偿",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你被以违纪解除，没有赔偿，没归属的股票也作废了。"
+      },
+      {
+        "t": "离职手续只办了十分钟，保安陪你走到了大门口。"
+      }
+    ],
+    "effects": {
+      "path": "unemployed",
+      "exit_reason": "fired",
+      "module_end": "latent_risk"
+    }
+  },
+  {
+    "id": "crime.cross.colleague_taken",
+    "path": "crime",
+    "seed": "同事被带走",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "chance": 0.02,
+    "cooldown": 4,
+    "review": "legal",
+    "text": [
+      {
+        "t": "工位旁的同事某天上午被叫走，再也没回来。"
+      },
+      {
+        "t": "同事的电脑还开着，屏保转了一下午。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "crime.cross.roommate_named",
+    "path": "crime",
+    "seed": "室友被通报",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "roommate": {
+        "path": "crime"
+      },
+      "flags": [
+        "roommate_was_bigtech"
+      ]
+    },
+    "chance": 1,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "宿舍群里转来一份通报，名单上是{name}。"
+      },
+      {
+        "t": "你在行业群里看到了{name}的名字，愣了很久。"
+      }
+    ],
+    "effects": {
+      "mood": -4
+    }
+  },
+  {
+    "id": "crime.cross.offer_withdrawn",
+    "path": "crime",
+    "seed": "背调撤回 offer",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "record": "criminal",
+      "flags": [
+        "has_offer",
+        "background_check"
+      ]
+    },
+    "chance": 0.9,
+    "review": "legal",
+    "text": [
+      {
+        "t": "拿到 offer 的第二周，HR 打电话说背调没通过。"
+      },
+      {
+        "t": "入职前一天，你收到一封\"很遗憾通知您\"的邮件。"
+      }
+    ],
+    "effects": {
+      "flags_remove": [
+        "has_offer"
+      ],
+      "mood": -10
+    }
+  },
+  {
+    "id": "crime.cross.check_passed",
+    "path": "crime",
+    "seed": "背调过了",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "record": "sealed",
+      "flags": [
+        "has_offer",
+        "background_check"
+      ]
+    },
+    "chance": 1,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "背调结束，什么也没查出来，你在工位上坐了很久。"
+      },
+      {
+        "t": "HR 说\"背调没问题\"，你回了一句\"好的\"，手心全是汗。"
+      }
+    ],
+    "effects": {
+      "mood": 5
+    }
+  },
+  {
+    "id": "crime.cross.small_company",
+    "path": "crime",
+    "seed": "小公司收留",
+    "type": "chain",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "record": "criminal",
+      "history_any": [
+        "bigtech"
+      ],
+      "stat": {
+        "social": ">=50"
+      },
+      "path": "unemployed"
+    },
+    "chance": 0.15,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "以前的同事在一家小公司当技术负责人，说\"你来我这儿吧\"。"
+      },
+      {
+        "t": "前同事说：\"我知道你的事，我需要的是会写代码的人。\""
+      }
+    ],
+    "effects": {
+      "path": "whitecollar",
+      "income_mult": 0.5,
+      "mood": 10
+    }
+  },
+  {
+    "id": "crime.cross.returned_envelope",
+    "path": "crime",
+    "seed": "当年退回的信封",
+    "type": "echo",
+    "age": [
+      27,
+      35
+    ],
+    "when": {
+      "flags": [
+        "refused_bribe"
+      ]
+    },
+    "chance": 0.3,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你当年退回的那个信封，后来那家供应商的对接人进去了。"
+      },
+      {
+        "t": "新闻里那家公司被查，你想起那顿饭和那个信封。"
+      }
+    ]
+  },
+  {
+    "id": "crime.cross.age35",
+    "path": "crime",
+    "seed": "35 岁",
+    "type": "echo",
+    "age": [
+      35,
+      35
+    ],
+    "when": {
+      "history_any": [
+        "bigtech"
+      ],
+      "flags": [
+        "industry_blacklist"
+      ]
+    },
+    "chance": 1,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "35 岁生日，你想起在{last_job.entity}的最后一天，是被保安陪着走出大门的。"
+      },
+      {
+        "t": "35 岁那天，你路过{last_job.entity}的楼，没有抬头。"
+      }
+    ]
+  }
+]

@@ -1,0 +1,544 @@
+[
+  {
+    "id": "whitecollar.sales.client_dinner",
+    "path": "whitecollar",
+    "seed": "客户饭局",
+    "type": "choice",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "role": "sales",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "饭局上客户举起杯子：\"这杯不喝，就是看不起我。\""
+      },
+      {
+        "t": "客户的酒量是出了名的，领导提前跟你说\"今晚靠你了\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "喝",
+        "hint": "单子可能成，胃不一定扛得住",
+        "auto": 1.5,
+        "effects": {
+          "health": -3,
+          "social": 3,
+          "mood": -1
+        }
+      },
+      {
+        "label": "以茶代酒",
+        "hint": "客户可能不高兴",
+        "p": 0.5,
+        "success": {
+          "mood": 2,
+          "text": "客户笑着说\"那你多吃菜\"，单子照签。"
+        },
+        "fail": {
+          "social": -2,
+          "mood": -2,
+          "text": "那单最后给了别家。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.sales.quota",
+    "path": "whitecollar",
+    "seed": "业绩考核",
+    "type": "chain",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "role": "sales",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.25,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "季度业绩没完成，奖金打了五折。"
+      },
+      {
+        "t": "业绩排名表贴在墙上，你的名字在倒数第二行。"
+      }
+    ],
+    "effects": {
+      "money": "-0.06*income",
+      "mood": -4
+    }
+  },
+  {
+    "id": "whitecollar.growth.raise_talk",
+    "path": "whitecollar",
+    "seed": "加薪谈判",
+    "type": "choice",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.35,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "年度调薪的邮件发下来了，你的数字比你想的少。"
+      },
+      {
+        "t": "同期进来的同事悄悄说他涨了 15%，你没涨。"
+      }
+    ],
+    "options": [
+      {
+        "label": "主动去谈",
+        "hint": "准备好数据，也准备好被拒",
+        "p": "0.3 + ability/250",
+        "success": {
+          "income_mult": 1.08,
+          "mood": 3,
+          "text": "领导看了你列的三页材料，说\"我去申请\"。"
+        },
+        "fail": {
+          "mood": -3,
+          "text": "领导说今年预算紧，明年一定。"
+        }
+      },
+      {
+        "label": "等通知",
+        "hint": "会有的，大概",
+        "auto": 1.5,
+        "effects": {
+          "income_mult": 1.02
+        }
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.growth.promotion",
+    "path": "whitecollar",
+    "seed": "升主管",
+    "type": "milestone",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "level": "<4",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": "max(0.02, 0.08 + (ability - 50)/400)",
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "名片上多了\"资深\"两个字，工资多了 800。",
+        "when": {
+          "level": "==1"
+        }
+      },
+      {
+        "t": "名片上多了\"主管\"两个字，工资多了 2000，手下多了三个人。",
+        "when": {
+          "level": "==2"
+        }
+      },
+      {
+        "t": "你升了经理，第一次参加管理层的会，发现大家也在吵同样的事。",
+        "when": {
+          "level": "==3"
+        }
+      }
+    ],
+    "effects": {
+      "level": 1,
+      "income_mult": 1.12,
+      "mood": 5
+    }
+  },
+  {
+    "id": "whitecollar.growth.transfer",
+    "path": "whitecollar",
+    "seed": "调岗",
+    "type": "chain",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.08,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "部门撤并，你被调去一个从没接触过的岗位，交接只给了一周。"
+      },
+      {
+        "t": "组织架构调整，你的汇报对象换成了一个比你小两岁的人。"
+      }
+    ],
+    "effects": {
+      "mood": -3,
+      "ability": 2
+    }
+  },
+  {
+    "id": "whitecollar.growth.cert",
+    "path": "whitecollar",
+    "seed": "考证",
+    "type": "choice",
+    "age": [
+      22,
+      32
+    ],
+    "when": {
+      "path": "whitecollar",
+      "role": "finance",
+      "not_flags": [
+        "cert_study"
+      ],
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.35,
+    "once": true,
+    "text": [
+      {
+        "t": "部门里有证的人工资高一截。CPA 六科，你算了算要考三到五年。"
+      },
+      {
+        "t": "领导说\"有空可以考个证\"，你听出来这不是建议。"
+      }
+    ],
+    "options": [
+      {
+        "label": "报名",
+        "hint": "每个周末都要搭进去",
+        "effects": {
+          "flags_add": [
+            "cert_study"
+          ],
+          "money": "-0.3*living",
+          "mood": -1
+        }
+      },
+      {
+        "label": "不报",
+        "hint": "周末留给自己",
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.growth.cert_pass",
+    "path": "whitecollar",
+    "seed": "证书通过",
+    "type": "chain",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "flags": [
+        "cert_study"
+      ]
+    },
+    "chance": 0.3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "证书考过了一科，还剩四科。你截图发了朋友圈，又设成了仅自己可见。"
+      },
+      {
+        "t": "查分那天你刷新了二十次，过了，61 分。"
+      }
+    ],
+    "effects": {
+      "ability": 3,
+      "mood": 3,
+      "income_mult": 1.03
+    }
+  },
+  {
+    "id": "whitecollar.growth.politics",
+    "path": "whitecollar",
+    "seed": "站队",
+    "type": "choice",
+    "age": [
+      26,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "level": ">=3",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.25,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "两个副总不和，你的直属领导关上门问你：\"你怎么看？\""
+      },
+      {
+        "t": "公司里分成了两派，午饭都分开吃，你端着餐盘不知道往哪边走。"
+      }
+    ],
+    "options": [
+      {
+        "label": "表态",
+        "hint": "赢了往上走，输了就难了",
+        "p": 0.5,
+        "success": {
+          "income_mult": 1.1,
+          "mood": 3,
+          "text": "你站的那边赢了，年底你的名字在升职名单上。"
+        },
+        "fail": {
+          "mood": -6,
+          "flags_add": [
+            "low_perf"
+          ],
+          "text": "你站的那位副总走了，你的项目被一个个拿走。"
+        }
+      },
+      {
+        "label": "装傻",
+        "hint": "谁也不得罪，谁也不帮你",
+        "auto": 1.5,
+        "effects": {
+          "mood": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.growth.hometown_branch",
+    "path": "whitecollar",
+    "seed": "回老家分公司",
+    "type": "choice",
+    "age": [
+      25,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "city_tier": "<=2",
+      "not_flags": [
+        "owns_home"
+      ],
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.08,
+    "once": true,
+    "text": [
+      {
+        "t": "公司在你老家省会开了分公司，内部招聘的邮件你看了三遍。"
+      },
+      {
+        "t": "分公司缺人，领导问你要不要回去，\"离家近，房子也便宜\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "申请调回",
+        "hint": "工资打八折，周末能回家吃饭",
+        "effects": {
+          "income_mult": 0.8,
+          "mood": 4,
+          "flags_add": [
+            "moved_home"
+          ]
+        }
+      },
+      {
+        "label": "留下",
+        "hint": "机会还是这里多",
+        "auto": 1.5,
+        "effects": {
+          "mood": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.growth.job_hop",
+    "path": "whitecollar",
+    "seed": "跳槽",
+    "type": "choice",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.15,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "猎头打来电话：\"有个机会想跟您聊聊，薪资涨两成。\""
+      },
+      {
+        "t": "前同事拉你去他现在的公司，说\"我们这边正缺人\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "跳",
+        "hint": "涨薪，一切从头再来",
+        "effects": {
+          "company": "new",
+          "income_mult": 1.15,
+          "mood": 2
+        }
+      },
+      {
+        "label": "不跳",
+        "hint": "熟悉的地方，熟悉的人",
+        "auto": 1.5,
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.exit.exam",
+    "path": "whitecollar",
+    "seed": "想上岸",
+    "type": "choice",
+    "age": [
+      24,
+      32
+    ],
+    "when": {
+      "path": "whitecollar",
+      "stat": {
+        "mood": "<45"
+      },
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.12,
+    "once": true,
+    "text": [
+      {
+        "t": "加班到十点的地铁上，你打开了国考的报名页面。"
+      },
+      {
+        "t": "大学同学考上了老家的公务员，朋友圈里是准时下班后拍的晚霞。"
+      }
+    ],
+    "options": [
+      {
+        "label": "辞职备考",
+        "hint": "全力一搏，存款在倒数",
+        "auto": 0.5,
+        "effects": {
+          "path": "exam",
+          "mood": 2
+        }
+      },
+      {
+        "label": "边上班边考",
+        "hint": "两头都累",
+        "effects": {
+          "mood": -2,
+          "ability": 1
+        }
+      },
+      {
+        "label": "算了",
+        "hint": "现在也挺好",
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "whitecollar.exit.bigtech_interview",
+    "path": "whitecollar",
+    "seed": "大厂的面试",
+    "type": "choice",
+    "age": [
+      23,
+      32
+    ],
+    "when": {
+      "path": "whitecollar",
+      "role": [
+        "dev",
+        "product",
+        "sales"
+      ],
+      "stat": {
+        "ability": ">=55"
+      },
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.15,
+    "once": true,
+    "text": [
+      {
+        "t": "大厂的 HR 在招聘软件上给你打了招呼，问你看不看新机会。"
+      },
+      {
+        "t": "大学室友把你内推进了一家大厂的面试，说\"试试又不要钱\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去面试",
+        "hint": "五轮面试，请三次假",
+        "p": "ability/130",
+        "success": {
+          "path": "bigtech",
+          "mood": 6,
+          "text": "第五轮面试结束，HR 打电话说\"恭喜\"。"
+        },
+        "fail": {
+          "mood": -3,
+          "text": "终面后等了两周，等来一封\"感谢关注\"。"
+        }
+      },
+      {
+        "label": "不去",
+        "hint": "听说那边很累",
+        "effects": {}
+      }
+    ]
+  }
+]

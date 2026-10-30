@@ -1,0 +1,6 @@
+node_modules/
+app/dist/
+reports/*.log
+.claude/
+__pycache__/
+*.tmp.*

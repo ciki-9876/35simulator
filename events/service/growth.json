@@ -1,0 +1,768 @@
+[
+  {
+    "id": "service.growth.promotion",
+    "path": "service",
+    "seed": "店长",
+    "type": "milestone",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "store"
+      ],
+      "level": "<2",
+      "tenure": ">=2",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.12,
+    "text": [
+      {
+        "t": "你当上了站长，开始给新骑手排班，手机一天响两百次。",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "你升了网点主管，第一次有了一张自己的桌子。",
+        "when": {
+          "sub": "courier"
+        }
+      },
+      {
+        "t": "你当上了{company}的店长，开始给新人排班。",
+        "when": {
+          "sub": "store"
+        }
+      }
+    ],
+    "effects": {
+      "level": 1,
+      "income_mult": 1.2,
+      "mood": 4
+    }
+  },
+  {
+    "id": "service.growth.schedule",
+    "path": "service",
+    "seed": "带新人",
+    "type": "daily",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "store"
+      ],
+      "level": ">=2",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "新人第三天就没来了，你只好自己顶班。"
+      },
+      {
+        "t": "你教新人怎么看路线、怎么跟顾客说话，像当年别人教你一样。"
+      }
+    ],
+    "effects": {
+      "social": 2,
+      "mood": -1
+    }
+  },
+  {
+    "id": "service.platform.insurance",
+    "path": "service",
+    "seed": "社保",
+    "type": "choice",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "driver"
+      ],
+      "tenure": ">=1",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "站点里有人说，自己按灵活就业交社保，每月一千多。"
+      },
+      {
+        "t": "你查了查，跑单这几年，养老保险一直是空着的。"
+      }
+    ],
+    "options": [
+      {
+        "label": "交",
+        "hint": "每月一千多，老了有个底",
+        "effects": {
+          "money": "-2.5*living",
+          "mood": 1,
+          "flags_add": [
+            "sv_pension"
+          ]
+        }
+      },
+      {
+        "label": "先不交",
+        "hint": "现在手头紧",
+        "auto": 1.5,
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "service.platform.new_year",
+    "path": "service",
+    "seed": "过年不回家",
+    "type": "choice",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "driver"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.35,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "春节单价翻倍，站点在招\"留守骑手\"。",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "除夕前一周，网点的人走了一半，主管问你留不留。",
+        "when": {
+          "sub": "courier"
+        }
+      },
+      {
+        "t": "过年这几天打车的人多、司机少，平台的补贴翻了一倍。",
+        "when": {
+          "sub": "driver"
+        }
+      }
+    ],
+    "options": [
+      {
+        "label": "回家",
+        "hint": "车票难抢，年总要过",
+        "auto": 1.5,
+        "effects": {
+          "money": "-0.5*living",
+          "mood": 4,
+          "social": 2
+        }
+      },
+      {
+        "label": "留下跑单",
+        "hint": "一个春节顶一个月",
+        "effects": {
+          "money": "1.2*living",
+          "mood": -2,
+          "text": "除夕夜你在路边吃了一碗速冻饺子，跟家里视频时，背景里是别人的烟花。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "service.platform.crash",
+    "path": "service",
+    "seed": "摔车",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.08,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "赶时间时摔了一跤，膝盖缝了 5 针，三天没法跑。"
+      },
+      {
+        "t": "电动车在路口被一辆右转的车刮倒，你爬起来先看了看箱子里的餐。",
+        "when": {
+          "sub": "rider"
+        }
+      }
+    ],
+    "effects": {
+      "health": -6,
+      "money": "-0.5*living",
+      "mood": -3
+    },
+    "followups": [
+      {
+        "id": "service.platform.injury_claim",
+        "delay": 0
+      }
+    ]
+  },
+  {
+    "id": "service.platform.injury_claim",
+    "path": "service",
+    "seed": "职业伤害保障",
+    "type": "chain",
+    "age": [
+      34,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "rider",
+      "year": ">=2026"
+    },
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "你在骑手 App 里申请了职业伤害保障，才知道平台一直按单替你交着这笔钱。"
+      },
+      {
+        "t": "站长帮你在 App 里提交了职业伤害保障的申请，医药费报回来一大半。"
+      }
+    ],
+    "effects": {
+      "money": "0.5*living",
+      "mood": 2
+    }
+  },
+  {
+    "id": "service.courier.back",
+    "path": "service",
+    "seed": "腰伤",
+    "type": "choice",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "courier",
+      "tenure": ">=3",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.15,
+    "once": true,
+    "text": [
+      {
+        "t": "腰疼得早上起不来，医生说要休息一个月。"
+      },
+      {
+        "t": "搬完一车大件，你蹲下去就站不起来了。"
+      }
+    ],
+    "options": [
+      {
+        "label": "休一个月",
+        "hint": "少一个月收入",
+        "effects": {
+          "money": "-1*monthly",
+          "health": 4,
+          "mood": 1
+        }
+      },
+      {
+        "label": "贴膏药接着干",
+        "hint": "腰会记住的",
+        "auto": 1.2,
+        "effects": {
+          "health": -6
+        }
+      },
+      {
+        "label": "换个轻点的活",
+        "hint": "去店里，工资少一截",
+        "effects": {
+          "sub": "store",
+          "health": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "service.platform.rule_change",
+    "path": "service",
+    "seed": "平台规则变了",
+    "type": "macro",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "driver"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "平台调整了计费规则，同样的单少了两块钱。"
+      },
+      {
+        "t": "新规则下，超时一分钟扣的钱比以前多了。",
+        "when": {
+          "sub": "rider"
+        }
+      },
+      {
+        "t": "平台抽成又调了，你算了算，一天要多跑一个小时。",
+        "when": {
+          "sub": "driver"
+        }
+      }
+    ],
+    "effects": {
+      "income_mult": 0.97,
+      "mood": -2
+    }
+  },
+  {
+    "id": "service.growth.switch_job",
+    "path": "service",
+    "seed": "换个活",
+    "type": "choice",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier"
+      ],
+      "tenure": ">=1",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.08,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "站点旁边的面馆在招人，包吃包住，不用风吹日晒。"
+      },
+      {
+        "t": "小区门口的超市缺人，老板说\"来了就是自己人\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去",
+        "hint": "安稳点，钱少点",
+        "effects": {
+          "sub": "store",
+          "mood": 2
+        }
+      },
+      {
+        "label": "不去",
+        "hint": "跑单挣得多",
+        "auto": 1.5,
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "service.growth.open_shop",
+    "path": "service",
+    "seed": "攒钱开店",
+    "type": "choice",
+    "age": [
+      25,
+      33
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "store",
+        "driver"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": "0.3*min(1, max(0, savings - 100000))",
+    "once": true,
+    "text": [
+      {
+        "t": "攒了十万，你想开一家小吃店，看了三个铺面。"
+      },
+      {
+        "t": "{company}的老板要回老家，问你要不要把店盘下来。",
+        "when": {
+          "sub": "store"
+        }
+      }
+    ],
+    "options": [
+      {
+        "label": "开",
+        "hint": "押上大部分积蓄",
+        "effects": {
+          "sub": "owner",
+          "money": -80000,
+          "mood": 5
+        }
+      },
+      {
+        "label": "再攒攒",
+        "hint": "一半的小店撑不过三年",
+        "auto": 1.5,
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "service.owner.daily",
+    "path": "service",
+    "seed": "小店的一年",
+    "type": "daily",
+    "age": [
+      25,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "owner",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "weight": 3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "早上五点去批发市场，晚上十一点盘完账。"
+      },
+      {
+        "t": "房东说明年房租涨两成，你算了一晚上。"
+      },
+      {
+        "t": "\"到账 23 元\"，是你一天里最爱听的声音。"
+      }
+    ],
+    "effects": {
+      "mood": -1,
+      "health": -1
+    }
+  },
+  {
+    "id": "service.owner.good_year",
+    "path": "service",
+    "seed": "上了榜",
+    "type": "chain",
+    "age": [
+      25,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "owner",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.12,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "{company}上了本地美食榜，周末门口排起了队。"
+      },
+      {
+        "t": "一个美食博主来吃了一次，第二天你的电话被打爆了。"
+      }
+    ],
+    "effects": {
+      "income_mult": 1.15,
+      "mood": 5
+    }
+  },
+  {
+    "id": "service.owner.hard_times",
+    "path": "service",
+    "seed": "生意难做",
+    "type": "macro",
+    "age": [
+      25,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "owner",
+      "scenario": "contraction",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.4,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "这条街上三家店贴出了转让，你的流水少了三成。"
+      },
+      {
+        "t": "来吃饭的人少了，点的菜也少了。"
+      }
+    ],
+    "effects": {
+      "income_mult": 0.85,
+      "mood": -3,
+      "modifier": {
+        "shop_risk": 2,
+        "months": 12
+      }
+    }
+  },
+  {
+    "id": "service.owner.close",
+    "path": "service",
+    "seed": "小店关门",
+    "type": "chain",
+    "age": [
+      25,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": "owner",
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": "0.1*mod(\"shop_risk\")",
+    "text": [
+      {
+        "t": "租约到期，房东不续了，你把桌椅卖给了收二手的。"
+      },
+      {
+        "t": "连着三个月入不敷出，你在门上贴了\"旺铺转让\"。"
+      }
+    ],
+    "effects": {
+      "path": "unemployed",
+      "exit_reason": "shop_closed",
+      "money": "-2*living",
+      "mood": -8
+    }
+  },
+  {
+    "id": "service.store.closed",
+    "path": "service",
+    "seed": "门店关了",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "store",
+        "courier"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.04,
+    "text": [
+      {
+        "t": "{company}关门了，老板在群里发了最后一个月的工资。",
+        "when": {
+          "sub": "store"
+        }
+      },
+      {
+        "t": "商场装修，{company}撤柜了，店长说\"有缘再见\"。",
+        "when": {
+          "sub": "store"
+        }
+      },
+      {
+        "t": "{company}的网点被合并了，一半的人要走，名单上有你。",
+        "when": {
+          "sub": "courier"
+        }
+      }
+    ],
+    "effects": {
+      "path": "unemployed",
+      "exit_reason": "laid_off",
+      "mood": -5
+    }
+  },
+  {
+    "id": "service.growth.reapply",
+    "path": "service",
+    "seed": "重新求职",
+    "type": "choice",
+    "age": [
+      23,
+      32
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "store",
+        "driver"
+      ],
+      "not_flags": [
+        "transitional"
+      ],
+      "degree": ">=2",
+      "stat": {
+        "ability": ">=50"
+      },
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.08,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "你在招聘软件上看到一个行政岗，要求\"有服务行业经验者优先\"。"
+      },
+      {
+        "t": "以前一起跑单的兄弟进了一家公司做客服，问你要不要一起去。"
+      }
+    ],
+    "options": [
+      {
+        "label": "投简历",
+        "hint": "回写字楼",
+        "p": "0.25 + ability/300",
+        "success": {
+          "path": "whitecollar",
+          "mood": 4,
+          "text": "面试那天你穿了唯一一件衬衫，一周后收到了通知。"
+        },
+        "fail": {
+          "mood": -2,
+          "text": "简历石沉大海。"
+        }
+      },
+      {
+        "label": "不投",
+        "hint": "现在这样也行",
+        "auto": 1.5,
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "service.exit.hometown",
+    "path": "service",
+    "seed": "回老家",
+    "type": "choice",
+    "age": [
+      27,
+      34
+    ],
+    "when": {
+      "path": "service",
+      "sub": [
+        "rider",
+        "courier",
+        "store",
+        "driver"
+      ],
+      "city_tier": "<=2",
+      "not_flags": [
+        "owns_home",
+        "moved_home"
+      ],
+      "flags": [
+        "sv_badge"
+      ]
+    },
+    "chance": 0.08,
+    "once": true,
+    "text": [
+      {
+        "t": "老家县城也有了外卖站，表哥说：\"回来吧，跑一样的单，房租便宜一半。\""
+      },
+      {
+        "t": "父母打电话说，家门口新开了一个商场，在招人。"
+      }
+    ],
+    "options": [
+      {
+        "label": "回去",
+        "hint": "挣得少，离家近",
+        "effects": {
+          "flags_add": [
+            "moved_home"
+          ],
+          "income_mult": 0.75,
+          "mood": 3
+        }
+      },
+      {
+        "label": "留下",
+        "hint": "大城市单多",
+        "auto": 1.5,
+        "effects": {
+          "mood": -1
+        }
+      }
+    ]
+  }
+]

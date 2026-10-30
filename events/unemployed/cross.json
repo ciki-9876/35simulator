@@ -1,0 +1,717 @@
+[
+  {
+    "id": "unemployed.cross.daily_cash_job",
+    "path": "unemployed",
+    "seed": "日结兼职",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "stat": {
+        "savings_months": "<3"
+      }
+    },
+    "chance": 0.06,
+    "cooldown": 2,
+    "review": "legal",
+    "text": [
+      {
+        "t": "求职群里有人发\"日结兼职，只要一张卡\"。"
+      },
+      {
+        "t": "一个陌生人私信你：\"借卡一个月，给你两千。\""
+      }
+    ],
+    "fact": {
+      "text": "近五年近七成帮信罪人员是 30 岁以下的年轻人",
+      "source": "spc_liyong_2024"
+    },
+    "help": [
+      "antifraud_96110"
+    ],
+    "options": [
+      {
+        "label": "问问看",
+        "hint": "可能涉嫌违法",
+        "followups": [
+          {
+            "id": "crime.lure.card_lent",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "退群",
+        "hint": "天上不会掉钱",
+        "effects": {
+          "flags_add": [
+            "temptation_refused"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "temptation_seen"
+      ]
+    }
+  },
+  {
+    "id": "unemployed.cross.loan_shark",
+    "path": "unemployed",
+    "seed": "网贷催收",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "module": "debt"
+    },
+    "chance": 0.15,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "网贷逾期了，有人私信说能帮你\"处理\"，条件是借一张卡给他。"
+      },
+      {
+        "t": "催收电话刚挂，一个陌生号码说\"我有办法帮你上岸\"。"
+      }
+    ],
+    "help": [
+      "antifraud_96110"
+    ],
+    "options": [
+      {
+        "label": "答应",
+        "hint": "债没了 · 可能涉嫌违法",
+        "followups": [
+          {
+            "id": "crime.lure.card_lent",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "拉黑",
+        "hint": "债还是自己的",
+        "effects": {
+          "flags_add": [
+            "temptation_refused"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "temptation_seen"
+      ]
+    }
+  },
+  {
+    "id": "unemployed.cross.gamble_to_survive",
+    "path": "unemployed",
+    "seed": "翻本",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "gap_months": ">=4",
+      "not_module": "gambling"
+    },
+    "chance": 0.05,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "空窗第{gap_months}个月，你刷到赌球推荐，想赢一笔撑过这段。"
+      },
+      {
+        "t": "群里有人晒赢钱的截图：\"一晚上一个月工资\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "试试",
+        "hint": "可能赢 · 可能陷进去",
+        "effects": {
+          "module_start": "gambling"
+        }
+      },
+      {
+        "label": "关掉",
+        "hint": "不碰"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.cross.classmate_project",
+    "path": "unemployed",
+    "seed": "老同学的项目",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed"
+    },
+    "chance": 0.03,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "老同学说有个\"创业项目\"，请你去外地考察，车费他出。"
+      },
+      {
+        "t": "很久没联系的同学突然打来电话，说有个赚钱的机会。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去看看",
+        "hint": "要先交钱 · 要拉人",
+        "followups": [
+          {
+            "id": "crime.lure.pyramid",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "不去",
+        "hint": "听起来不对劲",
+        "effects": {
+          "flags_add": [
+            "temptation_refused"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "temptation_seen"
+      ]
+    }
+  },
+  {
+    "id": "unemployed.cross.roommate_stop",
+    "path": "unemployed",
+    "seed": "室友劝住",
+    "type": "echo",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "roommate": {
+        "close": ">=70"
+      },
+      "flags": [
+        "temptation_seen"
+      ],
+      "not_flags": [
+        "card_lent"
+      ]
+    },
+    "chance": 0.5,
+    "once": true,
+    "text": [
+      {
+        "t": "你在宿舍群里提了一句，{name}打了个电话过来，说了半小时。"
+      },
+      {
+        "t": "{name}说：\"缺钱跟我说，别碰那些。\"然后转了你两千。"
+      }
+    ],
+    "effects": {
+      "roommate_close": 10,
+      "mood": 4
+    }
+  },
+  {
+    "id": "unemployed.cross.frozen_while_jobless",
+    "path": "unemployed",
+    "seed": "失业中被冻卡",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "card_lent"
+      ]
+    },
+    "chance": 0.4,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "卡被冻结的那天，你本来要交房租。"
+      },
+      {
+        "t": "房租扣款失败的短信和银行的冻结通知，同时到了。"
+      }
+    ],
+    "effects": {
+      "mood": -8
+    },
+    "followups": [
+      {
+        "id": "crime.case.summoned",
+        "delay": 0,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "unemployed.cross.bail_interview",
+    "path": "unemployed",
+    "seed": "取保期间面试",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "module": "bail",
+      "flags": [
+        "interviewing"
+      ]
+    },
+    "weight": 3,
+    "review": "legal",
+    "text": [
+      {
+        "t": "面试时你一直在想，下周还要去派出所报到。"
+      },
+      {
+        "t": "面试官问你什么时候能到岗，你说\"随时\"，心里没底。"
+      }
+    ],
+    "effects": {
+      "mood": -3,
+      "modifier": {
+        "job_success": 0.5,
+        "months": 6
+      }
+    }
+  },
+  {
+    "id": "unemployed.cross.out_of_town_offer",
+    "path": "unemployed",
+    "seed": "外地的 offer",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "module": "bail"
+    },
+    "chance": 0.2,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "外地一家公司给了 offer，你没法去。"
+      },
+      {
+        "t": "offer 在另一个城市，你连申请离开都不知道该怎么开口。"
+      }
+    ],
+    "fact": {
+      "text": "取保候审期间，未经批准不得离开所居住的市、县",
+      "source": "law_cpl_71"
+    },
+    "effects": {
+      "mood": -5
+    }
+  },
+  {
+    "id": "unemployed.cross.after_dismissal",
+    "path": "unemployed",
+    "seed": "被开除之后",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "path_change",
+    "transition": {
+      "to": "unemployed"
+    },
+    "when": {
+      "exit_reason": "fired",
+      "record": "criminal"
+    },
+    "review": "legal",
+    "text": [
+      {
+        "t": "你被{last_job.entity}解除合同，没有赔偿，空窗期从这一天开始算。"
+      },
+      {
+        "t": "你收拾工位时，没人过来说话。"
+      }
+    ],
+    "effects": {
+      "mood": -8
+    }
+  },
+  {
+    "id": "unemployed.cross.disclose_record",
+    "path": "unemployed",
+    "seed": "如实报告",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "record": "criminal",
+      "gap_months": ">=12",
+      "flags": [
+        "interviewing"
+      ]
+    },
+    "chance": 0.6,
+    "cooldown": 1,
+    "review": "legal",
+    "text": [
+      {
+        "t": "面试官问这几年做了什么，简历上空着{gap_months}个月。"
+      },
+      {
+        "t": "面试表格上有一栏\"有无违法犯罪记录\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "说出前科",
+        "hint": "成功率{p} · 但心里踏实",
+        "p": 0.2,
+        "success": {
+          "path": "whitecollar",
+          "mood": 8,
+          "text": "对方沉默了一会儿，说\"下周一来上班吧\"。"
+        },
+        "fail": {
+          "mood": -5,
+          "text": "对方说\"我们再考虑一下\"，之后没有消息。"
+        }
+      },
+      {
+        "label": "说在外地打工",
+        "hint": "背调可能会查到",
+        "p": 0.3,
+        "success": {
+          "path": "whitecollar",
+          "flags_add": [
+            "record_hidden"
+          ],
+          "text": "你入职了，每次 HR 叫你都心里一紧。"
+        },
+        "fail": {
+          "mood": -8,
+          "text": "背调结果出来，offer 被撤回了。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "unemployed.cross.no_ride_hailing",
+    "path": "unemployed",
+    "seed": "网约车也不行",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "record_dui_or_violent"
+      ]
+    },
+    "chance": 0.5,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你想先跑网约车，平台审核没通过。"
+      },
+      {
+        "t": "驾驶员证申请被退回，理由那一栏只有一行字。"
+      }
+    ],
+    "fact": {
+      "text": "有危险驾驶、暴力犯罪等记录的，不能取得网约车驾驶员证",
+      "source": "rule_ridehail_14"
+    },
+    "effects": {
+      "mood": -5
+    }
+  },
+  {
+    "id": "unemployed.cross.record_sealed",
+    "path": "unemployed",
+    "seed": "记录封存了",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "record": "sealed",
+      "flags": [
+        "background_check"
+      ],
+      "year": ">=2026"
+    },
+    "chance": 1,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "入职背调时你提心吊胆，结果什么也没查出来。"
+      },
+      {
+        "t": "HR 说背调通过了，你在电梯里长出了一口气。"
+      }
+    ],
+    "fact": {
+      "text": "2026 年起治安违法记录依法封存，不得向单位和个人提供",
+      "source": "law_psa_136",
+      "year": 2026
+    },
+    "effects": {
+      "mood": 5
+    }
+  },
+  {
+    "id": "unemployed.cross.resettlement",
+    "path": "unemployed",
+    "seed": "安置帮教",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "released"
+      ]
+    },
+    "chance": 0.6,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "司法所的工作人员联系你，问你需不需要帮忙找工作。"
+      },
+      {
+        "t": "社区推荐你去参加一个技能培训，学费全免。"
+      }
+    ],
+    "effects": {
+      "mood": 3,
+      "modifier": {
+        "job_success": 1.3,
+        "months": 6
+      }
+    }
+  },
+  {
+    "id": "unemployed.cross.old_friend_returns",
+    "path": "unemployed",
+    "seed": "旧朋友又来了",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "released"
+      ]
+    },
+    "chance": 0.1,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "以前那个\"朋友\"又找上门，说有个来钱的路子。"
+      },
+      {
+        "t": "出来第三个月，一个熟悉的号码打来了电话。"
+      }
+    ],
+    "options": [
+      {
+        "label": "拒绝",
+        "hint": "不想再进去",
+        "effects": {
+          "mood": 3,
+          "flags_add": [
+            "temptation_refused"
+          ]
+        }
+      },
+      {
+        "label": "听听",
+        "hint": "缺钱 · 风险很大",
+        "followups": [
+          {
+            "id": "crime.lure.card_lent",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "temptation_seen"
+      ]
+    }
+  },
+  {
+    "id": "unemployed.cross.stay_home_after",
+    "path": "unemployed",
+    "seed": "父母说先在家待着",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "released"
+      ],
+      "family_tier": ">=2"
+    },
+    "chance": 0.4,
+    "once": true,
+    "text": [
+      {
+        "t": "父母说先在家待着吧，不急。"
+      },
+      {
+        "t": "你在老家的房间里住了下来，书桌上还摆着高中的课本。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "moved_home"
+      ],
+      "mood": 2
+    }
+  },
+  {
+    "id": "unemployed.cross.after_scam_compound",
+    "path": "unemployed",
+    "seed": "被骗出境回来后",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "unemployed",
+      "flags": [
+        "rescued_overseas"
+      ]
+    },
+    "weight": 3,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "回国后你有很长一段时间不敢接陌生电话，也不敢投简历。"
+      },
+      {
+        "t": "夜里醒来，你要看一眼窗外，确认自己在家。"
+      }
+    ],
+    "help": [
+      "hotline_12356"
+    ],
+    "effects": {
+      "mood": -5
+    }
+  },
+  {
+    "id": "unemployed.cross.that_message",
+    "path": "unemployed",
+    "seed": "那条群消息",
+    "type": "echo",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "not_path": "unemployed",
+      "flags": [
+        "temptation_refused"
+      ]
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "你想起失业那年求职群里那条\"日结兼职\"，幸好那天退了群。"
+      },
+      {
+        "t": "新闻里在说帮信罪，你想起自己当年也差点点开那个链接。"
+      }
+    ]
+  },
+  {
+    "id": "unemployed.cross.that_year",
+    "path": "unemployed",
+    "seed": "那一年",
+    "type": "echo",
+    "age": [
+      35,
+      35
+    ],
+    "when": {
+      "history_months": {
+        "unemployed": ">=6"
+      },
+      "flags": [
+        "card_lent"
+      ]
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "35 岁生日，你想起那些空窗的月份和那张被冻结的卡。"
+      },
+      {
+        "t": "35 岁那天，你把那张早已注销的银行卡剪成了两半。"
+      }
+    ]
+  }
+]

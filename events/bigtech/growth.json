@@ -1,0 +1,761 @@
+[
+  {
+    "id": "bigtech.growth.first_incident",
+    "path": "bigtech",
+    "seed": "第一次线上事故",
+    "type": "chain",
+    "age": [
+      23,
+      27
+    ],
+    "when": {
+      "path": "bigtech",
+      "role": "dev"
+    },
+    "chance": 0.15,
+    "once": true,
+    "text": [
+      {
+        "t": "你改的一行代码让服务挂了 20 分钟，复盘会上全组都看着你。"
+      },
+      {
+        "t": "凌晨的告警是你的提交引起的，你在群里打了一行\"我来处理\"。"
+      }
+    ],
+    "effects": {
+      "mood": -5,
+      "ability": 2
+    }
+  },
+  {
+    "id": "bigtech.growth.late_release",
+    "path": "bigtech",
+    "seed": "凌晨发版",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "role": "dev"
+    },
+    "weight": 3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "凌晨两点，发版完成，你在公司楼下打不到车。"
+      },
+      {
+        "t": "发版成功的消息刷了一屏，你在工位上睡着了。"
+      }
+    ],
+    "effects": {
+      "health": -1
+    }
+  },
+  {
+    "id": "bigtech.growth.oncall",
+    "path": "bigtech",
+    "seed": "on-call",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "role": "dev"
+    },
+    "weight": 2,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "周六带父母吃饭时，告警电话响了。"
+      },
+      {
+        "t": "on-call 那周，你洗澡都把手机放在洗手台上。"
+      },
+      {
+        "t": "约会到一半，告警响了，你对着笔记本修了四十分钟。",
+        "when": {
+          "relationship": "dating"
+        }
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "bigtech.growth.req_change",
+    "path": "bigtech",
+    "seed": "需求改了三版",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "产品说\"再对齐一下\"，需求又改了，这是第三版。"
+      },
+      {
+        "t": "上线前一天，需求文档的标题后面多了一个\"v7\"。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "bigtech.growth.perf_review",
+    "path": "bigtech",
+    "seed": "绩效季",
+    "type": "choice",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "fulltime"
+    },
+    "chance": 0.1,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "老板约你一对一，暗示今年组里要有人\"背一个\"低绩效。"
+      },
+      {
+        "t": "绩效季到了，老板说\"今年名额紧张，你理解一下\"。"
+      }
+    ],
+    "options": [
+      {
+        "label": "争取",
+        "hint": "成功率{p} · 和老板关系变僵",
+        "p": "0.3 + ability/200",
+        "success": {
+          "mood": 3,
+          "text": "你拿出了全年的数据，低绩效最后没落到你头上。"
+        },
+        "fail": {
+          "mood": -10,
+          "flags_add": [
+            "low_perf"
+          ],
+          "text": "你争了，结果没变，还多了一个\"不好管\"的评价。",
+          "modifier": {
+            "layoff": 3,
+            "months": 12
+          }
+        }
+      },
+      {
+        "label": "接受",
+        "hint": "今年没有年终奖",
+        "effects": {
+          "mood": -8,
+          "flags_add": [
+            "low_perf"
+          ],
+          "modifier": {
+            "layoff": 3,
+            "months": 12
+          }
+        }
+      },
+      {
+        "label": "提离职",
+        "hint": "带着这份委屈走",
+        "effects": {
+          "path": "unemployed",
+          "exit_reason": "quit",
+          "mood": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "bigtech.growth.promo_defense",
+    "path": "bigtech",
+    "seed": "晋升答辩",
+    "type": "choice",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "fulltime",
+      "flags": [
+        "promo_eligible"
+      ]
+    },
+    "chance": 1,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "晋升提名下来了，答辩在下个月。"
+      },
+      {
+        "t": "你拿到了答辩名额，PPT 模板已经发到了邮箱。"
+      }
+    ],
+    "options": [
+      {
+        "label": "熬三个周末做 PPT",
+        "hint": "通过率更高 · 健康−",
+        "effects": {
+          "health": -3,
+          "modifier": {
+            "promo": 1.3,
+            "months": 2
+          }
+        },
+        "followups": [
+          {
+            "id": "bigtech.growth.promo_result",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "随便准备",
+        "hint": "听天由命",
+        "followups": [
+          {
+            "id": "bigtech.growth.promo_result",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bigtech.growth.promo_result",
+    "path": "bigtech",
+    "seed": "晋升结果",
+    "type": "chain",
+    "age": [
+      24,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "晋升通过了，邮件只有三行，你读了十遍。",
+        "when": {
+          "flags": [
+            "promo_passed"
+          ]
+        }
+      },
+      {
+        "t": "答辩没过，老板说\"明年再冲\"，你说\"好\"。",
+        "when": {
+          "not_flags": [
+            "promo_passed"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "flags_remove": [
+        "promo_eligible"
+      ]
+    }
+  },
+  {
+    "id": "bigtech.growth.reorg",
+    "path": "bigtech",
+    "seed": "组织架构调整",
+    "type": "macro",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "chance": 0.2,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "业务线合并，你换了第三个老板，周报格式又变了。"
+      },
+      {
+        "t": "全员信说\"组织升级\"，你的部门名字多了两个字。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "bigtech.growth.internal_transfer",
+    "path": "bigtech",
+    "seed": "内部转岗",
+    "type": "choice",
+    "age": [
+      24,
+      33
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "fulltime",
+      "flags": [
+        "entity_goose_factory"
+      ]
+    },
+    "chance": 0.15,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "内部\"活水\"平台上，一个热门组在招人。"
+      },
+      {
+        "t": "隔壁组的总监私下问你，有没有兴趣过去。"
+      }
+    ],
+    "options": [
+      {
+        "label": "转过去",
+        "hint": "新业务 · 从头熟悉",
+        "effects": {
+          "ability": 2,
+          "mood": 3
+        }
+      },
+      {
+        "label": "留下",
+        "hint": "熟悉的人和事"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.growth.annual_bonus",
+    "path": "bigtech",
+    "seed": "年终奖",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "fulltime",
+      "season": "spring_festival"
+    },
+    "chance": 1,
+    "text": [
+      {
+        "t": "年终奖到账，你算了算，够付首付的零头。",
+        "when": {
+          "not_flags": [
+            "low_perf"
+          ]
+        }
+      },
+      {
+        "t": "年终奖那天，群里在晒截图，你的账户没有动静。",
+        "when": {
+          "flags": [
+            "low_perf"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "money": "3*monthly"
+    }
+  },
+  {
+    "id": "bigtech.growth.stock_vest",
+    "path": "bigtech",
+    "seed": "股票归属",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "fulltime"
+    },
+    "chance": 0.5,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "第一批股票到账，当天股价跌了 8%。",
+        "when": {
+          "scenario": "contraction"
+        }
+      },
+      {
+        "t": "股票到账，你第一次认真看了一眼公司的股价。"
+      }
+    ],
+    "effects": {
+      "money": "1*monthly"
+    }
+  },
+  {
+    "id": "bigtech.growth.headhunter",
+    "path": "bigtech",
+    "seed": "猎头电话",
+    "type": "choice",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "stat": {
+        "ability": ">=60"
+      }
+    },
+    "chance": 0.3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "猎头打来电话，开口就是\"涨薪 25%，聊聊？\""
+      },
+      {
+        "t": "领英上有个猎头连发了三条消息，最后一条是薪资范围。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去面",
+        "hint": "成功率{p}",
+        "p": "0.4 + ability/250",
+        "success": {
+          "text": "你拿到了 offer，涨了 25%。"
+        },
+        "fail": {
+          "mood": -3,
+          "text": "终面挂了，对方说\"岗位冻结\"。"
+        },
+        "followups": [
+          {
+            "id": "bigtech.growth.job_hop",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "婉拒",
+        "hint": "现在挺好"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.growth.job_hop",
+    "path": "bigtech",
+    "seed": "跳槽",
+    "type": "chain",
+    "age": [
+      24,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "你换了一张工牌，新公司的电梯比原来的慢。"
+      },
+      {
+        "t": "离职那天你把旧工牌交给 HR，新工牌在包里放了一周。"
+      }
+    ],
+    "effects": {
+      "income_mult": 1.2,
+      "mood": 3
+    }
+  },
+  {
+    "id": "bigtech.growth.farewell_dinner",
+    "path": "bigtech",
+    "seed": "同事离职饭",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "工位旁的同事走了，散伙饭上大家都说\"常联系\"。"
+      },
+      {
+        "t": "离职的同事在群里发了最后一条消息，然后头像变成了灰色。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    }
+  },
+  {
+    "id": "bigtech.growth.annual_party",
+    "path": "bigtech",
+    "seed": "年会",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "sub": "fulltime"
+    },
+    "chance": 0.5,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "年会抽中了一台扫地机器人，你给它起名叫\"组长\"。"
+      },
+      {
+        "t": "年会你什么也没抽中，倒是吃饱了。"
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "bigtech.growth.team_building",
+    "path": "bigtech",
+    "seed": "团建",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "weight": 1,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "团建爬山，老板走在最前面，你走在最后面。"
+      },
+      {
+        "t": "团建是剧本杀，你抽到了凶手，老板一直盯着你。"
+      }
+    ],
+    "effects": {
+      "social": 2
+    }
+  },
+  {
+    "id": "bigtech.growth.office_romance",
+    "path": "bigtech",
+    "seed": "同事恋爱",
+    "type": "choice",
+    "age": [
+      23,
+      32
+    ],
+    "when": {
+      "path": "bigtech",
+      "relationship": "single"
+    },
+    "chance": 0.08,
+    "once": true,
+    "text": [
+      {
+        "t": "隔壁组的同事约你下班后去吃楼下那家面。"
+      },
+      {
+        "t": "茶水间里，一个同事总是和你同时出现。"
+      }
+    ],
+    "options": [
+      {
+        "label": "去吃面",
+        "hint": "也许是个开始",
+        "effects": {
+          "flags_add": [
+            "love_candidate"
+          ],
+          "mood": 3
+        }
+      },
+      {
+        "label": "说改天",
+        "hint": "同事之间，算了"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.growth.checkup",
+    "path": "bigtech",
+    "seed": "体检",
+    "type": "daily",
+    "age": [
+      24,
+      35
+    ],
+    "when": {
+      "path": "bigtech",
+      "stat": {
+        "health": "<60"
+      }
+    },
+    "chance": 0.5,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "体检报告上第一次出现了\"结节\"两个字，你搜了一晚上。"
+      },
+      {
+        "t": "体检报告有三个向上的箭头，医生说\"少熬夜\"。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "bigtech.growth.neck",
+    "path": "bigtech",
+    "seed": "颈椎",
+    "type": "daily",
+    "age": [
+      25,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "weight": 1,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "早上醒来，脖子转不动了。"
+      },
+      {
+        "t": "你买了一个升降桌，站着写了两天代码，又坐下了。"
+      }
+    ],
+    "effects": {
+      "health": -2
+    }
+  },
+  {
+    "id": "bigtech.growth.near_office",
+    "path": "bigtech",
+    "seed": "后厂村 / 西二旗",
+    "type": "daily",
+    "age": [
+      22,
+      30
+    ],
+    "when": {
+      "path": "bigtech",
+      "city_tier": "==1"
+    },
+    "weight": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "你租在公司附近，通勤 15 分钟，房租占工资一半。"
+      },
+      {
+        "t": "早高峰的地铁站，全是和你背着同款双肩包的人。"
+      }
+    ]
+  },
+  {
+    "id": "bigtech.growth.anon_forum",
+    "path": "bigtech",
+    "seed": "脉脉",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "weight": 2,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "匿名区说你们部门要裁员，全组一整天没人说话。"
+      },
+      {
+        "t": "匿名区有人吐槽你们老板，你点了个赞，又赶紧取消了。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    }
+  },
+  {
+    "id": "bigtech.growth.slacking",
+    "path": "bigtech",
+    "seed": "摸鱼",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "上游接口还没好，你在工位上摸了一下午鱼。"
+      },
+      {
+        "t": "今天没有会，没有需求，你把收藏夹里的文章读完了。"
+      }
+    ],
+    "effects": {
+      "mood": 1
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "bigtech.growth.pua",
+    "path": "bigtech",
+    "seed": "被 PUA",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "path": "bigtech"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "老板说\"你要有 owner 意识\"，然后又给你加了个活。"
+      },
+      {
+        "t": "周会上老板说\"别人能做到，你为什么不行\"。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    },
+    "cooldown": 2
+  }
+]

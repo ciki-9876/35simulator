@@ -1,0 +1,377 @@
+[
+  {
+    "id": "whitecollar.entry.badge",
+    "path": "whitecollar",
+    "seed": "工牌和工位",
+    "type": "milestone",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar"
+    },
+    "chance": 1,
+    "once": true,
+    "text": [
+      {
+        "t": "你在{company}的工位在打印机旁边，每天都能听到它卡纸。"
+      },
+      {
+        "t": "工牌上的照片是入职那天拍的，你笑得有点僵。"
+      },
+      {
+        "t": "第一天，行政给了你一台旧电脑，桌面上还留着前任的壁纸。"
+      }
+    ],
+    "effects": {
+      "mood": 2,
+      "flags_add": [
+        "wc_badge"
+      ]
+    }
+  },
+  {
+    "id": "whitecollar.entry.rotation",
+    "path": "whitecollar",
+    "seed": "管培轮岗",
+    "type": "daily",
+    "age": [
+      22,
+      24
+    ],
+    "when": {
+      "path": "whitecollar",
+      "sub": "trainee",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 4,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "第一年你在三个部门之间轮岗，每个部门都只记住了你的姓。"
+      },
+      {
+        "t": "管培生的群里有 40 个人，第二年还剩 26 个。"
+      }
+    ],
+    "effects": {
+      "ability": 3,
+      "mood": -1
+    }
+  },
+  {
+    "id": "whitecollar.entry.first_scold",
+    "path": "whitecollar",
+    "seed": "第一次被骂",
+    "type": "daily",
+    "age": [
+      22,
+      25
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 2,
+    "once": true,
+    "text": [
+      {
+        "t": "报表里一个数字错了，领导在群里点了你的名。"
+      },
+      {
+        "t": "你把邮件抄送错了人，领导把你叫进会议室，门没关。"
+      }
+    ],
+    "effects": {
+      "mood": -3,
+      "ability": 1
+    }
+  },
+  {
+    "id": "whitecollar.entry.party_show",
+    "path": "whitecollar",
+    "seed": "年会节目",
+    "type": "daily",
+    "age": [
+      22,
+      25
+    ],
+    "when": {
+      "path": "whitecollar",
+      "season": "spring_festival",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 2,
+    "once": true,
+    "text": [
+      {
+        "t": "新人被安排表演年会节目，你们排练了三个晚上，抽奖抽中了一个电饭煲。"
+      },
+      {
+        "t": "年会上你穿着玩偶服跳了一支舞，老板说\"年轻人就是有活力\"。"
+      }
+    ],
+    "effects": {
+      "mood": 1,
+      "social": 2
+    }
+  },
+  {
+    "id": "whitecollar.daily.blame",
+    "path": "whitecollar",
+    "seed": "背锅",
+    "type": "chain",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "chance": 0.15,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "项目延期，周报里写的原因是\"执行层沟通不到位\"，执行层就是你。"
+      },
+      {
+        "t": "客户投诉了，复盘会上所有人都看向了你。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "whitecollar.daily.ppt",
+    "path": "whitecollar",
+    "seed": "汇报 PPT",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "为了一个 10 分钟的汇报，你改了 23 版 PPT，最后领导用的是第 3 版。"
+      },
+      {
+        "t": "领导说\"字再大一点，颜色再高级一点\"，你对着屏幕坐到了十点。"
+      }
+    ],
+    "effects": {
+      "mood": -1,
+      "ability": 1
+    }
+  },
+  {
+    "id": "whitecollar.daily.reimburse",
+    "path": "whitecollar",
+    "seed": "报销",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 1,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "一张发票抬头写错了，报销被退回三次。"
+      },
+      {
+        "t": "出差垫的钱拖了两个月才报下来，财务说\"流程就是这样\"。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    }
+  },
+  {
+    "id": "whitecollar.daily.colleague_wedding",
+    "path": "whitecollar",
+    "seed": "同事结婚",
+    "type": "daily",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 1,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "同事结婚，部门群里接龙随份子，你跟着写了 600。"
+      },
+      {
+        "t": "隔壁组的同事发喜糖，你才知道她要结婚了。"
+      }
+    ],
+    "effects": {
+      "money": "-0.15*living",
+      "social": 1
+    }
+  },
+  {
+    "id": "whitecollar.daily.mentor",
+    "path": "whitecollar",
+    "seed": "带新人",
+    "type": "daily",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "level": ">=2",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "你开始带实习生，对方叫你\"老师\"，你有点不习惯。"
+      },
+      {
+        "t": "新来的同事问你一个问题，你发现那是三年前的你也问过的。"
+      }
+    ],
+    "effects": {
+      "social": 2,
+      "mood": 1
+    }
+  },
+  {
+    "id": "whitecollar.daily.trip",
+    "path": "whitecollar",
+    "seed": "出差",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "role": "sales",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 3,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "一年住了 80 晚酒店，攒下的积分够免费住一晚。"
+      },
+      {
+        "t": "高铁上你打开电脑改方案，邻座的小孩看了你一路。"
+      },
+      {
+        "t": "出差回来，对象说你上次在家吃晚饭是三周前。",
+        "when": {
+          "relationship": [
+            "dating",
+            "married"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "mood": -2,
+      "social": 1,
+      "money": "0.3*living"
+    }
+  },
+  {
+    "id": "whitecollar.daily.checkup",
+    "path": "whitecollar",
+    "seed": "体检",
+    "type": "daily",
+    "age": [
+      26,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "role": "sales",
+      "flags": [
+        "wc_badge"
+      ]
+    },
+    "weight": 2,
+    "once": true,
+    "text": [
+      {
+        "t": "单位体检，报告上第一次出现了\"脂肪肝\"三个字。"
+      },
+      {
+        "t": "体检报告上有五个箭头，你把它压在了抽屉最下面。"
+      }
+    ],
+    "effects": {
+      "health": -3,
+      "mood": -1
+    }
+  },
+  {
+    "id": "whitecollar.echo.age30",
+    "path": "whitecollar",
+    "seed": "30 岁的会",
+    "type": "echo",
+    "age": [
+      30,
+      34
+    ],
+    "when": {
+      "path": "whitecollar",
+      "flags": [
+        "wc_private",
+        "wc_badge"
+      ]
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "开周会时你发现，会议室里你已经是年纪最大的那个。"
+      },
+      {
+        "t": "新来的同事是 2000 年后出生的，叫你\"哥\"\"姐\"，叫得很自然。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  }
+]

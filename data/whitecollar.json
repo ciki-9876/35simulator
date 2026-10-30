@@ -1,0 +1,18 @@
+{
+  "_note": "企业白领路径的公司和岗位【设计】。每次进入白领路径或跳槽，引擎按权重抽一种公司类型（设置标记 wc_private / wc_foreign / wc_soe）、一个岗位和一个生成的公司名。被裁概率写在 events/whitecollar/crisis.json 的公式里：民企每年约 3%，外企约 2%，国企约 0.5%（research/paths/whitecollar.md 第 4 节）。公司名是生成的，不对应真实企业。",
+  "types": {
+    "private": { "weight": 0.6, "label": "民企" },
+    "foreign": { "weight": 0.15, "label": "外企" },
+    "soe": { "weight": 0.25, "label": "国企" }
+  },
+  "roles": { "admin": 3, "finance": 2, "sales": 3, "product": 1, "dev": 1, "buyer": 1 },
+  "trainee": { "_note": "211、985 或海外名校的应届生，有这个比例以管培生入职，两年后转为普通职员", "share": 0.3, "school_tier": 3, "until_age": 24 },
+  "names": {
+    "prefix": ["星达", "恒远", "华信", "博瑞", "嘉禾", "鼎盛", "宏图", "汇通", "天成", "瑞丰", "联创", "启明", "新纪", "安泰", "长青", "众合"],
+    "suffix": {
+      "private": ["科技", "网络", "商贸", "传媒", "实业", "咨询"],
+      "foreign": ["（中国）", "中国区", "亚太"],
+      "soe": ["集团", "控股", "投资", "建设"]
+    }
+  }
+}

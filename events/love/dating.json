@@ -1,0 +1,480 @@
+[
+  {
+    "id": "love.start.grad_breakup",
+    "domain": "love",
+    "seed": "毕业分手",
+    "type": "chain",
+    "age": [
+      22,
+      22
+    ],
+    "when": {
+      "relationship": "dating"
+    },
+    "chance": 0.45,
+    "once": true,
+    "text": [
+      {
+        "t": "毕业那天，你们在火车站说了\"保持联系\"，后来真的只是保持联系。"
+      },
+      {
+        "t": "一个去了南方，一个留在北方。分开的第三个月，你们谁也没再打电话。"
+      }
+    ],
+    "effects": {
+      "relationship": "single",
+      "mood": -10
+    }
+  },
+  {
+    "id": "love.start.long_distance",
+    "domain": "love",
+    "seed": "异地恋",
+    "type": "daily",
+    "age": [
+      22,
+      26
+    ],
+    "when": {
+      "relationship": "dating",
+      "not_flags": [
+        "cohabiting"
+      ]
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "每周五晚上的高铁，你坐了一年，乘务员都认识你了。"
+      },
+      {
+        "t": "视频通话开着，你们各自加班，谁也没说话，但谁也没挂。"
+      }
+    ],
+    "effects": {
+      "money": "-0.3*living",
+      "mood": -1
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "love.meet.crush",
+    "domain": "love",
+    "seed": "心动",
+    "type": "choice",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "relationship": "single"
+    },
+    "chance": "0.18 + 0.15*social/100",
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "一个人让你心动。你翻完了对方三年的朋友圈。"
+      },
+      {
+        "t": "公司楼下的咖啡店，你们第三次拿错了对方的杯子。"
+      },
+      {
+        "t": "朋友聚会上坐你旁边的人，散场时问你要了微信。"
+      }
+    ],
+    "options": [
+      {
+        "label": "试试",
+        "hint": "也许会受伤",
+        "p": "0.5 + social/200",
+        "success": {
+          "relationship": "dating",
+          "mood": 8,
+          "text": "你们开始在一起了。"
+        },
+        "fail": {
+          "mood": -4,
+          "text": "对方说，还是做朋友吧。"
+        },
+        "followups": [
+          {
+            "id": "love.meet.first_date",
+            "delay": 0
+          }
+        ],
+        "auto": 1.5
+      },
+      {
+        "label": "算了",
+        "hint": "现在没精力",
+        "effects": {
+          "mood": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "love.meet.first_date",
+    "domain": "love",
+    "seed": "第一次约会",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "relationship": "dating"
+    },
+    "text": [
+      {
+        "t": "你提前半小时到了餐厅，把菜单看了三遍。"
+      },
+      {
+        "t": "看完电影你们走了两站地，谁也没提打车。"
+      }
+    ],
+    "effects": {
+      "mood": 3
+    }
+  },
+  {
+    "id": "love.blind.ask",
+    "domain": "love",
+    "seed": "相亲",
+    "type": "choice",
+    "age": [
+      25,
+      34
+    ],
+    "when": {
+      "relationship": "single"
+    },
+    "chance": "0.15 + 0.05*city_tier",
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "母亲安排了一场相亲，说\"人家条件很好，你去见见\"。"
+      },
+      {
+        "t": "小姨发来一张照片和一串介绍：工作稳定，父母都是老师。"
+      },
+      {
+        "t": "老家的亲戚说，县城里和你同龄的人都结婚了。",
+        "when": {
+          "city_tier": ">=4"
+        }
+      }
+    ],
+    "options": [
+      {
+        "label": "去",
+        "hint": "见一面也不会怎样",
+        "p": 0.35,
+        "success": {
+          "relationship": "dating",
+          "mood": 5,
+          "text": "聊得比想象中好，你们约了第二次。"
+        },
+        "fail": {
+          "mood": -2,
+          "text": "吃完饭，对方没再回消息。"
+        },
+        "followups": [
+          {
+            "id": "love.blind.scene",
+            "delay": 0
+          }
+        ],
+        "auto": 1.5
+      },
+      {
+        "label": "不去",
+        "hint": "母亲会不高兴",
+        "effects": {
+          "mood": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "love.blind.scene",
+    "domain": "love",
+    "seed": "相亲现场",
+    "type": "daily",
+    "age": [
+      25,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "对方第一句话问你\"有房吗\"。"
+      },
+      {
+        "t": "对方带着一张表格来的，上面列着学历、收入和父母的退休金。"
+      },
+      {
+        "t": "你们发现彼此都是被家里逼来的，于是一起骂了半小时相亲。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    }
+  },
+  {
+    "id": "love.together.breakup",
+    "domain": "love",
+    "seed": "分手",
+    "type": "chain",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "relationship": "dating"
+    },
+    "chance": "0.06 + 0.08*max(0, 50 - mood)/50",
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "你们在一次很平常的晚饭后分了手，谁也没有哭。"
+      },
+      {
+        "t": "对方说\"我们想要的东西不一样\"，你想了一夜，觉得对方说得对。"
+      },
+      {
+        "t": "分手后你把合租的东西分成两份，发现大部分是一起买的。",
+        "when": {
+          "flags": [
+            "cohabiting"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "relationship": "single",
+      "mood": -12,
+      "flags_remove": [
+        "cohabiting",
+        "met_parents",
+        "wed_agreed",
+        "wants_home"
+      ]
+    }
+  },
+  {
+    "id": "love.together.cohabit",
+    "domain": "love",
+    "seed": "同居",
+    "type": "choice",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "relationship": "dating",
+      "not_flags": [
+        "cohabiting"
+      ],
+      "living": [
+        "with_parents",
+        "shared",
+        "rent"
+      ]
+    },
+    "chance": 0.25,
+    "text": [
+      {
+        "t": "你们算了算两份房租，有人提议：要不要搬到一起住？"
+      },
+      {
+        "t": "对方的牙刷已经在你那儿放了半年。"
+      }
+    ],
+    "options": [
+      {
+        "label": "搬到一起",
+        "hint": "房租分一半，生活混在一起",
+        "effects": {
+          "flags_add": [
+            "cohabiting"
+          ],
+          "living": "rent",
+          "mood": 4
+        }
+      },
+      {
+        "label": "再等等",
+        "hint": "各自留一点空间",
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "love.together.meet_parents",
+    "domain": "love",
+    "seed": "见家长",
+    "type": "milestone",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "relationship": "dating",
+      "not_flags": [
+        "met_parents"
+      ]
+    },
+    "chance": "0.25 + 0.05*city_tier",
+    "text": [
+      {
+        "t": "第一次去对方家，你买了四样礼物，还是被说\"太客气了\"。"
+      },
+      {
+        "t": "对方的父亲给你夹了一筷子菜，问你\"一个月挣多少\"。"
+      }
+    ],
+    "effects": {
+      "flags_add": [
+        "met_parents"
+      ],
+      "money": "-0.5*living",
+      "mood": 2
+    }
+  },
+  {
+    "id": "love.public.bonus",
+    "domain": "love",
+    "seed": "相亲加分",
+    "type": "chain",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "path": "public",
+      "relationship": "single"
+    },
+    "chance": 0.4,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "媒人听说你\"在单位上班\"，一周内介绍了三个人。"
+      },
+      {
+        "t": "上岸以后，七大姑八大姨的相亲名单突然变长了。"
+      }
+    ],
+    "followups": [
+      {
+        "id": "love.blind.ask",
+        "delay": 0
+      }
+    ]
+  },
+  {
+    "id": "love.public.insist",
+    "domain": "love",
+    "seed": "一定要体制内",
+    "type": "choice",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "path": "public",
+      "relationship": [
+        "single",
+        "dating"
+      ]
+    },
+    "chance": 0.2,
+    "once": true,
+    "text": [
+      {
+        "t": "母亲说，对象最好也是体制内的，\"两个人都稳定，日子才稳\"。"
+      },
+      {
+        "t": "饭桌上父亲说，你们单位里有没有合适的？"
+      }
+    ],
+    "options": [
+      {
+        "label": "听母亲的",
+        "hint": "范围小一点，家里放心",
+        "effects": {
+          "mood": -2,
+          "social": 1
+        }
+      },
+      {
+        "label": "不听",
+        "hint": "喜欢谁和在哪上班没关系",
+        "effects": {
+          "mood": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "love.daily.weekend",
+    "domain": "love",
+    "seed": "一起过周末",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "relationship": [
+        "dating",
+        "married"
+      ]
+    },
+    "weight": 2,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "周六早上谁也没定闹钟，你们在菜市场逛了一上午，买了一条鱼。"
+      },
+      {
+        "t": "你们窝在沙发上看完了一整季的剧，外卖盒堆在茶几上。"
+      },
+      {
+        "t": "孩子睡着以后，你们在阳台上分了一罐啤酒。",
+        "when": {
+          "kids": ">=1"
+        }
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "love.daily.single_weekend",
+    "domain": "love",
+    "seed": "一个人的周末",
+    "type": "daily",
+    "age": [
+      25,
+      34
+    ],
+    "when": {
+      "relationship": "single"
+    },
+    "weight": 1,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "一个人的周末：睡到自然醒，看一场午场电影，没有人问你什么时候结婚。"
+      },
+      {
+        "t": "你报了一个陶艺班，捏坏了三个杯子，第四个能用。"
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  }
+]

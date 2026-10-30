@@ -1,0 +1,846 @@
+[
+  {
+    "id": "crime.case.summoned",
+    "path": "crime",
+    "seed": "被传唤",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你接到派出所电话，让你明天去一趟。"
+      },
+      {
+        "t": "两个民警在楼下等你，说\"跟我们走一趟，配合调查\"。"
+      }
+    ],
+    "effects": {
+      "mood": -15,
+      "module_end": "latent_risk"
+    },
+    "followups": [
+      {
+        "id": "crime.case.tell_family",
+        "delay": 0,
+        "chance": 1
+      },
+      {
+        "id": "crime.case.bail",
+        "delay": 0,
+        "chance": 0.7
+      },
+      {
+        "id": "crime.case.fired",
+        "delay": 0,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "crime.case.surrender",
+    "path": "crime",
+    "seed": "主动投案",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "module": "latent_risk"
+    },
+    "chance": 0.3,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你查到一句话：越早投案，越可能从轻。"
+      },
+      {
+        "t": "你在派出所门口来回走了三趟。"
+      }
+    ],
+    "help": [
+      "legal_aid_12348"
+    ],
+    "options": [
+      {
+        "label": "去投案",
+        "hint": "判决可能轻一档",
+        "effects": {
+          "flags_add": [
+            "surrendered"
+          ]
+        },
+        "followups": [
+          {
+            "id": "crime.case.summoned",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "再等等",
+        "hint": "也许不会被发现",
+        "effects": {
+          "mood": -5
+        }
+      }
+    ]
+  },
+  {
+    "id": "crime.case.tell_family",
+    "path": "crime",
+    "seed": "告诉家里",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你从派出所出来，手机上有母亲的两个未接来电。"
+      },
+      {
+        "t": "律师说要准备钱，你不知道这笔钱从哪来。"
+      }
+    ],
+    "options": [
+      {
+        "label": "告诉父母",
+        "hint": "他们迟早会知道",
+        "followups": [
+          {
+            "id": "crime.case.parents_react",
+            "delay": 0,
+            "chance": 1
+          }
+        ]
+      },
+      {
+        "label": "瞒着",
+        "hint": "自己扛",
+        "effects": {
+          "mood": -8
+        }
+      }
+    ]
+  },
+  {
+    "id": "crime.case.parents_react",
+    "path": "crime",
+    "seed": "父母的反应",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "母亲在电话那头很久没说话，然后问你\"吃饭了没\"。"
+      },
+      {
+        "t": "父亲连夜坐车赶来，见面第一句话是\"先把事情处理好\"。"
+      }
+    ],
+    "effects": {
+      "mood": 3
+    }
+  },
+  {
+    "id": "crime.case.bail",
+    "path": "crime",
+    "seed": "取保",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你被取保候审，每个月要去报到。"
+      },
+      {
+        "t": "签完取保的文书，你第一次仔细读了上面的每一条规定。"
+      }
+    ],
+    "fact": {
+      "text": "取保候审期间，未经批准不得离开所居住的市、县",
+      "source": "law_cpl_71"
+    },
+    "effects": {
+      "module_start": "bail"
+    },
+    "followups": [
+      {
+        "id": "crime.case.verdict",
+        "delay": 1,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "crime.case.fired",
+    "path": "crime",
+    "seed": "被开除",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "not_path": [
+        "unemployed",
+        "flat"
+      ]
+    },
+    "review": "legal",
+    "text": [
+      {
+        "t": "公司以\"严重违纪\"解除了合同。"
+      },
+      {
+        "t": "HR 发来一封邮件，附件是解除劳动合同通知书。"
+      }
+    ],
+    "effects": {
+      "path": "unemployed",
+      "exit_reason": "fired"
+    }
+  },
+  {
+    "id": "crime.case.verdict",
+    "path": "crime",
+    "seed": "判决",
+    "type": "milestone",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "宣判那天，你听清的只有刑期。"
+      },
+      {
+        "t": "法官念判决书念了二十分钟，你记住的只有最后一句。"
+      }
+    ],
+    "effects": {
+      "record": "criminal",
+      "module_end": "bail",
+      "mood": -10
+    },
+    "followups": [
+      {
+        "id": "crime.case.probation",
+        "delay": 0,
+        "chance": 0.5
+      },
+      {
+        "id": "crime.prison.first_month",
+        "delay": 0,
+        "chance": 0.5
+      },
+      {
+        "id": "crime.case.restitution",
+        "delay": 0,
+        "chance": 0.8
+      }
+    ]
+  },
+  {
+    "id": "crime.case.probation",
+    "path": "crime",
+    "seed": "缓刑",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "判了缓刑，你走出法院，阳光很刺眼。"
+      },
+      {
+        "t": "缓刑考验期里，你每个月都要去司法所报到。"
+      }
+    ],
+    "effects": {
+      "module_start": "probation",
+      "mood": 5,
+      "path": "unemployed"
+    }
+  },
+  {
+    "id": "crime.case.restitution",
+    "path": "crime",
+    "seed": "退赃",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你把存款都拿出来退赃，还向家里借了钱。"
+      },
+      {
+        "t": "退赃、罚金加在一起，比你那几个月拿到的多得多。"
+      }
+    ],
+    "effects": {
+      "money": "-0.8*income",
+      "mood": -5
+    }
+  },
+  {
+    "id": "crime.prison.first_month",
+    "path": "crime",
+    "seed": "第一个月",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你学会了按时起床、按时熄灯。"
+      },
+      {
+        "t": "第一个月，你每天都在数还剩多少天。"
+      }
+    ],
+    "effects": {
+      "path": "crime",
+      "sub": "prison",
+      "mood": -10
+    },
+    "followups": [
+      {
+        "id": "crime.prison.visit",
+        "delay": 0,
+        "chance": 1
+      },
+      {
+        "id": "crime.prison.letter",
+        "delay": 0,
+        "chance": 0.6
+      },
+      {
+        "id": "crime.prison.skill",
+        "delay": 1,
+        "chance": 0.7
+      },
+      {
+        "id": "crime.prison.partner",
+        "delay": 0,
+        "chance": 1
+      },
+      {
+        "id": "crime.release.out",
+        "delay": 2,
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "crime.prison.visit",
+    "path": "crime",
+    "seed": "探视",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "父亲来探视，隔着玻璃，他头发白了一半。"
+      },
+      {
+        "t": "母亲每次来都只说家里的事，从不问你在里面怎么样。"
+      }
+    ],
+    "effects": {
+      "mood": 3
+    }
+  },
+  {
+    "id": "crime.prison.letter",
+    "path": "crime",
+    "seed": "室友的信",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "roommate": {
+        "close": ">=50"
+      }
+    },
+    "review": "legal",
+    "text": [
+      {
+        "t": "收到{name}写来的信，只有一页，最后写\"出来请你喝酒\"。"
+      },
+      {
+        "t": "{name}寄来一张宿舍四个人的合照，背面写着日期。"
+      }
+    ],
+    "effects": {
+      "mood": 6,
+      "roommate_close": 10
+    }
+  },
+  {
+    "id": "crime.prison.skill",
+    "path": "crime",
+    "seed": "学手艺",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你在里面学会了电工，考了证。"
+      },
+      {
+        "t": "你在里面学会了做饭，第一次觉得自己有一门手艺。"
+      }
+    ],
+    "effects": {
+      "ability": 3,
+      "flags_add": [
+        "prison_skill"
+      ]
+    }
+  },
+  {
+    "id": "crime.prison.partner",
+    "path": "crime",
+    "seed": "伴侣",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "relationship": [
+        "dating",
+        "married"
+      ]
+    },
+    "review": "legal",
+    "text": [
+      {
+        "t": "伴侣在探视时说\"我们分开吧\"，你点了点头。",
+        "when": {
+          "stat": {
+            "social": "<50"
+          }
+        }
+      },
+      {
+        "t": "伴侣说会等你，每个月寄来一封信。",
+        "when": {
+          "stat": {
+            "social": ">=50"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "crime.release.out",
+    "path": "crime",
+    "seed": "出狱",
+    "type": "milestone",
+    "age": [
+      23,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "你走出大门，手机已经换了两代。"
+      },
+      {
+        "t": "门外站着父亲，手里拿着一件新外套。"
+      }
+    ],
+    "effects": {
+      "path": "unemployed",
+      "flags_add": [
+        "released"
+      ],
+      "mood": 5
+    }
+  },
+  {
+    "id": "crime.release.no_record_cert",
+    "path": "crime",
+    "seed": "无犯罪记录证明",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "record": "criminal",
+      "flags": [
+        "job_seeking"
+      ]
+    },
+    "weight": 3,
+    "cooldown": 1,
+    "review": "legal",
+    "text": [
+      {
+        "t": "招聘要求提交无犯罪记录证明，你关掉了页面。"
+      },
+      {
+        "t": "一家公司的入职清单上第三项是\"无犯罪记录证明\"。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "crime.release.disclose",
+    "path": "crime",
+    "seed": "如实报告",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "record": "criminal",
+      "flags": [
+        "interviewing",
+        "released"
+      ]
+    },
+    "chance": 0.5,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "面试快结束时，老板问你\"之前几年在做什么\"。"
+      },
+      {
+        "t": "你想起律师说过：入伍、就业时要如实报告受过的刑事处罚。"
+      }
+    ],
+    "options": [
+      {
+        "label": "说出来",
+        "hint": "成功率{p}",
+        "p": 0.25,
+        "success": {
+          "path": "service",
+          "mood": 8,
+          "text": "老板说\"我不管你以前，好好干就行\"。"
+        },
+        "fail": {
+          "mood": -5,
+          "text": "老板客气地把你送到了门口。"
+        }
+      },
+      {
+        "label": "不说",
+        "hint": "背调可能会查到",
+        "p": 0.3,
+        "success": {
+          "path": "service",
+          "flags_add": [
+            "record_hidden"
+          ],
+          "text": "你入职了，但每次 HR 叫你都心里一紧。"
+        },
+        "fail": {
+          "mood": -8,
+          "text": "入职第二周，你被叫进了办公室。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "crime.release.second_chance",
+    "path": "crime",
+    "seed": "愿意给机会的老板",
+    "type": "chain",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "record": "criminal",
+      "path": "unemployed",
+      "flags": [
+        "released"
+      ]
+    },
+    "chance": 0.1,
+    "cooldown": 1,
+    "review": "legal",
+    "text": [
+      {
+        "t": "一个小餐馆老板说\"我不管你以前，好好干就行\"。"
+      },
+      {
+        "t": "修车铺的老师傅看了你考的电工证，说\"明天来吧\"。",
+        "when": {
+          "flags": [
+            "prison_skill"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "path": "service",
+      "mood": 10
+    }
+  },
+  {
+    "id": "crime.release.dorm_group",
+    "path": "crime",
+    "seed": "宿舍群",
+    "type": "daily",
+    "age": [
+      23,
+      35
+    ],
+    "when": {
+      "flags": [
+        "released"
+      ],
+      "roommate": {
+        "close": ">=30"
+      }
+    },
+    "chance": 0.6,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你重新进了宿舍群，大家都没提那几年。"
+      },
+      {
+        "t": "{name}把你拉回群里，第一条消息是\"欢迎回来\"。"
+      }
+    ],
+    "effects": {
+      "mood": 5
+    }
+  },
+  {
+    "id": "crime.release.civil_closed",
+    "path": "crime",
+    "seed": "考公无缘",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "record": "criminal"
+    },
+    "chance": 0.2,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "家乡在招公务员，你知道这条路已经关了。"
+      },
+      {
+        "t": "母亲转来一份招考公告，又撤回了。"
+      }
+    ],
+    "fact": {
+      "text": "因犯罪受过刑事处罚的，不得录用为公务员",
+      "source": "law_csl_26"
+    },
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "crime.release.sealed",
+    "path": "crime",
+    "seed": "治安处罚被封存",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "record": "sealed",
+      "year": ">=2026"
+    },
+    "chance": 0.5,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你查到那次治安处罚的记录已经封存，松了口气。"
+      },
+      {
+        "t": "律师告诉你，治安处罚和刑事前科不一样。"
+      }
+    ],
+    "fact": {
+      "text": "2026 年起治安违法记录依法封存，不得向单位和个人提供",
+      "source": "law_psa_136",
+      "year": 2026
+    },
+    "effects": {
+      "mood": 4
+    }
+  },
+  {
+    "id": "crime.release.relapse",
+    "path": "crime",
+    "seed": "复吸 / 复赌",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "flags": [
+        "module_quit"
+      ],
+      "stat": {
+        "mood": "<35"
+      }
+    },
+    "chance": 0.2,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你又碰了，那天晚上你没敢回家。"
+      },
+      {
+        "t": "戒了一年多，一个坏消息之后，你又打开了那个 App。"
+      }
+    ],
+    "help": [
+      "hotline_12356"
+    ],
+    "effects": {
+      "mood": -10,
+      "flags_remove": [
+        "module_quit"
+      ]
+    }
+  },
+  {
+    "id": "crime.release.restart",
+    "path": "crime",
+    "seed": "重新开始",
+    "type": "echo",
+    "age": [
+      35,
+      35
+    ],
+    "when": {
+      "record": "criminal"
+    },
+    "chance": 1,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "35 岁生日，你想起那年在派出所的那个晚上。"
+      },
+      {
+        "t": "35 岁生日，你给自己做了一碗面，想起出来那天父亲手里的外套。"
+      }
+    ]
+  },
+  {
+    "id": "crime.case.admin_penalty_pyramid",
+    "path": "crime",
+    "seed": "被传唤",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "review": "legal",
+    "text": [
+      {
+        "t": "警察来了，屋里十几个人都被带走，你被行政拘留了几天。"
+      },
+      {
+        "t": "你被处以治安拘留，出来那天才拿回手机，里面全是家里的未接来电。"
+      }
+    ],
+    "effects": {
+      "record": "sealed",
+      "mood": -8
+    }
+  },
+  {
+    "id": "crime.case.admin_penalty_gambling",
+    "path": "crime",
+    "seed": "被传唤",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "when": {
+      "module": "gambling"
+    },
+    "chance": 0.05,
+    "once": true,
+    "review": "legal",
+    "text": [
+      {
+        "t": "你在一次赌局里被查，罚了款，行政拘留了几天。"
+      },
+      {
+        "t": "派出所的电话打来，说你涉嫌参与赌博，让你过去一趟。"
+      }
+    ],
+    "help": [
+      "hotline_12356"
+    ],
+    "effects": {
+      "record": "sealed",
+      "mood": -8,
+      "money": "-0.1*income"
+    }
+  }
+]

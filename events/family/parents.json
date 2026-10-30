@@ -1,0 +1,449 @@
+[
+  {
+    "id": "family.parents.checkup",
+    "domain": "family",
+    "seed": "体检报告",
+    "type": "daily",
+    "age": [
+      26,
+      34
+    ],
+    "when": {
+      "parent_age": ">=55"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "你第一次帮父母看体检报告，上面有三个向上的箭头。"
+      },
+      {
+        "t": "父亲的体检报告上写着\"建议复查\"，他说\"不用，医生就爱吓人\"。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    },
+    "cooldown": 3
+  },
+  {
+    "id": "family.parents.ill",
+    "domain": "family",
+    "seed": "父母生病",
+    "type": "chain",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "parent_age": ">=55"
+    },
+    "chance": "0.01 + max(0, 70 - parent_health) * 0.006",
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "父亲住院了，你连夜坐车回家。"
+      },
+      {
+        "t": "母亲在电话里说\"没什么大事\"，第二天你才知道她已经住院一周了。"
+      }
+    ],
+    "fact": {
+      "text": "2025 年末全国 60 岁及以上人口 32,338 万，占 23.0%",
+      "source": "nbs_aging_2025",
+      "year": 2026
+    },
+    "effects": {
+      "mood": -10,
+      "parent_health": -8,
+      "flags_add": [
+        "parent_ill"
+      ]
+    },
+    "followups": [
+      {
+        "id": "family.parents.bill",
+        "delay": 0
+      },
+      {
+        "id": "family.parents.ward",
+        "delay": 0,
+        "chance": 0.6
+      },
+      {
+        "id": "family.parents.alone",
+        "delay": 0
+      }
+    ]
+  },
+  {
+    "id": "family.parents.bill",
+    "domain": "family",
+    "seed": "医药费",
+    "type": "choice",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "医生说要做手术，医保报销之后，自付部分还要好几万。"
+      },
+      {
+        "t": "缴费单上的数字比你一个季度的工资还多。"
+      }
+    ],
+    "options": [
+      {
+        "label": "你来出",
+        "hint": "存款少一大块",
+        "effects": {
+          "money": "-max(20000, 0.2*income)",
+          "mood": -2
+        }
+      },
+      {
+        "label": "兄弟姐妹分摊",
+        "hint": "一人一半",
+        "unlock": {
+          "not_flags": [
+            "only_child"
+          ]
+        },
+        "effects": {
+          "money": "-max(10000, 0.1*income)",
+          "mood": -1
+        }
+      },
+      {
+        "label": "先刷信用卡",
+        "hint": "先垫上，慢慢还",
+        "effects": {
+          "money": "-max(20000, 0.2*income)",
+          "module_start": "debt",
+          "mood": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "family.parents.ward",
+    "domain": "family",
+    "seed": "陪护",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "你在病房的折叠床上睡了一周，护士都认识你了。"
+      },
+      {
+        "t": "你一边在病床边陪护，一边在手机上回工作群的消息。"
+      }
+    ],
+    "effects": {
+      "health": -3,
+      "mood": -3,
+      "money": "-0.5*living"
+    }
+  },
+  {
+    "id": "family.parents.alone",
+    "domain": "family",
+    "seed": "一个人扛",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "flags": [
+        "only_child"
+      ]
+    },
+    "text": [
+      {
+        "t": "你是独生子女，所有的事都只能你来：签字、缴费、和医生谈话。"
+      },
+      {
+        "t": "手术同意书上\"家属\"那一栏，只有你一个名字。"
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "family.parents.move_in",
+    "domain": "family",
+    "seed": "接来同住",
+    "type": "choice",
+    "age": [
+      26,
+      34
+    ],
+    "when": {
+      "flags": [
+        "parent_ill"
+      ],
+      "parent_age": ">=60",
+      "living": [
+        "rent",
+        "own"
+      ]
+    },
+    "chance": 0.3,
+    "once": true,
+    "text": [
+      {
+        "t": "父亲出院后，母亲一个人照顾他越来越吃力。"
+      },
+      {
+        "t": "母亲在电话里说\"我们俩挺好的\"，背景里是父亲的咳嗽声。"
+      }
+    ],
+    "options": [
+      {
+        "label": "接到身边",
+        "hint": "家里挤一点，心里踏实",
+        "effects": {
+          "parent_health": 5,
+          "mood": -2,
+          "flags_add": [
+            "parents_live_with"
+          ]
+        }
+      },
+      {
+        "label": "留在老家",
+        "hint": "每周打两次电话",
+        "effects": {
+          "mood": -3
+        }
+      },
+      {
+        "label": "回老家",
+        "hint": "工作要重新找",
+        "effects": {
+          "parent_health": 5,
+          "mood": 2,
+          "flags_add": [
+            "moved_home"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "family.parents.downpay",
+    "domain": "family",
+    "seed": "首付支援",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "when": {
+      "flags": [
+        "parents_helped"
+      ]
+    },
+    "text": [
+      {
+        "t": "父母把积蓄拿出来给你付首付，你看到了存折上的数字。"
+      },
+      {
+        "t": "父亲转账的备注写着\"买房\"，那是他们攒了二十年的钱。"
+      }
+    ],
+    "effects": {
+      "mood": 2
+    }
+  },
+  {
+    "id": "family.care.need",
+    "domain": "family",
+    "seed": "家里需要人",
+    "type": "choice",
+    "age": [
+      24,
+      34
+    ],
+    "when": {
+      "flags": [
+        "parent_ill"
+      ],
+      "not_path": [
+        "flat",
+        "crime"
+      ]
+    },
+    "chance": "max(0, 40 - parent_health) * 0.02",
+    "once": true,
+    "text": [
+      {
+        "t": "父亲中风了，出院后需要人照顾，母亲一个人抱不动他。"
+      },
+      {
+        "t": "医生说接下来半年是康复的关键期，家里必须有人。"
+      }
+    ],
+    "options": [
+      {
+        "label": "辞职回家",
+        "hint": "收入没了，陪在身边",
+        "effects": {
+          "path": "flat",
+          "sub": "carer",
+          "living": "with_parents",
+          "mood": -3
+        },
+        "followups": [
+          {
+            "id": "family.care.fulltime",
+            "delay": 0
+          }
+        ]
+      },
+      {
+        "label": "请护工",
+        "hint": "每个月一笔不小的开支",
+        "effects": {
+          "money": "-max(40000, 8*living)",
+          "mood": -2
+        }
+      },
+      {
+        "label": "接来同住",
+        "hint": "白天上班，晚上照顾",
+        "unlock": {
+          "living": [
+            "rent",
+            "own"
+          ]
+        },
+        "effects": {
+          "parent_health": 5,
+          "mood": -4,
+          "health": -2,
+          "flags_add": [
+            "parents_live_with"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "family.care.fulltime",
+    "domain": "family",
+    "seed": "全职照护",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "你辞职回了家，成了\"全职儿女\"，每天的事是陪父亲做康复。"
+      },
+      {
+        "t": "你把康复训练的动作记在本子上，一天做三遍。"
+      }
+    ],
+    "effects": {
+      "parent_health": 5
+    }
+  },
+  {
+    "id": "family.care.allowance",
+    "domain": "family",
+    "seed": "父母的工资",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "flat",
+      "sub": "carer"
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "母亲每月给你转 2000，备注写着\"工资\"。"
+      },
+      {
+        "t": "父亲的退休金卡交到了你手里，他说\"家里的钱你管\"。"
+      }
+    ],
+    "effects": {
+      "money": "3*living"
+    }
+  },
+  {
+    "id": "family.care.two_views",
+    "domain": "family",
+    "seed": "两种眼光",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "flat",
+      "sub": "carer"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "父母理解你，但亲戚背后说你\"啃老\"。"
+      },
+      {
+        "t": "楼下的阿姨夸你孝顺，转头和别人说\"可惜了，读了那么多书\"。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "family.care.after",
+    "domain": "family",
+    "seed": "父母走了以后",
+    "type": "chain",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "path": "flat",
+      "sub": "carer"
+    },
+    "chance": 0.2,
+    "once": true,
+    "text": [
+      {
+        "t": "照顾了三年，父亲走了。你第一次想，接下来做什么。"
+      },
+      {
+        "t": "父亲走后，你把他的轮椅擦干净，捐给了社区。"
+      }
+    ],
+    "effects": {
+      "path": "unemployed",
+      "mood": -15,
+      "flags_remove": [
+        "parent_ill"
+      ]
+    },
+    "help": [
+      "hotline_12356"
+    ]
+  }
+]

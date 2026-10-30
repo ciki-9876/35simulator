@@ -1,0 +1,397 @@
+[
+  {
+    "id": "housing.rent.first_room",
+    "domain": "housing",
+    "seed": "第一次找房",
+    "type": "milestone",
+    "age": [
+      22,
+      22
+    ],
+    "when": {
+      "living": "shared"
+    },
+    "chance": 0.8,
+    "once": true,
+    "text": [
+      {
+        "t": "你看了 14 套房，最后租了一间朝北的次卧，窗外是另一栋楼的墙。"
+      },
+      {
+        "t": "押一付三交完，卡里只剩几百块。你在空房间里打了一晚上地铺。",
+        "when": {
+          "city_tier": "<=2"
+        }
+      },
+      {
+        "t": "房子是学长转租的，钥匙交到你手里时，他说\"这间冬天有点冷\"。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    }
+  },
+  {
+    "id": "housing.rent.agent_fee",
+    "domain": "housing",
+    "seed": "中介费",
+    "type": "daily",
+    "age": [
+      22,
+      30
+    ],
+    "when": {
+      "living": [
+        "shared",
+        "rent"
+      ]
+    },
+    "weight": 1,
+    "text": [
+      {
+        "t": "中介费收了一个月房租，你算了算，等于白干了半个月。"
+      },
+      {
+        "t": "中介说这是\"服务费\"，服务内容是带你看了二十分钟房。"
+      }
+    ],
+    "effects": {
+      "money": "-0.6*living",
+      "mood": -1
+    },
+    "cooldown": 3
+  },
+  {
+    "id": "housing.rent.partition",
+    "domain": "housing",
+    "seed": "隔断间",
+    "type": "daily",
+    "age": [
+      22,
+      27
+    ],
+    "when": {
+      "living": "shared",
+      "city_tier": "<=2"
+    },
+    "weight": 1,
+    "text": [
+      {
+        "t": "你的房间是用石膏板隔出来的，能听到隔壁的呼吸声。"
+      },
+      {
+        "t": "隔断间没有窗户，你买了一盏模拟日光的台灯，假装早上到了。"
+      }
+    ],
+    "effects": {
+      "mood": -2,
+      "health": -1
+    }
+  },
+  {
+    "id": "housing.rent.flatmate",
+    "domain": "housing",
+    "seed": "合租室友",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "living": "shared"
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "合租的室友总在半夜洗衣服，滚筒的声音像有人在敲门。"
+      },
+      {
+        "t": "冰箱里你的酸奶又少了一盒，便利贴上的字越写越大。"
+      },
+      {
+        "t": "合租的室友搬走那天，给你留了半瓶洗洁精和一张\"保重\"。"
+      }
+    ],
+    "effects": {
+      "mood": -1
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "housing.rent.raise",
+    "domain": "housing",
+    "seed": "房东涨租",
+    "type": "choice",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "living": [
+        "shared",
+        "rent"
+      ]
+    },
+    "chance": 0.25,
+    "cooldown": 2,
+    "text": [
+      {
+        "t": "房东发来一条语音：下个月起涨 500，不租可以搬。"
+      },
+      {
+        "t": "续约前一周，房东说\"周边都涨了\"，新合同上的数字多了一截。"
+      }
+    ],
+    "options": [
+      {
+        "label": "忍了",
+        "hint": "每个月多交几百",
+        "effects": {
+          "money": "-0.8*living",
+          "mood": -2
+        }
+      },
+      {
+        "label": "讲讲价",
+        "hint": "看房东的心情",
+        "p": 0.4,
+        "success": {
+          "mood": 2,
+          "text": "房东松口了，只涨 200。"
+        },
+        "fail": {
+          "money": "-0.8*living",
+          "mood": -3,
+          "text": "房东说不租有的是人租。"
+        }
+      },
+      {
+        "label": "搬家",
+        "hint": "折腾一个月，也许离公司更远",
+        "effects": {
+          "money": "-0.5*living",
+          "mood": -3
+        },
+        "followups": [
+          {
+            "id": "housing.rent.moving",
+            "delay": 0
+          },
+          {
+            "id": "housing.rent.deposit",
+            "delay": 0,
+            "chance": 0.3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "housing.rent.landlord_sells",
+    "domain": "housing",
+    "seed": "房东卖房",
+    "type": "chain",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "living": [
+        "shared",
+        "rent"
+      ]
+    },
+    "chance": 0.05,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "房东要卖房，让你一个月内搬走，周末还有人来看房。"
+      },
+      {
+        "t": "中介带着买家进门时，你正穿着睡衣吃泡面。"
+      }
+    ],
+    "effects": {
+      "mood": -5
+    },
+    "followups": [
+      {
+        "id": "housing.rent.moving",
+        "delay": 0
+      },
+      {
+        "id": "housing.rent.deposit",
+        "delay": 0,
+        "chance": 0.3
+      }
+    ]
+  },
+  {
+    "id": "housing.rent.deposit",
+    "domain": "housing",
+    "seed": "押金",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "退租时房东以\"墙面脏了\"为由扣了一半押金。"
+      },
+      {
+        "t": "押金退回来少了八百，理由是\"床垫有压痕\"。"
+      }
+    ],
+    "effects": {
+      "money": "-0.5*living",
+      "mood": -3
+    }
+  },
+  {
+    "id": "housing.rent.moving",
+    "domain": "housing",
+    "seed": "搬家",
+    "type": "chain",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "搬家那天，你发现自己的东西比想象中多，装了二十个箱子。"
+      },
+      {
+        "t": "你叫了一辆面包车，司机帮你把最后一箱书扛上了六楼。"
+      },
+      {
+        "t": "{name}开车来帮你搬家，搬完你们在空地上吃了顿烧烤。",
+        "when": {
+          "roommate": {
+            "close": ">=60"
+          }
+        }
+      }
+    ],
+    "effects": {
+      "money": "-0.3*living",
+      "mood": -2
+    }
+  },
+  {
+    "id": "housing.rent.solo",
+    "domain": "housing",
+    "seed": "一个人住",
+    "type": "choice",
+    "age": [
+      24,
+      33
+    ],
+    "when": {
+      "living": "shared",
+      "stat": {
+        "savings_months": ">=4"
+      }
+    },
+    "chance": 0.3,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "合租的第三年，你开始想要一个自己的厨房。"
+      },
+      {
+        "t": "你在租房 App 上收藏了一套一居室，每天睡前都点开看一眼。"
+      }
+    ],
+    "options": [
+      {
+        "label": "搬出去整租",
+        "hint": "房租贵三成，门一关就是自己的",
+        "effects": {
+          "living": "rent",
+          "mood": 5
+        },
+        "followups": [
+          {
+            "id": "housing.rent.moving",
+            "delay": 0
+          }
+        ]
+      },
+      {
+        "label": "再合租一年",
+        "hint": "省下的钱攒着",
+        "effects": {
+          "mood": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "housing.rent.commute",
+    "domain": "housing",
+    "seed": "通勤",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "city_tier": "<=2",
+      "living": [
+        "shared",
+        "rent"
+      ]
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "每天来回三个小时，你在地铁上看完了一部长篇小说。"
+      },
+      {
+        "t": "早高峰你被挤在车门上，手机屏幕贴着别人的后背。"
+      },
+      {
+        "t": "你算了一下，一年里有 30 天是在路上过的。"
+      }
+    ],
+    "effects": {
+      "mood": -1,
+      "health": -1
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "housing.big.near_office",
+    "domain": "housing",
+    "seed": "公司附近",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "path": "bigtech",
+      "city_tier": "==1",
+      "living": [
+        "shared",
+        "rent"
+      ]
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "你租在{entity}附近，通勤 15 分钟，房租占了工资的一半。"
+      },
+      {
+        "t": "楼下的邻居、楼上的邻居、对门的邻居，都戴着同一款工牌。"
+      }
+    ],
+    "effects": {
+      "money": "-0.5*living",
+      "health": 1
+    }
+  }
+]

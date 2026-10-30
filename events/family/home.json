@@ -1,0 +1,358 @@
+[
+  {
+    "id": "family.start.first_salary",
+    "domain": "family",
+    "seed": "第一份工资",
+    "type": "milestone",
+    "age": [
+      22,
+      23
+    ],
+    "when": {
+      "not_path": [
+        "unemployed",
+        "exam",
+        "crime",
+        "flat"
+      ]
+    },
+    "chance": 0.7,
+    "once": true,
+    "text": [
+      {
+        "t": "你用第一份工资给母亲买了一件外套，她说太贵了，第二天就穿上了。"
+      },
+      {
+        "t": "第一份工资到账，你给父亲转了 1000，他回了一个\"收到\"，又转了回来。"
+      }
+    ],
+    "effects": {
+      "money": "-0.3*living",
+      "mood": 3
+    }
+  },
+  {
+    "id": "family.daily.video_call",
+    "domain": "family",
+    "seed": "视频电话",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "living": [
+        "shared",
+        "rent",
+        "own"
+      ]
+    },
+    "weight": 2,
+    "text": [
+      {
+        "t": "父亲学会了视频通话，每次镜头都只拍到他的额头。"
+      },
+      {
+        "t": "母亲的视频电话总在你开会的时候打来，挂断后她发来一句\"忙吧\"。"
+      }
+    ],
+    "effects": {
+      "mood": 1
+    },
+    "cooldown": 3
+  },
+  {
+    "id": "family.spring.go_home",
+    "domain": "family",
+    "seed": "回家过年",
+    "type": "choice",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "season": "spring_festival",
+      "living": [
+        "shared",
+        "rent",
+        "own"
+      ]
+    },
+    "chance": 0.35,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "腊月二十，母亲问你哪天的车票。"
+      },
+      {
+        "t": "公司群里在统计春节值班的人，你还没想好。"
+      }
+    ],
+    "options": [
+      {
+        "label": "回家",
+        "hint": "一年就这几天",
+        "effects": {
+          "money": "-0.8*living",
+          "mood": 4
+        },
+        "followups": [
+          {
+            "id": "family.spring.rush",
+            "delay": 0,
+            "chance": 0.5
+          },
+          {
+            "id": "family.spring.dinner",
+            "delay": 0,
+            "chance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "留在城市",
+        "hint": "加班费是三倍",
+        "effects": {
+          "mood": -3
+        }
+      },
+      {
+        "label": "去旅行",
+        "hint": "躲开所有的问题",
+        "effects": {
+          "money": "-1.5*living",
+          "mood": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "family.spring.rush",
+    "domain": "family",
+    "seed": "春运",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "你抢了三天票，最后买到一张站票。"
+      },
+      {
+        "t": "高铁晚点两小时，车厢里有个孩子哭了一路，你也想哭。"
+      }
+    ],
+    "effects": {
+      "mood": -2,
+      "health": -1
+    }
+  },
+  {
+    "id": "family.spring.dinner",
+    "domain": "family",
+    "seed": "年夜饭",
+    "type": "daily",
+    "age": [
+      22,
+      35
+    ],
+    "trigger": "follow",
+    "text": [
+      {
+        "t": "年夜饭桌上，父亲给你倒了一杯酒，什么也没说。"
+      },
+      {
+        "t": "亲戚挨个问你工资多少，你说\"够花\"。"
+      },
+      {
+        "t": "年夜饭桌上多了一个人，母亲一直往你对象碗里夹菜。",
+        "when": {
+          "relationship": [
+            "dating",
+            "married"
+          ]
+        }
+      }
+    ],
+    "effects": {
+      "mood": 3
+    }
+  },
+  {
+    "id": "family.push.marry",
+    "domain": "family",
+    "seed": "催婚",
+    "type": "daily",
+    "age": [
+      26,
+      34
+    ],
+    "when": {
+      "relationship": "single"
+    },
+    "chance": 0.45,
+    "cooldown": 1,
+    "text": [
+      {
+        "t": "母亲说\"隔壁家的孩子都抱上二胎了\"。"
+      },
+      {
+        "t": "父亲不催，只是在家族群里转了一篇《晚婚的十个坏处》。"
+      },
+      {
+        "t": "过了 30，母亲不再催了，只说\"你自己开心就好\"，你反而更难受。",
+        "when": {
+          "stat": {
+            "mood": "<50"
+          }
+        }
+      }
+    ],
+    "effects": {
+      "mood": -3
+    }
+  },
+  {
+    "id": "family.elder.passing",
+    "domain": "family",
+    "seed": "祖辈离世",
+    "type": "chain",
+    "age": [
+      22,
+      34
+    ],
+    "chance": 0.07,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "奶奶走了，你请了三天假回去，她房间里还留着你小时候的照片。"
+      },
+      {
+        "t": "外公走的时候你在出差，赶回去只赶上了最后一面。"
+      }
+    ],
+    "effects": {
+      "mood": -8,
+      "money": "-living"
+    },
+    "help": [
+      "hotline_12356"
+    ]
+  },
+  {
+    "id": "family.daily.siblings",
+    "domain": "family",
+    "seed": "兄弟姐妹",
+    "type": "daily",
+    "age": [
+      22,
+      34
+    ],
+    "when": {
+      "not_flags": [
+        "only_child"
+      ]
+    },
+    "weight": 1,
+    "text": [
+      {
+        "t": "你和姐姐在电话里商量谁回家照顾，最后谁也没说定。"
+      },
+      {
+        "t": "弟弟找你借钱，开口前先问了你最近好不好。"
+      }
+    ],
+    "cooldown": 3
+  },
+  {
+    "id": "family.daily.parent_phone",
+    "domain": "family",
+    "seed": "父母的手机",
+    "type": "daily",
+    "age": [
+      24,
+      34
+    ],
+    "weight": 2,
+    "text": [
+      {
+        "t": "母亲转发了一条\"养生\"文章，你没忍心说那是假的。"
+      },
+      {
+        "t": "父亲的手机内存满了，里面有两千张孙悟空表情包。"
+      }
+    ],
+    "cooldown": 4
+  },
+  {
+    "id": "family.parents.scam",
+    "domain": "family",
+    "seed": "防诈骗",
+    "type": "chain",
+    "age": [
+      23,
+      34
+    ],
+    "chance": 0.04,
+    "cooldown": 3,
+    "text": [
+      {
+        "t": "父亲差点被\"保健品讲座\"骗走两万，你及时拦下了。"
+      },
+      {
+        "t": "母亲接到\"你出事了\"的电话，打给你的时候声音在抖。"
+      }
+    ],
+    "effects": {
+      "mood": -2
+    }
+  },
+  {
+    "id": "family.daily.group",
+    "domain": "family",
+    "seed": "家族群",
+    "type": "daily",
+    "age": [
+      23,
+      34
+    ],
+    "when": {
+      "flags": [
+        "promo_passed"
+      ]
+    },
+    "weight": 3,
+    "text": [
+      {
+        "t": "家族群里有人发了你的升职截图，全群点赞。"
+      },
+      {
+        "t": "母亲在家族群里说你升职了，三姑问\"那能帮你表弟找个工作吗\"。"
+      }
+    ],
+    "effects": {
+      "mood": 1
+    }
+  },
+  {
+    "id": "family.echo.aging",
+    "domain": "family",
+    "seed": "父母变老",
+    "type": "echo",
+    "age": [
+      35,
+      35
+    ],
+    "chance": 0.7,
+    "text": [
+      {
+        "t": "35 岁生日，你发现父亲的头发全白了。"
+      },
+      {
+        "t": "35 岁生日，母亲打来电话，第一次让你帮她看一份体检报告。"
+      }
+    ]
+  }
+]
