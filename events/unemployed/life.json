@@ -141,7 +141,8 @@
     "effects": {
       "ability": 1,
       "mood": 1
-    }
+    },
+    "cooldown": 2
   },
   {
     "id": "unemployed.gap.fake_work",
@@ -336,13 +337,14 @@
         "t": "周末带两个初中生，一次 200。"
       },
       {
-        "t": "你教的学生期中考试进步了 20 分，家长送了你一箱水果。"
+        "t": "你教的学生月考进步了 20 分，家长送了你一箱水果。"
       }
     ],
     "effects": {
       "money": 800,
       "mood": 1
-    }
+    },
+    "cooldown": 1
   },
   {
     "id": "unemployed.down.flyers",
@@ -370,7 +372,8 @@
     ],
     "effects": {
       "money": 150
-    }
+    },
+    "cooldown": 2
   },
   {
     "id": "unemployed.down.move_city",
@@ -735,7 +738,8 @@
     ],
     "effects": {
       "mood": -3
-    }
+    },
+    "cooldown": 1
   },
   {
     "id": "unemployed.late.mortgage",

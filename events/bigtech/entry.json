@@ -16,7 +16,10 @@
     "weight": 3,
     "text": [
       {
-        "t": "秋招投了 80 份简历，收到 5 个笔试邀请。"
+        "t": "秋招投了 80 份简历，收到 5 个笔试邀请。",
+        "when": {
+          "season": "autumn_recruit"
+        }
       },
       {
         "t": "你把投递记录做成了表格，第 47 行终于变成了绿色。"
@@ -187,7 +190,8 @@
       "flags": [
         "signed_intent"
       ],
-      "scenario": "contraction"
+      "scenario": "contraction",
+      "season": "autumn_recruit"
     },
     "chance": 0.05,
     "once": true,
@@ -246,7 +250,8 @@
     "when": {
       "flags": [
         "entity_cat_factory"
-      ]
+      ],
+      "path": "bigtech"
     },
     "chance": 1,
     "once": true,

@@ -410,7 +410,8 @@
     ],
     "effects": {
       "mood": -2
-    }
+    },
+    "cooldown": 2
   },
   {
     "id": "family.care.after",

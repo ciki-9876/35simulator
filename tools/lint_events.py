@@ -20,8 +20,11 @@ WHEN_KEYS = {
     'path', 'not_path', 'sub', 'role', 'level', 'stat', 'flags', 'not_flags', 'module', 'not_module',
     'history_any', 'history_months', 'gap_months', 'exit_reason', 'record', 'degree', 'school_tier',
     'family_tier', 'city_tier', 'year', 'scenario', 'roommate', 'living', 'relationship', 'season',
-    'kids', 'parent_age', 'tenure',
+    'kids', 'parent_age', 'tenure', 'age',
 }
+# Seasons (calendar months) from data/timeline.json; when.season takes one name or a list.
+SEASONS = {k: v['months'] for k, v in json.load(
+    open(os.path.join(ROOT, 'data', 'timeline.json'), encoding='utf-8'))['seasons'].items() if not k.startswith('_')}
 # Sub-states in use: big tech contracts, trainee, prison, carer, gap year and the service jobs (data/service.json).
 SUBS = {'fulltime', 'outsource', 'trainee', 'prison', 'carer', 'gap'} | set(
     json.load(open(os.path.join(ROOT, 'data', 'service.json'), encoding='utf-8'))['jobs'])
@@ -79,6 +82,12 @@ def check_vars(eid, s):
             err(eid, 'unknown variable {%s}' % v)
 
 
+def season_months(v):
+    if not v:
+        return set()
+    return {m for s in (v if isinstance(v, list) else [v]) for m in SEASONS.get(s, [])}
+
+
 def check_when(eid, when):
     if not isinstance(when, dict):
         err(eid, 'when must be an object'); return
@@ -99,6 +108,10 @@ def check_when(eid, when):
             for x in (v if isinstance(v, list) else [v]):
                 if x not in RELATIONSHIPS:
                     err(eid, 'unknown relationship "%s"' % x)
+        if k == 'season':
+            for x in (v if isinstance(v, list) else [v]):
+                if x not in SEASONS:
+                    err(eid, 'unknown season "%s"' % x)
         if k == 'scenario' and v not in SCENARIOS:
             err(eid, 'unknown scenario "%s"' % v)
         if k == 'sub':
@@ -106,7 +119,7 @@ def check_when(eid, when):
                 if x not in SUBS:
                     err(eid, 'unknown sub "%s"' % x)
         if k in ('level', 'gap_months', 'degree', 'school_tier', 'family_tier', 'city_tier', 'year', 'kids',
-                 'parent_age', 'tenure') and not CMP.match(str(v)):
+                 'parent_age', 'tenure', 'age') and not CMP.match(str(v)):
             err(eid, 'bad comparison "%s" for %s' % (v, k))
         if k == 'history_months':
             for p, c in v.items():
@@ -236,6 +249,14 @@ def main():
             check_vars(eid, t.get('t', ''))
             if 'when' in t:
                 check_when(eid, t['when'])
+        # in every month the event can fire, some text variant must fit the season
+        ev_months = season_months(ev.get('when', {}).get('season')) or set(range(1, 13))
+        text_months = set()
+        for t in texts:
+            text_months |= season_months(t.get('when', {}).get('season')) or set(range(1, 13))
+        if texts and not ev_months <= text_months:
+            err(eid, 'no text fits months %s (give the event a season or add an all-year text)'
+                % sorted(ev_months - text_months))
         if len(texts) < 2 and ev.get('type') in ('daily', 'chain'):
             warn(eid, 'only one text variant')
         if 'when' in ev:
@@ -287,6 +308,9 @@ def main():
         for fu in ev.get('followups', []) + [fu for o in opts or [] for fu in o.get('followups', [])]:
             if fu.get('id') not in ids and fu.get('id') not in {e.get('id') for e in events}:
                 err(eid, 'followup to unknown id %s' % fu.get('id'))
+            for k in fu:
+                if k not in ('id', 'delay', 'delay_months', 'chance'):
+                    err(eid, 'unknown followup key "%s"' % k)
         used.setdefault((('path' if ev.get('path') else 'domain'), owner), set()).add(ev.get('seed'))
 
     required, provided = {}, set(ENGINE_FLAGS)

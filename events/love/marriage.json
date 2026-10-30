@@ -237,16 +237,28 @@
     "weight": 1,
     "text": [
       {
-        "t": "这一年你随了 11 份份子钱，有两份是给只见过一面的人。"
+        "t": "这一年你随了 11 份份子钱，有两份是给只见过一面的人。",
+        "when": {
+          "season": "year_end"
+        }
       },
       {
-        "t": "五一假期三场婚礼，你的红包从 500 涨到了 800。"
+        "t": "五一假期三场婚礼，你的红包从 500 涨到了 800。",
+        "when": {
+          "season": "may_day"
+        }
       }
     ],
     "effects": {
       "money": "-0.6*living"
     },
-    "cooldown": 2
+    "cooldown": 2,
+    "when": {
+      "season": [
+        "may_day",
+        "year_end"
+      ]
+    }
   },
   {
     "id": "love.kids.decide",
@@ -269,7 +281,10 @@
     "cooldown": 1,
     "text": [
       {
-        "t": "过年回家，饭桌上的话题又转到了\"什么时候要孩子\"。"
+        "t": "过年回家，饭桌上的话题又转到了\"什么时候要孩子\"。",
+        "when": {
+          "season": "spring_festival"
+        }
       },
       {
         "t": "你们在网上搜了\"养一个孩子要花多少钱\"，看完谁也没说话。"
@@ -290,8 +305,8 @@
         "followups": [
           {
             "id": "love.kids.pregnant",
-            "delay": 0,
-            "chance": 0.8
+            "chance": 0.8,
+            "delay_months": 3
           }
         ],
         "auto": 2.5
@@ -325,7 +340,10 @@
     ],
     "trigger": "follow",
     "when": {
-      "relationship": "married"
+      "relationship": "married",
+      "not_flags": [
+        "expecting"
+      ]
     },
     "text": [
       {
@@ -344,7 +362,7 @@
     "followups": [
       {
         "id": "love.kids.newborn",
-        "delay": 1
+        "delay_months": 8
       }
     ]
   },
@@ -382,7 +400,11 @@
     "followups": [
       {
         "id": "love.kids.childcare",
-        "delay": 0
+        "delay_months": 4
+      },
+      {
+        "id": "love.kids.first_word",
+        "delay": 1
       }
     ]
   },
@@ -448,16 +470,19 @@
       "not_flags": [
         "expecting",
         "one_is_enough"
+      ],
+      "flags": [
+        "kid_talks"
       ]
     },
     "chance": 0.3,
     "cooldown": 2,
     "text": [
       {
-        "t": "孩子上幼儿园了，双方父母开始问\"要不要再生一个\"。"
+        "t": "孩子一岁多了，双方父母开始问\"要不要再生一个\"。"
       },
       {
-        "t": "孩子说想要一个弟弟或妹妹，你们对视了一眼。"
+        "t": "带娃最难的一年过去了，你们终于能睡整觉，母亲问\"要不要再生一个\"。"
       }
     ],
     "options": [
@@ -471,8 +496,8 @@
         "followups": [
           {
             "id": "love.kids.pregnant",
-            "delay": 0,
-            "chance": 0.7
+            "chance": 0.7,
+            "delay_months": 3
           }
         ]
       },
@@ -491,7 +516,7 @@
     "id": "love.kids.first_word",
     "domain": "love",
     "seed": "孩子开口",
-    "type": "daily",
+    "type": "milestone",
     "age": [
       22,
       34
@@ -499,19 +524,21 @@
     "when": {
       "kids": ">=1"
     },
-    "weight": 3,
-    "once": true,
     "text": [
       {
-        "t": "孩子第一次叫了\"爸爸\"，也可能是\"啪啪\"，你决定算它是。"
+        "t": "孩子第一次叫了人，你们为叫的是\"爸爸\"还是\"妈妈\"争了一晚上。"
       },
       {
         "t": "孩子会走路了，摇摇晃晃扑进你怀里，你把这段视频看了二十遍。"
       }
     ],
     "effects": {
-      "mood": 5
-    }
+      "mood": 5,
+      "flags_add": [
+        "kid_talks"
+      ]
+    },
+    "trigger": "follow"
   },
   {
     "id": "love.crisis.fight",
@@ -541,8 +568,8 @@
     "followups": [
       {
         "id": "love.crisis.cooling",
-        "delay": 1,
-        "chance": 0.5
+        "chance": 0.5,
+        "delay_months": 2
       }
     ]
   },

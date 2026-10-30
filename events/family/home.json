@@ -206,7 +206,8 @@
         "when": {
           "stat": {
             "mood": "<50"
-          }
+          },
+          "age": ">=30"
         }
       }
     ],
@@ -334,7 +335,8 @@
     ],
     "effects": {
       "mood": 1
-    }
+    },
+    "cooldown": 2
   },
   {
     "id": "family.echo.aging",

@@ -395,7 +395,7 @@
     "cooldown": 1,
     "text": [
       {
-        "t": "第一批股票到账，当天股价跌了 8%。",
+        "t": "股票到账那天，公司股价跌了 8%。",
         "when": {
           "scenario": "contraction"
         }
@@ -519,7 +519,8 @@
     ],
     "when": {
       "path": "bigtech",
-      "sub": "fulltime"
+      "sub": "fulltime",
+      "season": "year_end"
     },
     "chance": 0.5,
     "cooldown": 1,
@@ -673,7 +674,7 @@
     "once": true,
     "text": [
       {
-        "t": "你租在公司附近，通勤 15 分钟，房租占工资一半。"
+        "t": "公司附近一居室的房租是你月薪的七成，你住在了四十分钟地铁外。"
       },
       {
         "t": "早高峰的地铁站，全是和你背着同款双肩包的人。"

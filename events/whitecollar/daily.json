@@ -103,7 +103,7 @@
     ],
     "when": {
       "path": "whitecollar",
-      "season": "spring_festival",
+      "season": "year_end",
       "flags": [
         "wc_badge"
       ]

@@ -86,7 +86,8 @@
     "effects": {
       "mood": -2,
       "health": -1
-    }
+    },
+    "cooldown": 2
   },
   {
     "id": "housing.rent.flatmate",
@@ -392,6 +393,7 @@
     "effects": {
       "money": "-0.5*living",
       "health": 1
-    }
+    },
+    "once": true
   }
 ]

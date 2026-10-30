@@ -7,7 +7,7 @@ import type { ServiceTable } from './service'
 import type { WhitecollarTable } from './whitecollar'
 import { Life, STATS, type Roommate, type Stat } from './life'
 import { Rng } from './rng'
-import type { Effects, GameEvent, Option, ScenarioYear, Timeline, When } from './types'
+import type { Effects, Followup, GameEvent, Option, ScenarioYear, Timeline, When } from './types'
 
 const CMP = /^(<=|>=|==|<|>)(-?\d+(?:\.\d+)?)$/
 export const RISKY = /违法|无法核实|风险很大|陷进去|背调可能/
@@ -24,7 +24,7 @@ const RELATIONSHIP_MOOD = 1
 /** Roommates' first destinations (always three different ones), with design weights. */
 const ROOMMATE_STARTS: [string, number][] = [['bigtech', 0.2], ['whitecollar', 0.35], ['exam', 0.2], ['unemployed', 0.25]]
 /** Bump whenever the order of random draws changes: older saves would replay into a different life. */
-export const ENGINE_VERSION = 5
+export const ENGINE_VERSION = 6
 
 export interface LogEntry {
   age: number
@@ -174,6 +174,11 @@ export class Engine {
     }
   }
 
+  /** Calendar months (1–12) of one or more seasons from data/timeline.json. */
+  seasonMonths(v: string | string[]): number[] {
+    return asList(v).flatMap(s => this.timeline.seasons[s]?.months ?? [])
+  }
+
   /** Calendar year: the game year starts in July (month 0), the month of graduation. */
   get calendarYear(): number {
     return 2014 + this.life.age - 22 + (this.month >= 6 ? 1 : 0)
@@ -222,7 +227,8 @@ export class Engine {
         case 'kids': if (!cmp(l.kids, v)) return false; break
         case 'parent_age': if (!cmp(l.parentAge, v)) return false; break
         case 'relationship': if (!asList(v).includes(l.relationship)) return false; break
-        case 'season': break // every year has a spring festival
+        case 'season': if (!this.seasonMonths(v).includes(this.calendarMonth)) return false; break
+        case 'age': if (!cmp(l.age, v)) return false; break
       }
     }
     return true
@@ -357,13 +363,20 @@ export class Engine {
     if (eff.parent_health !== undefined) l.parentHealth = Math.max(0, Math.min(100, l.parentHealth + eff.parent_health))
   }
 
-  private queueFollowups(fus?: { id: string; delay?: number; chance?: number }[]): void {
+  private queueFollowups(fus?: Followup[]): void {
     for (const fu of fus ?? []) {
       if (this.rng.random() >= (fu.chance ?? 1)) continue
-      const delay = fu.delay ?? 0
-      if (delay === 0) this.schedule.unshift({ month: this.month, kind: 'follow', id: fu.id })
-      else this.life.queue.push({ due: this.life.age + delay, id: fu.id })
+      const wait = (fu.delay ?? 0) * 12 + (fu.delay_months ?? 0)
+      if (wait === 0) this.schedule.unshift({ month: this.month, kind: 'follow', id: fu.id })
+      else if (this.month + wait < 12) this.scheduleFollow(this.month + wait, fu.id)
+      else this.life.queue.push({ due: this.elapsed + wait, id: fu.id })
     }
+  }
+
+  /** A follow-up in a later month of this year, after the slots already planned for that month. */
+  private scheduleFollow(month: number, id: string): void {
+    const i = this.schedule.findIndex(s => s.month > month)
+    this.schedule.splice(i < 0 ? this.schedule.length : i, 0, { month, kind: 'follow', id })
   }
 
   // ---- firing ---------------------------------------------------------------
@@ -574,10 +587,15 @@ export class Engine {
     const l = this.life, rng = this.rng
     this.schedule = []
     this.dailyPicked.clear()
-    const due = l.queue.filter(q => q.due <= l.age)
-    l.queue = l.queue.filter(q => q.due > l.age)
-    for (const q of due) this.schedule.push({ month: 0, kind: 'follow', id: q.id })
-    for (const ev of this.byTrigger.chance) this.schedule.push({ month: rng.int(0, 11), kind: 'chance', id: ev.id })
+    const start = (l.age - 22) * 12
+    const due = l.queue.filter(q => q.due < start + 12)
+    l.queue = l.queue.filter(q => q.due >= start + 12)
+    for (const q of due) this.schedule.push({ month: Math.max(0, q.due - start), kind: 'follow', id: q.id })
+    for (const ev of this.byTrigger.chance) {
+      // a seasonal event gets its yearly roll in one of its months
+      const months = ev.when?.season ? this.seasonMonths(ev.when.season).map(m => (m + 5) % 12) : null
+      this.schedule.push({ month: months ? rng.pick(months) : rng.int(0, 11), kind: 'chance', id: ev.id })
+    }
     for (let i = 0; i < DAILY_PER_YEAR; i++) this.schedule.push({ month: rng.int(0, 11), kind: 'daily', id: '' })
     this.schedule.sort((a, b) => a.month - b.month)
   }

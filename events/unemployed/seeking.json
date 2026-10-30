@@ -99,7 +99,8 @@
     ],
     "effects": {
       "mood": -1
-    }
+    },
+    "cooldown": 1
   },
   {
     "id": "unemployed.seek.gap_question",
@@ -128,7 +129,8 @@
     ],
     "effects": {
       "mood": -2
-    }
+    },
+    "cooldown": 1
   },
   {
     "id": "unemployed.seek.unpaid_trial",
@@ -366,7 +368,8 @@
       "path": "unemployed",
       "flags": [
         "fresh_grad"
-      ]
+      ],
+      "season": "spring"
     },
     "chance": 0.25,
     "once": true,
@@ -529,7 +532,8 @@
       "path": "unemployed",
       "flags": [
         "fresh_grad"
-      ]
+      ],
+      "season": "graduation"
     },
     "chance": 0.4,
     "once": true,

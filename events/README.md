@@ -63,7 +63,7 @@ Windows 终端里中文乱码时，在命令前加 `PYTHONIOENCODING=utf-8`。
 | `fact` | 否 | 数据锚点 `{ "text": "…", "source": "<来源 id>", "year": 2026 }`，正文不超过 40 字，来源必须在 `data/sources.json` 里；`year` 可选，表示这条数据从哪一年起才存在，游戏年份更早时不显示（避免 2015 年看到 2026 年的数字） |
 | `effects` | 否 | 事件发生后的效果，见下文 |
 | `options` | 抉择必填 | 2–5 个选项，见下文 |
-| `followups` | 否 | `[{ "id": "…", "delay": 年数, "chance": 0–1 }]` |
+| `followups` | 否 | `[{ "id": "…", "delay": 年数, "delay_months": 月数, "chance": 0–1 }]`：在 `delay` 年加 `delay_months` 个月之后的同一个月触发（都不写就是当月）。例如发现怀孕到出生写 `"delay_months": 8` |
 | `review` | 违法、灰色路径必填 | 固定为 `"legal"`，表示上线前要过法律审核 |
 | `help` | 否 | 附加的求助渠道 id：`hotline_12356`、`antifraud_96110`、`legal_aid_12348` |
 
@@ -107,7 +107,8 @@ Windows 终端里中文乱码时，在命令前加 `PYTHONIOENCODING=utf-8`。
 | `relationship` | `"married"` | 恋爱状态：`single` `dating` `married` |
 | `kids` | `">=1"` | 孩子个数 |
 | `parent_age` | `">=60"` | 父亲的年龄（开局 47–54 岁，母亲年龄相近） |
-| `season` | `"spring_festival"` | 特殊时间点 |
+| `season` | `"year_end"` 或 `["double11", "year_end"]` | 一年中的时段，取值见 `data/timeline.json` 的 `seasons`：`spring_festival`（1–2 月）、`year_end`（12–1 月，年会、年终总结、年货节）、`spring`（3–5 月）、`may_day`（5 月）、`graduation`（7–8 月）、`summer`（6–8 月）、`rainy`（5–9 月）、`autumn_recruit`（9–11 月）、`civil_exam`（10–11 月）、`double11`（11 月）。写在事件上，概率事件每年只在这些月份里掷一次，日常事件只在这些月份进池；写在文案变体上，只在这些月份用这句。检查工具要求事件能触发的每个月都有一句合适的文案 |
+| `age` | `">=30"` | 当前年龄；主要给文案变体用（事件本身用 `age` 区间） |
 
 ### 效果 `effects`
 

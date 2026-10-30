@@ -158,7 +158,7 @@ class Life:
         self.modifiers = []
         self.fired = collections.Counter()
         self.last_fired = {}
-        self.queue = []          # (due_age, event_id)
+        self.queue = []          # (due month counted from July 2014, event_id)
         self.pending_changes = []  # (from, to)
         self.promo_wait = 0
 
@@ -367,7 +367,9 @@ class Simulator:
         for f in sorted(glob.glob(os.path.join(ROOT, 'events', '**', '*.json'), recursive=True)):
             for ev in json.load(open(f, encoding='utf-8')):
                 self.events[ev['id']] = ev
-        self.timeline = json.load(open(os.path.join(ROOT, 'data', 'timeline.json'), encoding='utf-8'))['scenario']
+        timeline = json.load(open(os.path.join(ROOT, 'data', 'timeline.json'), encoding='utf-8'))
+        self.timeline = timeline['scenario']
+        self.seasons = {k: v['months'] for k, v in timeline['seasons'].items() if not k.startswith('_')}
         self.by_trigger = collections.defaultdict(list)
         for ev in self.events.values():
             kind = ev.get('trigger') or ('chance' if 'chance' in ev else 'weight')
@@ -463,7 +465,11 @@ class Simulator:
                 if life.relationship not in (v if isinstance(v, list) else [v]):
                     return False
             elif k == 'season':
-                pass  # every year has a spring festival; events with season fire at that point
+                if (self.month + 6) % 12 + 1 not in self.season_months(v):
+                    return False
+            elif k == 'age':
+                if not cmp(life.age, v):
+                    return False
         return True
 
     def eligible(self, life, ev):
@@ -550,10 +556,15 @@ class Simulator:
     def queue(self, life, followups):
         for fu in followups or []:
             if self.rng.random() < fu.get('chance', 1):
-                if fu.get('delay', 0) == 0:  # same month, ahead of the remaining slots
+                wait = fu.get('delay', 0) * 12 + fu.get('delay_months', 0)
+                if wait == 0:  # same month, ahead of the remaining slots
                     self.schedule.insert(0, (self.month, 'follow', fu['id']))
+                elif self.month + wait < 12:  # later this year, after that month's planned slots
+                    month = self.month + wait
+                    i = next((k for k, s in enumerate(self.schedule) if s[0] > month), len(self.schedule))
+                    self.schedule.insert(i, (month, 'follow', fu['id']))
                 else:
-                    life.queue.append((life.age + fu['delay'], fu['id']))
+                    life.queue.append(((life.age - 22) * 12 + self.month + wait, fu['id']))
 
     # ---- firing ----------------------------------------------------------
     def fire(self, life, ev, counters):
@@ -733,13 +744,22 @@ class Simulator:
             self.flush_changes(life, counters)
 
     # ---- one year's slots (mirrors planYear / resolveSlot in app/src/engine/engine.ts) ----
+    def season_months(self, v):
+        """Calendar months (1-12) of one or more seasons from data/timeline.json."""
+        return [m for s in (v if isinstance(v, list) else [v]) for m in self.seasons.get(s, [])]
+
     def plan_year(self, life, rng):
         """Due follow-ups in month 0; every chance event and the daily picks in a random month each.
         What a slot fires is decided when its month comes, so events see that month's state."""
-        due = [q for q in life.queue if q[0] <= life.age]
-        life.queue = [q for q in life.queue if q[0] > life.age]
-        slots = [(0, 'follow', eid) for _, eid in due]
-        slots += [(rng.randint(0, 11), 'chance', ev['id']) for ev in self.by_trigger['chance']]
+        start = (life.age - 22) * 12
+        due = [q for q in life.queue if q[0] < start + 12]
+        life.queue = [q for q in life.queue if q[0] >= start + 12]
+        slots = [(max(0, d - start), 'follow', eid) for d, eid in due]
+        for ev in self.by_trigger['chance']:
+            # a seasonal event gets its yearly roll in one of its months
+            season = ev.get('when', {}).get('season')
+            month = rng.choice([(m + 5) % 12 for m in self.season_months(season)]) if season else rng.randint(0, 11)
+            slots.append((month, 'chance', ev['id']))
         slots += [(rng.randint(0, 11), 'daily', None) for _ in range(DAILY_PER_YEAR)]
         self.schedule = sorted(slots, key=lambda x: x[0])
 

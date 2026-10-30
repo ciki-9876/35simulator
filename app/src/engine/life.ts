@@ -67,6 +67,7 @@ export class Life {
   modifiers: Modifier[] = []
   fired: Record<string, number> = {}
   lastFired: Record<string, number> = {}
+  /** Follow-ups waiting for a later month; due counts months from July 2014. */
   queue: { due: number; id: string }[] = []
   pendingChanges: [string, string][] = []
   promoWait = 0

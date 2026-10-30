@@ -1,5 +1,18 @@
 {
   "_note": "2014–2027 真实时间线：2014 届毕业生从 22 岁走到 35 岁。series 是逐年统计，scenario 是按年份的时代参数（设计值，依据 events 推定），events 是新闻条和宏观事件的素材。label：data = 有出处的统计或法规；report = 公开报道，待补链接或口径未核实；design = 设计值；projection = 2026 年 11 月以后的推演，只用已公布的日程和趋势。research/timeline.md 由 tools/render_timeline.py 从本文件生成。",
+  "seasons": {
+    "_note": "【设计】事件的季节（events 的 when.season），值是公历月份。带季节的概率事件只排在这些月份里；每日事件和文案变体在不符合的月份不出现。",
+    "spring_festival": { "months": [1, 2], "label": "春节前后：回家、年夜饭、年终奖" },
+    "year_end": { "months": [12, 1], "label": "年底：年会、年终总结、年货节" },
+    "spring": { "months": [3, 4, 5], "label": "春季：春招补录、年度调薪" },
+    "may_day": { "months": [5], "label": "五一假期：婚礼扎堆" },
+    "graduation": { "months": [7, 8], "label": "毕业季（毕业后的头两个月）：档案、派遣" },
+    "summer": { "months": [6, 7, 8], "label": "夏天：高温、中考放榜" },
+    "rainy": { "months": [5, 6, 7, 8, 9], "label": "雨季：暴雨" },
+    "autumn_recruit": { "months": [9, 10, 11], "label": "秋招：网申、笔试、开奖" },
+    "civil_exam": { "months": [10, 11], "label": "国考报名" },
+    "double11": { "months": [11], "label": "双十一快递高峰" }
+  },
   "cohort": {
     "graduation": "2014-07",
     "end": "2027-07",

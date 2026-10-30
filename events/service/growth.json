@@ -152,7 +152,8 @@
       ],
       "flags": [
         "sv_badge"
-      ]
+      ],
+      "season": "spring_festival"
     },
     "chance": 0.35,
     "cooldown": 2,

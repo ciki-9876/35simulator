@@ -29,7 +29,9 @@ export interface When {
   roommate?: { close?: Cmp; path?: string }
   living?: string | string[]
   relationship?: string | string[]
-  season?: string
+  /** Names from data/timeline.json seasons; any one matches. */
+  season?: string | string[]
+  age?: Cmp
   kids?: Cmp
   parent_age?: Cmp
 }
@@ -68,7 +70,10 @@ export interface Effects {
 
 export interface Followup {
   id: string
+  /** Years later, in the same month. */
   delay?: number
+  /** Months later (added to delay). */
+  delay_months?: number
   chance?: number
 }
 
@@ -118,6 +123,7 @@ export interface ScenarioYear {
 }
 
 export interface Timeline {
+  seasons: Record<string, { months: number[]; label: string }>
   scenario: Record<string, ScenarioYear>
   events: { date: string; cat: string; title: string; impact: string; label: string }[]
 }
